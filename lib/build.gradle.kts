@@ -1,5 +1,6 @@
 plugins {
     id("java-library")
+    id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
 group = "io.github.nonmilk.coffee"
