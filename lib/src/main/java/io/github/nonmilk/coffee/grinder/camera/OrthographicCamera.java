@@ -1,6 +1,7 @@
 package io.github.nonmilk.coffee.grinder.camera;
 
 import io.github.alphameo.linear_algebra.mat.Matrix4;
+import io.github.nonmilk.coffee.grinder.camera.view.OrthographicView;
 
 /**
  * Represents an orthographic camera.

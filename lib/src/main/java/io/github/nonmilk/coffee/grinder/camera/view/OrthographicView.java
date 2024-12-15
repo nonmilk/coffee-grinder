@@ -1,4 +1,4 @@
-package io.github.nonmilk.coffee.grinder.camera;
+package io.github.nonmilk.coffee.grinder.camera.view;
 
 /**
  * The dimensions of an orthographic projection.
