@@ -70,8 +70,8 @@ final public class CameraMatrix {
         final float clippingDif = camera.farPlane() - camera.nearPlane();
 
         return new Mat4(
-                2 / camera.width(), 0, 0, 0,
-                0, 2 / camera.height(), 0, 0,
+                2 / camera.view().width(), 0, 0, 0,
+                0, 2 / camera.view().height(), 0, 0,
                 0, 0, -2f / clippingDif, 0,
                 0, 0, -clippingSum / clippingDif, 1);
     }
@@ -83,14 +83,14 @@ final public class CameraMatrix {
      * @return a camera's look at matrix
      */
     public static Matrix4 perspectiveProjection(final PerspectiveCamera camera) {
-        final float invFovTan = (float) (1f / Math.tan(camera.fov()));
+        final float invFovTan = (float) (1f / Math.tan(camera.view().fov()));
         final float clippingSum = camera.farPlane() + camera.nearPlane();
         final float clippingDif = camera.farPlane() - camera.nearPlane();
         final float clippingProd = camera.farPlane() * camera.nearPlane();
 
         return new Mat4(
                 1 / invFovTan, 0, 0, 0,
-                0, invFovTan / camera.ar(), 0, 0,
+                0, invFovTan / camera.view().aspectRatio(), 0, 0,
                 0, 0, clippingSum / clippingDif, 2 * clippingProd / (-clippingDif),
                 0, 0, 1, 0);
     }
