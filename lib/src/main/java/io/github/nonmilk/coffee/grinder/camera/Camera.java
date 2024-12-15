@@ -5,17 +5,11 @@ import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
 
-/**
- * An abstract class that represents a camera in 3D space.
- * It holds position, target direction, near and far planes
- * and is able to provide view and projection matrices.
- */
 public abstract class Camera {
 
     private Vector3 position;
     private Vector3 target;
-    private float nearPlane;
-    private float farPlane;
+    private ClippingBox clippingBox;
 
     /**
      * Initializes a {@code Camera} object with the specified orientation and
@@ -31,8 +25,7 @@ public abstract class Camera {
     Camera(final CameraOrientation cameraOrientation, final ClippingBox clippingBox) {
         this.position = cameraOrientation.position();
         this.target = cameraOrientation.target();
-        this.nearPlane = clippingBox.nearPlane();
-        this.farPlane = clippingBox.farPlane();
+        this.clippingBox = clippingBox;
     }
 
     /**
@@ -89,49 +82,12 @@ public abstract class Camera {
         Vec3Math.add(this.target, targetOffset);
     }
 
-    /**
-     * Gets the camera distance to near clipping plane.
-     *
-     * @return {@code float} distance to near clipping plane
-     */
-    public float nearPlane() {
-        return nearPlane;
+    public ClippingBox clippingBox() {
+        return clippingBox;
     }
 
-    /**
-     * Sets the camera distance to near clipping plane.
-     *
-     * @param newNearPlane {@code float} distance to near clipping plane
-     */
-    public void setNearPlane(final float newNearPlane) {
-        if (newNearPlane <= 0) {
-            this.nearPlane = 0;
-        } else {
-            this.nearPlane = newNearPlane;
-        }
-    }
-
-    /**
-     * Gets the camera distance to far clipping plane.
-     *
-     * @return {@code float} distance to far clipping plane
-     */
-    public float farPlane() {
-        return farPlane;
-    }
-
-    /**
-     * Sets the camera distance to far clipping plane.
-     *
-     * @param newFarPlane {@code float} distance to far clipping plane
-     */
-    public void setFarPlane(final float newFarPlane) {
-        // might work without this check, but I'll leave it here just to be safe
-        if (newFarPlane <= 0) {
-            this.farPlane = 0;
-        } else {
-            this.farPlane = newFarPlane;
-        }
+    public void setClippingBox(final ClippingBox newClippingBox) {
+        this.clippingBox = newClippingBox;
     }
 
     /**
