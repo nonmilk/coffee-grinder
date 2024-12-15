@@ -48,7 +48,8 @@ public class CameraOrientation {
     }
 
     private void checkOverlap(final Vector3 position, final Vector3 target) {
-        if (Floats.equals(Vec3Math.len2(Vec3Math.subtracted(position, target)), 0)) {
+        final float len = Vec3Math.len2(Vec3Math.subtracted(position, target));
+        if (Floats.equals(len, 0)) {
             throw new IllegalArgumentException("Camera target vector equals camera position");
         }
     }
