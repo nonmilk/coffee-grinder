@@ -1,7 +1,7 @@
 package io.guthub.nonmilk.coffee.math;
 
 /**
- * A utility class for float comparisons
+ * A utility class for float comparisons.
  */
 public final class Floats {
     public static final float EPSILON = 1E-10f;
@@ -16,7 +16,7 @@ public final class Floats {
 
     /**
      * Returns {@code true}, if the difference between values is less
-     * than {@link Floats#EPSILON}, effectively making them equal
+     * than {@link Floats#EPSILON}, effectively making them equal.
      *
      * @param v1 value 1
      * @param v2 value 2
