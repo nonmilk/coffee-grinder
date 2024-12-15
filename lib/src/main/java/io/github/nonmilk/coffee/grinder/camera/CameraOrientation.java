@@ -34,8 +34,8 @@ public class CameraOrientation {
     }
 
     public void setPosition(final Vector3 position) {
-        checkOverlap(position, target);
-        this.position = Objects.requireNonNull(position);
+        checkOverlap(Objects.requireNonNull(position), target);
+        this.position = position;
     }
 
     public Vector3 target() {
@@ -43,8 +43,8 @@ public class CameraOrientation {
     }
 
     public void setTarget(final Vector3 target) {
-        checkOverlap(position, target);
-        this.target = Objects.requireNonNull(target);
+        checkOverlap(position, Objects.requireNonNull(target));
+        this.target = target;
     }
 
     public Vector3 lookDir() {
@@ -52,10 +52,6 @@ public class CameraOrientation {
     }
 
     private void checkOverlap(final Vector3 position, final Vector3 target) {
-        if (position == null || target == null) {
-            return;
-        }
-
         final Vector3 delta = Vec3Math.subtracted(position, target);
         if (Floats.equals(Vec3Math.len2(delta), 0)) {
             throw new IllegalArgumentException("Camera target vector equals camera position");
