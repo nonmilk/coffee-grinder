@@ -1,4 +1,4 @@
-package io.github.nonmilk.coffee.grinder.camera.view;
+package io.github.nonmilk.coffee.grinder.camera;
 
 /**
  * A utility class for working with camera clipping planes.
@@ -18,12 +18,12 @@ public class ClippingBox {
      *                                  or far plane is closer to camera than the
      *                                  near plane
      */
-    public ClippingBox (float nearPlane, float farPlane) {
+    public ClippingBox(final float nearPlane, final float farPlane) {
         setNearPlane(nearPlane);
         setFarPlane(farPlane);
     }
 
-    public ClippingBox (ClippingBox clippingBox) {
+    public ClippingBox(final ClippingBox clippingBox) {
         setNearPlane(clippingBox.nearPlane);
         setFarPlane(clippingBox.farPlane);
     }
@@ -32,9 +32,9 @@ public class ClippingBox {
         return nearPlane;
     }
 
-    public void setNearPlane(float nearPlane) {
+    public void setNearPlane(final float nearPlane) {
         if (nearPlane < 0) {
-            throw new RuntimeException("Near plane is behind camera");
+            throw new IllegalArgumentException("Near plane is behind camera");
         }
 
         this.nearPlane = nearPlane;
@@ -44,23 +44,23 @@ public class ClippingBox {
         return farPlane;
     }
 
-    public void setFarPlane(float farPlane) {
+    public void setFarPlane(final float farPlane) {
         if (farPlane <= nearPlane) {
-            throw new RuntimeException("Far plane is behind near plane");
+            throw new IllegalArgumentException("Far plane is behind near plane");
         }
 
         this.farPlane = farPlane;
     }
 
-    public float clippingSum() {
+    public float sum() {
         return nearPlane + farPlane;
     }
 
-    public float clippingDif() {
+    public float diff() {
         return farPlane - nearPlane;
     }
 
-    public float clippingProd() {
+    public float prod() {
         return farPlane * nearPlane;
     }
 }
