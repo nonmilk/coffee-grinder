@@ -1,0 +1,78 @@
+[[language]]
+name = "java"
+scope = "source.java"
+injection-regex = "java"
+file-types = ["java", "jav", "pde"]
+roots = ["pom.xml", "build.gradle", "build.gradle.kts"]
+language-servers = [ "jdtls" ]
+indent = { tab-width = 4, unit = "    " }
+auto-format = true
+
+[[language]]
+name = "xml"
+scope = "source.xml"
+injection-regex = "xml"
+file-types = [
+    "xml",
+    "mobileconfig",
+    "plist",
+    "xib",
+    "storyboard",
+    "svg",
+    "xsd",
+    "gml",
+    "xaml",
+    "gir",
+    "rss",
+    "atom",
+    "opml",
+    "policy",
+    "ascx",
+    "axml",
+    "axaml",
+    "bpmn",
+    "cpt",
+    "csl",
+    "csproj.user",
+    "dita",
+    "ditamap",
+    "dtml",
+    "fxml",
+    "iml",
+    "isml",
+    "jmx",
+    "launch",
+    "menu",
+    "mxml",
+    "nuspec",
+    "osc",
+    "osm",
+    "pt",
+    "publishsettings",
+    "pubxml",
+    "pubxml.user",
+    "rbxlx",
+    "rbxmx",
+    "rng",
+    "shproj",
+    "tld",
+    "tmx",
+    "vbproj.user",
+    "vcxproj",
+    "vcxproj.filters",
+    "wsdl",
+    "wxi",
+    "wxs",
+    "xbl",
+    "xlf",
+    "xliff",
+    "xpdl",
+    "xul",
+    "xoml",
+    "musicxml",
+    "glif",
+    "ui"
+]
+block-comment-tokens = { start = "<!--", end = "-->" }
+indent = { tab-width = 4, unit = "    " }
+auto-format = true
