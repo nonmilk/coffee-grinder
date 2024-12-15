@@ -66,8 +66,8 @@ final public class CameraMatrix {
      * @return a camera's look at matrix
      */
     public static Matrix4 orthographicProjection(final OrthographicCamera camera) {
-        final float clippingSum = camera.clippingBox().clippingSum();
-        final float clippingDif = camera.clippingBox().clippingDif();
+        final float clippingSum = camera.clippingBox().sum();
+        final float clippingDif = camera.clippingBox().diff();
 
         return new Mat4(
                 2 / camera.view().width(), 0, 0, 0,
@@ -84,9 +84,9 @@ final public class CameraMatrix {
      */
     public static Matrix4 perspectiveProjection(final PerspectiveCamera camera) {
         final float invFovTan = (float) (1f / Math.tan(camera.view().fov()));
-        final float clippingSum = camera.clippingBox().clippingSum();
-        final float clippingDif = camera.clippingBox().clippingDif();
-        final float clippingProd = camera.clippingBox().clippingProd();
+        final float clippingSum = camera.clippingBox().sum();
+        final float clippingDif = camera.clippingBox().diff();
+        final float clippingProd = camera.clippingBox().prod();
 
         return new Mat4(
                 1 / invFovTan, 0, 0, 0,

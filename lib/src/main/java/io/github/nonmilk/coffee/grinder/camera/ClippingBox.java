@@ -52,15 +52,15 @@ public class ClippingBox {
         this.farPlane = farPlane;
     }
 
-    public float clippingSum() {
+    public float sum() {
         return nearPlane + farPlane;
     }
 
-    public float clippingDif() {
+    public float diff() {
         return farPlane - nearPlane;
     }
 
-    public float clippingProd() {
+    public float prod() {
         return farPlane * nearPlane;
     }
 }
