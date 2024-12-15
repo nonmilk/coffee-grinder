@@ -34,6 +34,7 @@ public class CameraOrientation {
     }
 
     public void setPosition(final Vector3 position) {
+        checkOverlap(position, target);
         this.position = position;
     }
 
@@ -42,6 +43,7 @@ public class CameraOrientation {
     }
 
     public void setTarget(final Vector3 target) {
+        checkOverlap(position, target);
         this.target = target;
     }
 
