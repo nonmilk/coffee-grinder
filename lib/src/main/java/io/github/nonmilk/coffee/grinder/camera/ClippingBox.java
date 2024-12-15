@@ -34,7 +34,7 @@ public class ClippingBox {
 
     public void setNearPlane(final float nearPlane) {
         if (nearPlane < 0) {
-            throw new RuntimeException("Near plane is behind camera");
+            throw new IllegalArgumentException("Near plane is behind camera");
         }
 
         this.nearPlane = nearPlane;
@@ -46,7 +46,7 @@ public class ClippingBox {
 
     public void setFarPlane(final float farPlane) {
         if (farPlane <= nearPlane) {
-            throw new RuntimeException("Far plane is behind near plane");
+            throw new IllegalArgumentException("Far plane is behind near plane");
         }
 
         this.farPlane = farPlane;
