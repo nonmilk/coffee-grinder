@@ -4,6 +4,10 @@ package io.guthub.nonmilk.coffee.math;
  * A utility class for float comparisons.
  */
 public final class Floats {
+
+    /**
+     * A value used for float comparisons.
+     */
     public static final float EPSILON = 1E-10f;
 
     /**
