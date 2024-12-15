@@ -39,12 +39,12 @@ public class CameraOrientation {
         return target;
     }
 
-    public Vector3 lookDir() {
-        return Vec3Math.subtracted(target, position);
-    }
-
     public void setTarget(final Vector3 target) {
         this.target = target;
+    }
+
+    public Vector3 lookDir() {
+        return Vec3Math.subtracted(target, position);
     }
 
     private void checkOverlap(final Vector3 position, final Vector3 target) {
