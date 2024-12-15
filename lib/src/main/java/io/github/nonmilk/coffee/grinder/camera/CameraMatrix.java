@@ -70,8 +70,8 @@ final public class CameraMatrix {
         final float clippingDif = camera.farPlane() - camera.nearPlane();
 
         return new Mat4(
-                2 / camera.width(), 0, 0, 0,
-                0, 2 / camera.height(), 0, 0,
+                2 / camera.view().width(), 0, 0, 0,
+                0, 2 / camera.view().height(), 0, 0,
                 0, 0, -2f / clippingDif, 0,
                 0, 0, -clippingSum / clippingDif, 1);
     }
