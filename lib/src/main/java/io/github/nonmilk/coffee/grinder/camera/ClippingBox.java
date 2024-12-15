@@ -1,4 +1,4 @@
-package io.github.nonmilk.coffee.grinder.camera.view;
+package io.github.nonmilk.coffee.grinder.camera;
 
 /**
  * A utility class for working with camera clipping planes.
@@ -18,12 +18,12 @@ public class ClippingBox {
      *                                  or far plane is closer to camera than the
      *                                  near plane
      */
-    public ClippingBox (float nearPlane, float farPlane) {
+    public ClippingBox(float nearPlane, float farPlane) {
         setNearPlane(nearPlane);
         setFarPlane(farPlane);
     }
 
-    public ClippingBox (ClippingBox clippingBox) {
+    public ClippingBox(ClippingBox clippingBox) {
         setNearPlane(clippingBox.nearPlane);
         setFarPlane(clippingBox.farPlane);
     }

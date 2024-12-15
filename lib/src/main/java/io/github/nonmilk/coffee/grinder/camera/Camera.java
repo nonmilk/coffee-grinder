@@ -4,7 +4,6 @@ import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
-import io.github.nonmilk.coffee.grinder.camera.view.ClippingBox;
 
 public abstract class Camera {
 
