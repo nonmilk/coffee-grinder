@@ -1,11 +1,11 @@
-package io.guthub.nonmilk.coffee.camera;
+package io.github.nonmilk.coffee.grinder.camera;
 
 import io.github.alphameo.linear_algebra.mat.Mat4;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
-import io.guthub.nonmilk.coffee.math.Floats;
+import io.github.nonmilk.coffee.grinder.math.Floats;
 
 // can be moved to Camera
 /**
@@ -35,7 +35,7 @@ final public class CameraMatrix {
         final Vector3 xCandidate = Vec3Math.cross(cameraZ, VECTOR_J);
         if (Floats.equals(Vec3Math.len(xCandidate) / cameraZLen, 0)) {
             cameraX = Vec3Math.cross(cameraZ, VECTOR_I);
-        } else  {
+        } else {
             cameraX = xCandidate;
         }
 
@@ -51,11 +51,10 @@ final public class CameraMatrix {
 
         // forgive me for I have sinned
         return new Mat4(
-            cameraX.x(), cameraY.x(), cameraZ.x(), 0,
-            cameraX.y(), cameraY.y(), cameraZ.y(), 0,
-            cameraX.z(), cameraY.z(), cameraZ.z(), 0,
-            cameraXProj, cameraYProj, cameraZProj, 1
-        );
+                cameraX.x(), cameraY.x(), cameraZ.x(), 0,
+                cameraX.y(), cameraY.y(), cameraZ.y(), 0,
+                cameraX.z(), cameraY.z(), cameraZ.z(), 0,
+                cameraXProj, cameraYProj, cameraZProj, 1);
     }
 
     // might improve readability if an empty matrix
@@ -74,8 +73,7 @@ final public class CameraMatrix {
                 2 / camera.width(), 0, 0, 0,
                 0, 2 / camera.height(), 0, 0,
                 0, 0, -2f / clippingDif, 0,
-                0, 0, -clippingSum / clippingDif, 1
-        );
+                0, 0, -clippingSum / clippingDif, 1);
     }
 
     /**
@@ -91,10 +89,9 @@ final public class CameraMatrix {
         final float clippingProd = camera.farPlane() * camera.nearPlane();
 
         return new Mat4(
-            1 / invFovTan, 0, 0, 0,
-            0, invFovTan / camera.ar(), 0, 0,
-            0, 0, clippingSum / clippingDif, 2 * clippingProd / (-clippingDif),
-            0, 0, 1, 0
-        );
+                1 / invFovTan, 0, 0, 0,
+                0, invFovTan / camera.ar(), 0, 0,
+                0, 0, clippingSum / clippingDif, 2 * clippingProd / (-clippingDif),
+                0, 0, 1, 0);
     }
 }

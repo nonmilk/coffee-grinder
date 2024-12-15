@@ -1,4 +1,4 @@
-package io.guthub.nonmilk.coffee.math;
+package io.github.nonmilk.coffee.grinder.math;
 
 /**
  * A utility class for float comparisons.
@@ -12,6 +12,7 @@ public final class Floats {
 
     /**
      * Prevents class instantiation.
+     * 
      * @throws UnsupportedOperationException when called
      */
     private Floats() {
@@ -26,7 +27,7 @@ public final class Floats {
      * @param v2 value 2
      *
      * @return {@code true}, if the difference is less
-     * than {@link Floats#EPSILON}; {@code false} otherwise
+     *         than {@link Floats#EPSILON}; {@code false} otherwise
      */
     public static boolean equals(final float v1, final float v2) {
         return Math.abs(v1 - v2) < EPSILON;

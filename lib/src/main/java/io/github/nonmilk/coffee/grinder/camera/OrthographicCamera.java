@@ -1,10 +1,12 @@
-package io.guthub.nonmilk.coffee.camera;
+package io.github.nonmilk.coffee.grinder.camera;
 
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 
 /**
  * Represents an orthographic camera.
- * <p>This camera is defined by the width and height of the produced image, enabling it
+ * <p>
+ * This camera is defined by the width and height of the produced image,
+ * enabling it
  * to render objects with parallel projection.
  */
 public final class OrthographicCamera extends Camera {
@@ -13,11 +15,14 @@ public final class OrthographicCamera extends Camera {
     private float height;
 
     /**
-     * Initializes a new {@code OrthographicCamera} with the specified orientation, screen size and clipping box.
+     * Initializes a new {@code OrthographicCamera} with the specified orientation,
+     * screen size and clipping box.
      *
-     * @param orientation the camera's orientation, defining its position and target in 3D space
+     * @param orientation  the camera's orientation, defining its position and
+     *                     target in 3D space
      * @param orthographic the screen settings: width and height
-     * @param clipping the clipping box defining the near and far clipping planes
+     * @param clipping     the clipping box defining the near and far clipping
+     *                     planes
      */
     public OrthographicCamera(CameraOrientation orientation, OrthographicView orthographic, ClippingBox clipping) {
         super(orientation, clipping);

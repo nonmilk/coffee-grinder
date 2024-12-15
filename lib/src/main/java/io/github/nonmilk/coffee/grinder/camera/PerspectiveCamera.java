@@ -1,10 +1,11 @@
-package io.guthub.nonmilk.coffee.camera;
+package io.github.nonmilk.coffee.grinder.camera;
 
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 
 /**
  * Represents a perspective projection camera.
- * <p>This camera is defined by a field of view and an aspect ratio, enabling it
+ * <p>
+ * This camera is defined by a field of view and an aspect ratio, enabling it
  * to render objects with perspective projection.
  */
 public final class PerspectiveCamera extends Camera {
@@ -13,11 +14,14 @@ public final class PerspectiveCamera extends Camera {
     private float aspectRatio;
 
     /**
-     * Initializes a new {@code PerspectiveCamera} with the specified orientation, perspective and clipping box.
+     * Initializes a new {@code PerspectiveCamera} with the specified orientation,
+     * perspective and clipping box.
      *
-     * @param orientation the camera's orientation, defining its position and target in 3D space
-     * @param perspective the perspective view settings: field of view and aspect ratio
-     * @param clipping the clipping box defining the near and far clipping planes
+     * @param orientation the camera's orientation, defining its position and target
+     *                    in 3D space
+     * @param perspective the perspective view settings: field of view and aspect
+     *                    ratio
+     * @param clipping    the clipping box defining the near and far clipping planes
      */
     public PerspectiveCamera(CameraOrientation orientation, PerspectiveView perspective, ClippingBox clipping) {
         super(orientation, clipping);
