@@ -5,6 +5,7 @@ package io.github.nonmilk.coffee.grinder.camera;
 import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.mat.Matrix4;
+import io.github.nonmilk.coffee.grinder.camera.view.ClippingBox;
 import io.github.nonmilk.coffee.grinder.camera.view.PerspectiveView;
 
 /**
