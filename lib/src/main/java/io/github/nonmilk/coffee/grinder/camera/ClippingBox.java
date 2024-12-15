@@ -1,4 +1,4 @@
-package io.github.nonmilk.coffee.camera;
+package io.github.nonmilk.coffee.grinder.camera;
 
 /**
  * Near and far clipping planes.

@@ -1,8 +1,8 @@
-package io.github.nonmilk.coffee.camera;
+package io.github.nonmilk.coffee.grinder.camera;
 
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
-import io.github.nonmilk.coffee.math.Floats;
+import io.github.nonmilk.coffee.grinder.math.Floats;
 
 /**
  * A camera's position in 3D space and the direction it is pointing towards.

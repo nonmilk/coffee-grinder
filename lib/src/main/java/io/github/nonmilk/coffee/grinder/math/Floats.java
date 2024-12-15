@@ -1,4 +1,4 @@
-package io.github.nonmilk.coffee.math;
+package io.github.nonmilk.coffee.grinder.math;
 
 /**
  * A utility class for float comparisons.

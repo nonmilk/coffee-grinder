@@ -1,11 +1,11 @@
-package io.github.nonmilk.coffee.camera;
+package io.github.nonmilk.coffee.grinder.camera;
 
 import io.github.alphameo.linear_algebra.mat.Mat4;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
-import io.github.nonmilk.coffee.math.Floats;
+import io.github.nonmilk.coffee.grinder.math.Floats;
 
 // can be moved to Camera
 /**

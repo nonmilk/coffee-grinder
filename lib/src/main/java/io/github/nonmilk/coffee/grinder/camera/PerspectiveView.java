@@ -1,4 +1,4 @@
-package io.github.nonmilk.coffee.camera;
+package io.github.nonmilk.coffee.grinder.camera;
 
 /**
  * "Lens" parameters for a perspective camera.
