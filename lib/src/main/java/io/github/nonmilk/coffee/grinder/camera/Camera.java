@@ -1,14 +1,10 @@
 package io.github.nonmilk.coffee.grinder.camera;
 
 import io.github.alphameo.linear_algebra.mat.Matrix4;
-import io.github.alphameo.linear_algebra.vec.Vec3;
-import io.github.alphameo.linear_algebra.vec.Vec3Math;
-import io.github.alphameo.linear_algebra.vec.Vector3;
 
 public abstract class Camera {
 
-    private Vector3 position;
-    private Vector3 target;
+    private CameraOrientation cameraOrientation;
     private ClippingBox clippingBox;
 
     /**
@@ -23,63 +19,28 @@ public abstract class Camera {
      *                          clipping planes.
      */
     Camera(final CameraOrientation cameraOrientation, final ClippingBox clippingBox) {
-        this.position = cameraOrientation.position();
-        this.target = cameraOrientation.target();
+        this.cameraOrientation = cameraOrientation;
         this.clippingBox = clippingBox;
     }
 
     /**
-     * Gets the camera position in 3D space.
+     * Gets the camera orientation.
      *
-     * @return {@code Vector3} representing camera position in 3D space
+     * @return {@code CameraOrientation} representing camera
+     * position and target direction in 3D space
      */
-    public Vector3 position() {
-        return new Vec3(position);
+    public CameraOrientation cameraOrientation() {
+        return cameraOrientation;
     }
 
     /**
-     * Sets the camera position in 3D space.
+     * Sets the camera orientation.
      *
-     * @param newPosition new {@code Vector3} position
+     * @param newOrientation {@code CameraOrientation} representing camera
+     * position and target direction in 3D space
      */
-    public void setPosition(final Vector3 newPosition) {
-        this.position = newPosition;
-    }
-
-    /**
-     * Offsets the camera position in 3D space.
-     *
-     * @param positionOffset new {@code Vector3} position
-     */
-    public void offsetPosition(final Vector3 positionOffset) {
-        Vec3Math.add(this.position, positionOffset);
-    }
-
-    /**
-     * Gets the direction camera is looking at.
-     *
-     * @return {@code Vector3} representing camera target
-     */
-    public Vector3 target() {
-        return new Vec3(target);
-    }
-
-    /**
-     * Sets the direction camera is looking at.
-     *
-     * @param newTarget {@code Vector3} representing camera target
-     */
-    public void setTarget(final Vector3 newTarget) {
-        this.target = newTarget;
-    }
-
-    /**
-     * Offsets the direction camera is looking at.
-     *
-     * @param targetOffset {@code Vector3} representing camera target offset
-     */
-    public void offsetTarget(final Vector3 targetOffset) {
-        Vec3Math.add(this.target, targetOffset);
+    public void setCameraOrientation(final CameraOrientation newOrientation) {
+        this.cameraOrientation = newOrientation;
     }
 
     public ClippingBox clippingBox() {

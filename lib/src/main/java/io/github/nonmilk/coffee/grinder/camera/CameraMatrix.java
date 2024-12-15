@@ -24,7 +24,7 @@ final public class CameraMatrix {
      * @return a camera's look at matrix
      */
     public static Matrix4 lookAt(final Camera camera) {
-        final Vector3 cameraZ = Vec3Math.subtracted(camera.target(), camera.position());
+        final Vector3 cameraZ = camera.cameraOrientation().lookDir();
 
         final float cameraZLen = Vec3Math.len(cameraZ);
         if (Floats.equals(cameraZLen, 0)) {
@@ -45,9 +45,10 @@ final public class CameraMatrix {
         Vec3Math.normalize(cameraY);
         Vec3Math.normalize(cameraZ);
 
-        float cameraXProj = -Vec3Math.dot(cameraX, camera.position());
-        float cameraYProj = -Vec3Math.dot(cameraY, camera.position());
-        float cameraZProj = -Vec3Math.dot(cameraZ, camera.position());
+        Vector3 cameraPos = camera.cameraOrientation().position();
+        float cameraXProj = -Vec3Math.dot(cameraX, cameraPos);
+        float cameraYProj = -Vec3Math.dot(cameraY, cameraPos);
+        float cameraZProj = -Vec3Math.dot(cameraZ, cameraPos);
 
         // forgive me for I have sinned
         return new Mat4(
