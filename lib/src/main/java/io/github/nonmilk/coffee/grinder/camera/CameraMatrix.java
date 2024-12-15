@@ -84,14 +84,14 @@ final public class CameraMatrix {
      */
     public static Matrix4 perspectiveProjection(final PerspectiveCamera camera) {
         final float invFovTan = (float) (1f / Math.tan(camera.view().fov()));
-        final float clippingSum = camera.clippingBox().sum();
-        final float clippingDif = camera.clippingBox().diff();
-        final float clippingProd = camera.clippingBox().prod();
+
+        final ClippingBox box = camera.clippingBox();
+        final float diff = box.diff();
 
         return new Mat4(
                 1 / invFovTan, 0, 0, 0,
                 0, invFovTan / camera.view().aspectRatio(), 0, 0,
-                0, 0, clippingSum / clippingDif, 2 * clippingProd / (-clippingDif),
+                0, 0, box.sum() / diff, 2 * box.prod() / -diff,
                 0, 0, 1, 0);
     }
 }
