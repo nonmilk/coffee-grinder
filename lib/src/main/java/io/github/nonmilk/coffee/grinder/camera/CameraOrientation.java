@@ -24,8 +24,9 @@ public class CameraOrientation {
      * @throws IllegalArgumentException If target and position match
      */
     public CameraOrientation(final Vector3 position, final Vector3 target) {
-        setPosition(position);
-        setTarget(target);
+        checkOverlap(Objects.requireNonNull(position), Objects.requireNonNull(target));
+        this.position = position;
+        this.target = target;
     }
 
     public Vector3 position() {
