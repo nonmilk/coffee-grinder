@@ -1,4 +1,4 @@
-package io.guthub.nonmilk.coffee.camera;
+package io.github.nonmilk.coffee.camera;
 
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.vec.Vec3;
@@ -18,13 +18,17 @@ public abstract class Camera {
     private float farPlane;
 
     /**
-     * Initializes a {@code Camera} object with the specified orientation and clipping box parameters.
+     * Initializes a {@code Camera} object with the specified orientation and
+     * clipping box parameters.
      *
-     * @param cameraOrientation An instance of {@code CameraOrientation} that defines the camera's
-     * position in 3D space and the direction it is pointing towards.
-     * @param clippingBox {@code ClippingBox} that specifies the near and far clipping planes.
+     * @param cameraOrientation An instance of {@code CameraOrientation} that
+     *                          defines the camera's
+     *                          position in 3D space and the direction it is
+     *                          pointing towards.
+     * @param clippingBox       {@code ClippingBox} that specifies the near and far
+     *                          clipping planes.
      */
-    Camera (final CameraOrientation cameraOrientation, final ClippingBox clippingBox) {
+    Camera(final CameraOrientation cameraOrientation, final ClippingBox clippingBox) {
         this.position = cameraOrientation.position();
         this.target = cameraOrientation.target();
         this.nearPlane = clippingBox.nearPlane();
@@ -143,7 +147,8 @@ public abstract class Camera {
 
     /**
      * Gets the camera projection matrix,
-     * which transforms 3D camera or view space coordinates into 2D screen coordinates
+     * which transforms 3D camera or view space coordinates into 2D screen
+     * coordinates
      *
      * @return {@code Matrix} representing camera projection matrix
      */
