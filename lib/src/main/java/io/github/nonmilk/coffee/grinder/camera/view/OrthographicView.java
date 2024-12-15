@@ -4,9 +4,6 @@ package io.github.nonmilk.coffee.grinder.camera.view;
 
 /**
  * The dimensions of an orthographic projection.
- *
- * @param width  screen width. Must be positive
- * @param height screen height. Must be positive
  */
 public final class OrthographicView {
 

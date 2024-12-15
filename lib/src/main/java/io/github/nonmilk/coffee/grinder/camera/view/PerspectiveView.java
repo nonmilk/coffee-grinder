@@ -4,9 +4,6 @@ package io.github.nonmilk.coffee.grinder.camera.view;
 
 /**
  * "Lens" parameters for a perspective camera.
- * 
- * @param fov         field of view in radians. Must be in (0; 2pi)
- * @param aspectRatio width / height ratio. Must be positive
  */
 public final class PerspectiveView {
 
