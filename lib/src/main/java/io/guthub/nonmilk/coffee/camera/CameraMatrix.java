@@ -19,6 +19,7 @@ final public class CameraMatrix {
 
     /**
      * Returns a camera's look at matrix.
+     *
      * @param camera {@code Camera} child class
      * @return a camera's look at matrix
      */
@@ -61,6 +62,7 @@ final public class CameraMatrix {
     // is created first and then cells are filled
     /**
      * Returns an orthographic camera's projection matrix.
+     *
      * @param camera {@code OrthographicCamera}
      * @return a camera's look at matrix
      */
@@ -78,6 +80,7 @@ final public class CameraMatrix {
 
     /**
      * Returns a perspective camera's projection matrix.
+     *
      * @param camera {@code PerspectiveCamera}
      * @return a camera's look at matrix
      */

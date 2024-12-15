@@ -33,6 +33,7 @@ public abstract class Camera {
 
     /**
      * Gets the camera position in 3D space.
+     *
      * @return {@code Vector3} representing camera position in 3D space
      */
     public Vector3 position() {
@@ -41,6 +42,7 @@ public abstract class Camera {
 
     /**
      * Sets the camera position in 3D space.
+     *
      * @param newPosition new {@code Vector3} position
      */
     public void setPosition(final Vector3 newPosition) {
@@ -49,6 +51,7 @@ public abstract class Camera {
 
     /**
      * Offsets the camera position in 3D space.
+     *
      * @param positionOffset new {@code Vector3} position
      */
     public void offsetPosition(final Vector3 positionOffset) {
@@ -57,6 +60,7 @@ public abstract class Camera {
 
     /**
      * Gets the direction camera is looking at.
+     *
      * @return {@code Vector3} representing camera target
      */
     public Vector3 target() {
@@ -65,6 +69,7 @@ public abstract class Camera {
 
     /**
      * Sets the direction camera is looking at.
+     *
      * @param newTarget {@code Vector3} representing camera target
      */
     public void setTarget(final Vector3 newTarget) {
@@ -73,6 +78,7 @@ public abstract class Camera {
 
     /**
      * Offsets the direction camera is looking at.
+     *
      * @param targetOffset {@code Vector3} representing camera target offset
      */
     public void offsetTarget(final Vector3 targetOffset) {
@@ -81,6 +87,7 @@ public abstract class Camera {
 
     /**
      * Gets the camera distance to near clipping plane.
+     *
      * @return {@code float} distance to near clipping plane
      */
     public float nearPlane() {
@@ -89,6 +96,7 @@ public abstract class Camera {
 
     /**
      * Sets the camera distance to near clipping plane.
+     *
      * @param newNearPlane {@code float} distance to near clipping plane
      */
     public void setNearPlane(final float newNearPlane) {
@@ -101,6 +109,7 @@ public abstract class Camera {
 
     /**
      * Gets the camera distance to far clipping plane.
+     *
      * @return {@code float} distance to far clipping plane
      */
     public float farPlane() {
@@ -109,6 +118,7 @@ public abstract class Camera {
 
     /**
      * Sets the camera distance to far clipping plane.
+     *
      * @param newFarPlane {@code float} distance to far clipping plane
      */
     public void setFarPlane(final float newFarPlane) {
@@ -123,6 +133,7 @@ public abstract class Camera {
     /**
      * Gets the camera view matrix,
      * which transforms world coordinates into camera or view space.
+     *
      * @return {@code Matrix} representing camera view matrix
      */
     public Matrix4 getViewMatrix() {
@@ -133,6 +144,7 @@ public abstract class Camera {
     /**
      * Gets the camera projection matrix,
      * which transforms 3D camera or view space coordinates into 2D screen coordinates
+     *
      * @return {@code Matrix} representing camera projection matrix
      */
     public abstract Matrix4 getProjectionMatrix();
