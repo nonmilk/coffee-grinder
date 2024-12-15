@@ -18,12 +18,12 @@ public class ClippingBox {
      *                                  or far plane is closer to camera than the
      *                                  near plane
      */
-    public ClippingBox(float nearPlane, float farPlane) {
+    public ClippingBox(final float nearPlane, final float farPlane) {
         setNearPlane(nearPlane);
         setFarPlane(farPlane);
     }
 
-    public ClippingBox(ClippingBox clippingBox) {
+    public ClippingBox(final ClippingBox clippingBox) {
         setNearPlane(clippingBox.nearPlane);
         setFarPlane(clippingBox.farPlane);
     }
@@ -32,7 +32,7 @@ public class ClippingBox {
         return nearPlane;
     }
 
-    public void setNearPlane(float nearPlane) {
+    public void setNearPlane(final float nearPlane) {
         if (nearPlane < 0) {
             throw new RuntimeException("Near plane is behind camera");
         }
@@ -44,7 +44,7 @@ public class ClippingBox {
         return farPlane;
     }
 
-    public void setFarPlane(float farPlane) {
+    public void setFarPlane(final float farPlane) {
         if (farPlane <= nearPlane) {
             throw new RuntimeException("Far plane is behind near plane");
         }
