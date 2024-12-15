@@ -5,7 +5,8 @@ import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.nonmilk.coffee.grinder.math.Floats;
 
 /**
- * A class holding camera's position in 3D space and the direction it is pointing towards.
+ * A class holding camera's position in 3D space and the direction it is
+ * pointing towards.
  */
 public class CameraOrientation {
 
@@ -20,7 +21,7 @@ public class CameraOrientation {
      * @param target   {@code Vector3} a position looked at by the camera
      * @throws IllegalArgumentException If target and position match
      */
-    public CameraOrientation (final Vector3 position, final Vector3 target) {
+    public CameraOrientation(final Vector3 position, final Vector3 target) {
         checkOverlap(position, target);
         this.position = position;
         this.target = target;
