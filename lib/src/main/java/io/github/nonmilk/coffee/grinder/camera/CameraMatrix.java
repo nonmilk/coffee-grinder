@@ -5,6 +5,7 @@ import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
+import io.github.nonmilk.coffee.grinder.camera.view.OrthographicView;
 import io.github.nonmilk.coffee.grinder.math.Floats;
 
 // can be moved to Camera
@@ -69,10 +70,11 @@ final public class CameraMatrix {
     public static Matrix4 orthographicProjection(final OrthographicCamera camera) {
         final float clippingSum = camera.clippingBox().sum();
         final float clippingDif = camera.clippingBox().diff();
+        final OrthographicView view = camera.view();
 
         return new Mat4(
-                2 / camera.view().width(), 0, 0, 0,
-                0, 2 / camera.view().height(), 0, 0,
+                2 / view.width(), 0, 0, 0,
+                0, 2 / view.height(), 0, 0,
                 0, 0, -2f / clippingDif, 0,
                 0, 0, -clippingSum / clippingDif, 1);
     }
