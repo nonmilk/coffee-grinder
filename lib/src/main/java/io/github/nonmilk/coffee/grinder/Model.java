@@ -31,10 +31,18 @@ public class Model {
 
         final List<Integer> vertexPolygonCount = new ArrayList<>(vertexCount);
 
-        for (ObjFace face : faces) {
+        for (int i = 0; i < vertexCount; i++) {
             // addFaceNormals(face, vertexPolygonCount);
-
+            if (faces.get(i).triplets().size() > 3) {
+                ObjFace face = faces.remove(i);
+                i--;
+                triangulateFace(face);
+            }
         }
+    }
+
+    private void triangulateFace(ObjFace face) {
+
     }
 
     private void clearNormals() {
@@ -46,6 +54,12 @@ public class Model {
     }
 
     private void addFaceNormals(ObjFace face, List<Integer> vertexPolygonCount) {
+
+
+        // FIXME sum all face normals with vertex and divide by face count
+    }
+
+    private Vector3 faceNormal(ObjFace face) {
         final ObjVertex vertex1 = face.triplets().get(0).vertex();
         final ObjVertex vertex2 = face.triplets().get(1).vertex();
         final ObjVertex vertex3 = face.triplets().get(2).vertex();
@@ -57,8 +71,6 @@ public class Model {
         final Vector3 edge1 = Vec3Math.subtracted(vector2, vector1);
         final Vector3 edge2 = Vec3Math.subtracted(vector3, vector2);
 
-        final Vector3 faceNormal = Vec3Math.cross(edge1, edge2);
-
-        // FIXME sum all face normals with vertex and divide by face count
+        return Vec3Math.cross(edge1, edge2);
     }
 }
