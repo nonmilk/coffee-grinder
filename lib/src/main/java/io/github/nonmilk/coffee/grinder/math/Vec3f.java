@@ -1,6 +1,7 @@
 package io.github.nonmilk.coffee.grinder.math;
 
 import io.github.alphameo.linear_algebra.vec.Vector3;
+import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 
 // rename?
 public class Vec3f implements Vector3 {
@@ -16,6 +17,12 @@ public class Vec3f implements Vector3 {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public Vec3f(ObjVertex vertex) {
+        this.x = vertex.x();
+        this.y = vertex.y();
+        this.z = vertex.z();
     }
 
     @Override
