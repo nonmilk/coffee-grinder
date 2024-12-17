@@ -29,7 +29,7 @@ public class Model {
     private final List<ObjFace> faces;
     private final List<ObjVertexNormal> normals;
 
-    public Model(ObjFile obj) {
+    public Model(final ObjFile obj) {
         vertices = obj.vertexData().vertices();
         final int vertexCount = vertices.size();
         textureVertices = obj.vertexData().textureVertices();
@@ -42,14 +42,14 @@ public class Model {
         for (int i = 0; i < vertexCount; i++) {
             // addFaceNormals(face, vertexPolygonCount);
             if (faces.get(i).triplets().size() > 3) {
-                ObjFace face = faces.remove(i);
+                final ObjFace face = faces.remove(i);
                 i--;
                 triangulateFace(face);
             }
         }
     }
 
-    private void triangulateFace(ObjFace face) {
+    private void triangulateFace(final ObjFace face) {
         final List<ObjTriplet> faceTriplets = face.triplets();
         final Vector3 faceNormal = faceNormal(face);
         final Vector3 axis = Vec3Math.cross(faceNormal, Vec3f.VECTOR_K);
@@ -69,7 +69,10 @@ public class Model {
         }
     }
 
-    private List<Vec2f> rotatePolygon(List<ObjTriplet> triplets, Vector3 axis, float angle) {
+    private List<Vec2f> rotatePolygon(
+            final List<ObjTriplet> triplets,
+            final Vector3 axis,
+            final float angle) {
         final float cos = (float) Math.cos(angle);
         final float sin = (float) Math.sin(angle);
         final Vector3 u = Vec3Math.normalized(axis);
@@ -84,7 +87,8 @@ public class Model {
 
         final List<Vec2f> rotatedVertices = new ArrayList<>(triplets.size());
         for (ObjTriplet triplet : triplets) {
-            final Vector3 rotatedVertex = Mat3Math.prod(rotationMatrix, new Vec3f(triplet.vertex()));
+            final Vector3 rotatedVertex = Mat3Math.prod(
+                    rotationMatrix, new Vec3f(triplet.vertex()));
             rotatedVertices.add(new Vec2f(rotatedVertex.x(), rotatedVertex.y()));
         }
 
@@ -99,12 +103,12 @@ public class Model {
         }
     }
 
-    private void addFaceNormals(ObjFace face, List<Integer> vertexPolygonCount) {
+    private void addFaceNormals(final ObjFace face, final List<Integer> vertexPolygonCount) {
 
         // FIXME sum all face normals with vertex and divide by face count
     }
 
-    private Vector3 faceNormal(ObjFace face) {
+    private Vector3 faceNormal(final ObjFace face) {
         final ObjVertex vertex1 = face.triplets().get(0).vertex();
         final ObjVertex vertex2 = face.triplets().get(1).vertex();
         final ObjVertex vertex3 = face.triplets().get(2).vertex();
