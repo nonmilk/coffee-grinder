@@ -2,6 +2,7 @@ package io.github.nonmilk.coffee.grinder;
 
 import io.github.shimeoki.jshaper.obj.data.ObjElements;
 import io.github.shimeoki.jshaper.obj.data.ObjFile;
+import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
@@ -19,6 +20,7 @@ import io.github.nonmilk.coffee.grinder.math.Vec3f;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Model {
 
@@ -48,11 +50,23 @@ public class Model {
     }
 
     private void triangulateFace(ObjFace face) {
+        final List<ObjTriplet> faceTriplets = face.triplets();
         final Vector3 faceNormal = faceNormal(face);
         final Vector3 axis = Vec3Math.cross(faceNormal, Vec3f.VECTOR_K);
         final float angle = (float) Math.acos(
                 Vec3Math.dot(faceNormal, Vec3f.VECTOR_K) / Vec3Math.len(faceNormal));
-        final List<Vec2f> flatPolygon = rotatePolygon(face.triplets(), axis, angle);
+        final List<Vec2f> flatPolygon = rotatePolygon(faceTriplets, axis, angle);
+
+        final List<int[]> triangles = Triangulation.earClippingTriangulate(flatPolygon);
+        final Set<ObjGroupName> groupNames = face.groupNames();
+        for (int[] triangle : triangles) {
+            final List<ObjTriplet> triplets = new ArrayList<>(3);
+            // better way?
+            triplets.add(faceTriplets.get(triangle[0]));
+            triplets.add(faceTriplets.get(triangle[1]));
+            triplets.add(faceTriplets.get(triangle[2]));
+            faces.add(new ObjFace(triplets, groupNames));
+        }
     }
 
     private List<Vec2f> rotatePolygon(List<ObjTriplet> triplets, Vector3 axis, float angle) {
