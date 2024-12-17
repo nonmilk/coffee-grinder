@@ -2,14 +2,20 @@ package io.github.nonmilk.coffee.grinder;
 
 import io.github.shimeoki.jshaper.obj.data.ObjElements;
 import io.github.shimeoki.jshaper.obj.data.ObjFile;
+import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import io.github.traunin.triangulation.Triangulation;
+import io.github.alphameo.linear_algebra.mat.Mat3;
+import io.github.alphameo.linear_algebra.mat.Mat3Math;
+import io.github.alphameo.linear_algebra.mat.Matrix3;
 import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
+import io.github.nonmilk.coffee.grinder.math.Vec2f;
+import io.github.nonmilk.coffee.grinder.math.Vec3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +48,33 @@ public class Model {
     }
 
     private void triangulateFace(ObjFace face) {
+        final Vector3 faceNormal = faceNormal(face);
+        final Vector3 axis = Vec3Math.cross(faceNormal, Vec3f.VECTOR_K);
+        final float angle = (float) Math.acos(
+                Vec3Math.dot(faceNormal, Vec3f.VECTOR_K) / Vec3Math.len(faceNormal));
+        final List<Vec2f> flatPolygon = rotatePolygon(face.triplets(), axis, angle);
+    }
 
+    private List<Vec2f> rotatePolygon(List<ObjTriplet> triplets, Vector3 axis, float angle) {
+        final float cos = (float) Math.cos(angle);
+        final float sin = (float) Math.sin(angle);
+        final Vector3 u = Vec3Math.normalized(axis);
+        final float ux = u.x();
+        final float uy = u.y();
+
+        // rotate by angle around axis
+        Matrix3 rotationMatrix = new Mat3(
+                ux * ux * (1 - cos) + cos, ux * ux * (1 - cos), uy * sin,
+                ux * uy * (1 - cos), uy * uy * (1 - cos) + cos, ux * sin,
+                -uy * sin, ux * sin, cos);
+
+        final List<Vec2f> rotatedVertices = new ArrayList<>(triplets.size());
+        for (ObjTriplet triplet : triplets) {
+            final Vector3 rotatedVertex = Mat3Math.prod(rotationMatrix, new Vec3f(triplet.vertex()));
+            rotatedVertices.add(new Vec2f(rotatedVertex.x(), rotatedVertex.y()));
+        }
+
+        return rotatedVertices;
     }
 
     private void clearNormals() {
@@ -54,7 +86,6 @@ public class Model {
     }
 
     private void addFaceNormals(ObjFace face, List<Integer> vertexPolygonCount) {
-
 
         // FIXME sum all face normals with vertex and divide by face count
     }
