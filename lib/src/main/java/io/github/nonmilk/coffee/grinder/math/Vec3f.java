@@ -4,6 +4,9 @@ import io.github.alphameo.linear_algebra.vec.Vector3;
 
 // rename?
 public class Vec3f implements Vector3 {
+    public final static Vec3f VECTOR_I = new Vec3f(1, 0, 0);
+    public final static Vec3f VECTOR_J = new Vec3f(0, 1, 0);
+    public final static Vec3f VECTOR_K = new Vec3f(0, 0, 1);
 
     private float x;
     private float y;
