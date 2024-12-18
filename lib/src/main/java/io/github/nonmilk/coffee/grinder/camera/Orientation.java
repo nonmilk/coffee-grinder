@@ -6,19 +6,16 @@ import io.github.alphameo.linear_algebra.mat.Mat4;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.mat.Matrix4Col;
 import io.github.alphameo.linear_algebra.mat.Matrix4Row;
-import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.nonmilk.coffee.grinder.math.Floats;
+import io.github.nonmilk.coffee.grinder.math.Vec3f;
 
 /**
  * A class holding camera's position in 3D space and the direction it is
  * pointing towards.
  */
 public class Orientation {
-
-    private static final Vector3 VECTOR_I = new Vec3(1, 0, 0);
-    private static final Vector3 VECTOR_J = new Vec3(0, 1, 0);
 
     private Vector3 position;
     private Vector3 target;
@@ -87,9 +84,9 @@ public class Orientation {
         }
 
         final Vector3 cameraX;
-        final Vector3 xCandidate = Vec3Math.cross(cameraZ, VECTOR_J);
+        final Vector3 xCandidate = Vec3Math.cross(cameraZ, Vec3f.VECTOR_J);
         if (Floats.equals(Vec3Math.len(xCandidate) / cameraZLen, 0)) {
-            cameraX = Vec3Math.cross(cameraZ, VECTOR_I);
+            cameraX = Vec3Math.cross(cameraZ, Vec3f.VECTOR_I);
         } else {
             cameraX = xCandidate;
         }
