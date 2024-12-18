@@ -76,9 +76,4 @@ public final class PerspectiveCamera implements Camera {
                 0, 0, box.sum() / diff, 2 * box.prod() / -diff,
                 0, 0, 1, 0);
     }
-
-    @Override
-    public Matrix4 viewMatrix() {
-        return Mat4Math.prod(projection(), orientation.translation());
-    }
 }

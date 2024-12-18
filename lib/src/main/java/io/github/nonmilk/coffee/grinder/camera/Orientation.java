@@ -20,10 +20,10 @@ public class Orientation {
     private Vector3 position;
     private Vector3 target;
 
-    private final Matrix4 translation = new Mat4();
+    private final Matrix4 view = new Mat4();
 
     {
-        translation.set(Matrix4Row.R3, Matrix4Col.C3, 1);
+        view.set(Matrix4Row.R3, Matrix4Col.C3, 1);
     }
 
     /**
@@ -104,24 +104,24 @@ public class Orientation {
 
         // YOLO
 
-        translation.set(Matrix4Row.R0, Matrix4Col.C0, cameraX.x());
-        translation.set(Matrix4Row.R0, Matrix4Col.C1, cameraY.x());
-        translation.set(Matrix4Row.R0, Matrix4Col.C2, cameraZ.x());
+        view.set(Matrix4Row.R0, Matrix4Col.C0, cameraX.x());
+        view.set(Matrix4Row.R0, Matrix4Col.C1, cameraY.x());
+        view.set(Matrix4Row.R0, Matrix4Col.C2, cameraZ.x());
 
-        translation.set(Matrix4Row.R1, Matrix4Col.C0, cameraX.y());
-        translation.set(Matrix4Row.R1, Matrix4Col.C1, cameraY.y());
-        translation.set(Matrix4Row.R1, Matrix4Col.C2, cameraZ.y());
+        view.set(Matrix4Row.R1, Matrix4Col.C0, cameraX.y());
+        view.set(Matrix4Row.R1, Matrix4Col.C1, cameraY.y());
+        view.set(Matrix4Row.R1, Matrix4Col.C2, cameraZ.y());
 
-        translation.set(Matrix4Row.R2, Matrix4Col.C0, cameraX.z());
-        translation.set(Matrix4Row.R2, Matrix4Col.C1, cameraY.z());
-        translation.set(Matrix4Row.R2, Matrix4Col.C2, cameraZ.z());
+        view.set(Matrix4Row.R2, Matrix4Col.C0, cameraX.z());
+        view.set(Matrix4Row.R2, Matrix4Col.C1, cameraY.z());
+        view.set(Matrix4Row.R2, Matrix4Col.C2, cameraZ.z());
 
-        translation.set(Matrix4Row.R3, Matrix4Col.C0, cameraXProj);
-        translation.set(Matrix4Row.R3, Matrix4Col.C1, cameraYProj);
-        translation.set(Matrix4Row.R3, Matrix4Col.C2, cameraZProj);
+        view.set(Matrix4Row.R3, Matrix4Col.C0, cameraXProj);
+        view.set(Matrix4Row.R3, Matrix4Col.C1, cameraYProj);
+        view.set(Matrix4Row.R3, Matrix4Col.C2, cameraZProj);
     }
 
-    public Matrix4 translation() {
-        return translation;
+    public Matrix4 view() {
+        return view;
     }
 }

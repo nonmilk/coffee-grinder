@@ -70,9 +70,4 @@ public final class OrthographicCamera implements Camera {
                 0, 0, -2f / clippingDif, 0,
                 0, 0, -clippingSum / clippingDif, 1);
     }
-
-    @Override
-    public Matrix4 viewMatrix() {
-        return Mat4Math.prod(projection(), orientation.translation());
-    }
 }

@@ -16,13 +16,6 @@ public interface Camera extends Clippable {
     public Matrix4 projection();
 
     /**
-     * Returns a camera's view matrix.
-     * 
-     * @return {@code Matrix4} camera's view matrix
-     */
-    public Matrix4 viewMatrix();
-
-    /**
      * Returns a camera's orientation.
      * 
      * @return {@code Orientation} camera's orientation
