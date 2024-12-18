@@ -71,7 +71,7 @@ public final class PerspectiveCamera implements Camera {
         final float diff = box.diff();
 
         return new Mat4(
-                1 / invFovTan, 0, 0, 0,
+                invFovTan, 0, 0, 0,
                 0, invFovTan / view.aspectRatio(), 0, 0,
                 0, 0, box.sum() / diff, 2 * box.prod() / -diff,
                 0, 0, 1, 0);
