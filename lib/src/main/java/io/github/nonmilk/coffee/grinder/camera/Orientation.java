@@ -3,6 +3,7 @@ package io.github.nonmilk.coffee.grinder.camera;
 import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.mat.Mat4;
+import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.mat.Matrix4Col;
 import io.github.alphameo.linear_algebra.mat.Matrix4Row;
@@ -20,7 +21,7 @@ public class Orientation {
     private Vector3 position;
     private Vector3 target;
 
-    private final Matrix4 view = new Mat4();
+    private Matrix4 view = new Mat4();
 
     {
         view.set(Matrix4Row.R3, Matrix4Col.C3, 1);
@@ -102,23 +103,36 @@ public class Orientation {
         float cameraYProj = -Vec3Math.dot(cameraY, cameraPos);
         float cameraZProj = -Vec3Math.dot(cameraZ, cameraPos);
 
-        // YOLO
+        // this should be calculated by hand and plugged in
+        // the view matrix using view.set
+        Matrix4 translation = new Mat4(
+                1, 0, 0, -position().x(),
+                0, 1, 0, -position().y(),
+                0, 0, 1, -position().z(),
+                1, 0, 0, 1);
 
-        view.set(Matrix4Row.R0, Matrix4Col.C0, cameraX.x());
-        view.set(Matrix4Row.R0, Matrix4Col.C1, cameraY.x());
-        view.set(Matrix4Row.R0, Matrix4Col.C2, cameraZ.x());
+        Matrix4 projection = new Mat4(
+                cameraX.x(), cameraX.y(), cameraX.z(), 0,
+                cameraY.x(), cameraY.y(), cameraY.z(), 0,
+                cameraZ.x(), cameraZ.y(), cameraZ.z(), 0,
+                0, 0, 0, 1);
+        view = Mat4Math.prod(projection, translation);
 
-        view.set(Matrix4Row.R1, Matrix4Col.C0, cameraX.y());
-        view.set(Matrix4Row.R1, Matrix4Col.C1, cameraY.y());
-        view.set(Matrix4Row.R1, Matrix4Col.C2, cameraZ.y());
+        // view.set(Matrix4Row.R0, Matrix4Col.C0, cameraX.x());
+        // view.set(Matrix4Row.R0, Matrix4Col.C1, cameraY.x());
+        // view.set(Matrix4Row.R0, Matrix4Col.C2, cameraZ.x());
 
-        view.set(Matrix4Row.R2, Matrix4Col.C0, cameraX.z());
-        view.set(Matrix4Row.R2, Matrix4Col.C1, cameraY.z());
-        view.set(Matrix4Row.R2, Matrix4Col.C2, cameraZ.z());
+        // view.set(Matrix4Row.R1, Matrix4Col.C0, cameraX.y());
+        // view.set(Matrix4Row.R1, Matrix4Col.C1, cameraY.y());
+        // view.set(Matrix4Row.R1, Matrix4Col.C2, cameraZ.y());
 
-        view.set(Matrix4Row.R3, Matrix4Col.C0, cameraXProj);
-        view.set(Matrix4Row.R3, Matrix4Col.C1, cameraYProj);
-        view.set(Matrix4Row.R3, Matrix4Col.C2, cameraZProj);
+        // view.set(Matrix4Row.R2, Matrix4Col.C0, cameraX.z());
+        // view.set(Matrix4Row.R2, Matrix4Col.C1, cameraY.z());
+        // view.set(Matrix4Row.R2, Matrix4Col.C2, cameraZ.z());
+
+        // view.set(Matrix4Row.R3, Matrix4Col.C0, cameraXProj);
+        // view.set(Matrix4Row.R3, Matrix4Col.C1, cameraYProj);
+        // view.set(Matrix4Row.R3, Matrix4Col.C2, cameraZProj);
     }
 
     public Matrix4 view() {
