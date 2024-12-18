@@ -75,7 +75,7 @@ public class Orientation {
      * @param camera {@code Camera} child class
      * @return a camera's look at matrix
      */
-    public void translate() {
+    public void lookAt() {
         final Vector3 cameraZ = lookDir();
 
         final float cameraZLen = Vec3Math.len(cameraZ);
