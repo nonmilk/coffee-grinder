@@ -33,6 +33,10 @@ public class Renderer {
 
     public void render() {
         Camera selectedCamera = scene.selectedCamera();
+        // updates every frame, can be done externally
+        // I'll leave it here untill we find the best strategy
+        // for updating it
+        selectedCamera.orientation().lookAt();
         Matrix4 viewProjMatrix = Mat4Math.prod(
                 selectedCamera.projection(),
                 selectedCamera.orientation().view());
