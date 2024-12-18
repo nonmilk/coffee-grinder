@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.mat.Mat4;
+import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.nonmilk.coffee.grinder.camera.view.PerspectiveView;
 
 /**
@@ -74,5 +75,10 @@ public final class PerspectiveCamera implements Camera {
                 0, invFovTan / view.aspectRatio(), 0, 0,
                 0, 0, box.sum() / diff, 2 * box.prod() / -diff,
                 0, 0, 1, 0);
+    }
+
+    @Override
+    public Matrix4 viewMatrix() {
+        return Mat4Math.prod(projection(), orientation.translation());
     }
 }

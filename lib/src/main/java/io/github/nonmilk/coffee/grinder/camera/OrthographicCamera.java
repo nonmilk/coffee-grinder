@@ -3,6 +3,7 @@ package io.github.nonmilk.coffee.grinder.camera;
 import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.mat.Mat4;
+import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.nonmilk.coffee.grinder.camera.view.OrthographicView;
 
@@ -68,5 +69,10 @@ public final class OrthographicCamera implements Camera {
                 0, 2 / view.height(), 0, 0,
                 0, 0, -2f / clippingDif, 0,
                 0, 0, -clippingSum / clippingDif, 1);
+    }
+
+    @Override
+    public Matrix4 viewMatrix() {
+        return Mat4Math.prod(projection(), orientation.translation());
     }
 }
