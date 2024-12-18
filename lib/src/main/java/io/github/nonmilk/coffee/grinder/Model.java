@@ -11,6 +11,8 @@ import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import io.github.traunin.triangulation.Triangulation;
 import io.github.alphameo.linear_algebra.mat.Mat3;
 import io.github.alphameo.linear_algebra.mat.Mat3Math;
+import io.github.alphameo.linear_algebra.mat.Mat4;
+import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.mat.Matrix3;
 import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
@@ -28,6 +30,12 @@ public class Model {
     private final List<ObjTextureVertex> textureVertices;
     private final List<ObjFace> faces;
     private final List<ObjVertexNormal> normals;
+    private final Matrix4 modelMatrix = new Mat4(
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    );
 
     public Model(final ObjFile obj) {
         vertices = obj.vertexData().vertices();
@@ -47,6 +55,10 @@ public class Model {
                 triangulateFace(face);
             }
         }
+    }
+
+    public Matrix4 modelMatrix() {
+        return modelMatrix;
     }
 
     private void triangulateFace(final ObjFace face) {
