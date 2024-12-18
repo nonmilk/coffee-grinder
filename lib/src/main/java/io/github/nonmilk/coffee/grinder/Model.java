@@ -61,6 +61,10 @@ public class Model {
         return modelMatrix;
     }
 
+    public List<ObjFace> faces() {
+        return faces;
+    }
+
     private void triangulateFace(final ObjFace face) {
         final List<ObjTriplet> faceTriplets = face.triplets();
         final Vector3 faceNormal = faceNormal(face);
