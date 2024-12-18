@@ -98,41 +98,29 @@ public class Orientation {
         Vec3Math.normalize(cameraY);
         Vec3Math.normalize(cameraZ);
 
-        Vector3 cameraPos = position;
-        float cameraXProj = -Vec3Math.dot(cameraX, cameraPos);
-        float cameraYProj = -Vec3Math.dot(cameraY, cameraPos);
-        float cameraZProj = -Vec3Math.dot(cameraZ, cameraPos);
+        // result of Pv*Tv
+        view.set(Matrix4Row.R0, Matrix4Col.C0, cameraX.x());
+        view.set(Matrix4Row.R0, Matrix4Col.C1, cameraX.y());
+        view.set(Matrix4Row.R0, Matrix4Col.C2, cameraX.z());
 
-        // this should be calculated by hand and plugged in
-        // the view matrix using view.set
-        Matrix4 translation = new Mat4(
-                1, 0, 0, -position().x(),
-                0, 1, 0, -position().y(),
-                0, 0, 1, -position().z(),
-                1, 0, 0, 1);
+        view.set(Matrix4Row.R1, Matrix4Col.C0, cameraY.x());
+        view.set(Matrix4Row.R1, Matrix4Col.C1, cameraY.y());
+        view.set(Matrix4Row.R1, Matrix4Col.C2, cameraY.z());
 
-        Matrix4 projection = new Mat4(
-                cameraX.x(), cameraX.y(), cameraX.z(), 0,
-                cameraY.x(), cameraY.y(), cameraY.z(), 0,
-                cameraZ.x(), cameraZ.y(), cameraZ.z(), 0,
-                0, 0, 0, 1);
-        view = Mat4Math.prod(projection, translation);
+        view.set(Matrix4Row.R2, Matrix4Col.C0, cameraZ.x());
+        view.set(Matrix4Row.R2, Matrix4Col.C1, cameraZ.y());
+        view.set(Matrix4Row.R2, Matrix4Col.C2, cameraZ.z());
 
-        // view.set(Matrix4Row.R0, Matrix4Col.C0, cameraX.x());
-        // view.set(Matrix4Row.R0, Matrix4Col.C1, cameraY.x());
-        // view.set(Matrix4Row.R0, Matrix4Col.C2, cameraZ.x());
+        float eyeX = position.x();
+        float eyeY = position.y();
+        float eyeZ = position.z();
 
-        // view.set(Matrix4Row.R1, Matrix4Col.C0, cameraX.y());
-        // view.set(Matrix4Row.R1, Matrix4Col.C1, cameraY.y());
-        // view.set(Matrix4Row.R1, Matrix4Col.C2, cameraZ.y());
-
-        // view.set(Matrix4Row.R2, Matrix4Col.C0, cameraX.z());
-        // view.set(Matrix4Row.R2, Matrix4Col.C1, cameraY.z());
-        // view.set(Matrix4Row.R2, Matrix4Col.C2, cameraZ.z());
-
-        // view.set(Matrix4Row.R3, Matrix4Col.C0, cameraXProj);
-        // view.set(Matrix4Row.R3, Matrix4Col.C1, cameraYProj);
-        // view.set(Matrix4Row.R3, Matrix4Col.C2, cameraZProj);
+        view.set(Matrix4Row.R0, Matrix4Col.C3,
+                -cameraX.x() * eyeX - cameraX.y() * eyeY - cameraX.z() * eyeZ);
+        view.set(Matrix4Row.R1, Matrix4Col.C3,
+                -cameraY.x() * eyeX - cameraY.y() * eyeY - cameraY.z() * eyeZ);
+        view.set(Matrix4Row.R2, Matrix4Col.C3,
+                -cameraZ.x() * eyeX - cameraZ.y() * eyeY - cameraZ.z() * eyeZ);
     }
 
     public Matrix4 view() {
