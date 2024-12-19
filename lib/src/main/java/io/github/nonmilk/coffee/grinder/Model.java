@@ -17,6 +17,7 @@ import io.github.alphameo.linear_algebra.mat.Matrix3;
 import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
+import io.github.nonmilk.coffee.grinder.math.Floats;
 import io.github.nonmilk.coffee.grinder.math.Vec2f;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
 
@@ -69,6 +70,11 @@ public class Model {
         final List<ObjTriplet> faceTriplets = face.triplets();
         final Vector3 faceNormal = faceNormal(face);
         final Vector3 axis = Vec3Math.cross(faceNormal, Vec3f.VECTOR_K);
+        // if polygon is parallel to XY, we set the rotation axis
+        // as Z axis so that the rotation doesn't mess with triangulation
+        if (Floats.equals(Vec3Math.len2(axis), 0)) {
+            axis.setZ(1);
+        }
         final float angle = (float) Math.acos(
                 Vec3Math.dot(faceNormal, Vec3f.VECTOR_K) / Vec3Math.len(faceNormal));
         final List<Vec2f> flatPolygon = rotatePolygon(faceTriplets, axis, angle);
