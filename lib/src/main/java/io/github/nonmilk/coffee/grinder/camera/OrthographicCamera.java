@@ -3,7 +3,6 @@ package io.github.nonmilk.coffee.grinder.camera;
 import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.mat.Mat4;
-import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.nonmilk.coffee.grinder.camera.view.OrthographicView;
 
