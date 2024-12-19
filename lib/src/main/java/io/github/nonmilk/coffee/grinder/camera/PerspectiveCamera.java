@@ -1,12 +1,9 @@
 package io.github.nonmilk.coffee.grinder.camera;
 
-// FIXME javadoc
-
 import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.mat.Mat4;
-import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.nonmilk.coffee.grinder.camera.view.PerspectiveView;
 
 /**
