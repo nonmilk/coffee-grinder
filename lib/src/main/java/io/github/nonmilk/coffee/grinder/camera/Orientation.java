@@ -20,7 +20,7 @@ public class Orientation {
     private Vector3 position;
     private Vector3 target;
 
-    private final Matrix4 view = new Mat4();
+    private Matrix4 view = new Mat4();
 
     {
         view.set(Matrix4Row.R3, Matrix4Col.C3, 1);
@@ -97,28 +97,29 @@ public class Orientation {
         Vec3Math.normalize(cameraY);
         Vec3Math.normalize(cameraZ);
 
-        Vector3 cameraPos = position;
-        float cameraXProj = -Vec3Math.dot(cameraX, cameraPos);
-        float cameraYProj = -Vec3Math.dot(cameraY, cameraPos);
-        float cameraZProj = -Vec3Math.dot(cameraZ, cameraPos);
-
-        // YOLO
-
+        // result of Pv*Tv
         view.set(Matrix4Row.R0, Matrix4Col.C0, cameraX.x());
-        view.set(Matrix4Row.R0, Matrix4Col.C1, cameraY.x());
-        view.set(Matrix4Row.R0, Matrix4Col.C2, cameraZ.x());
+        view.set(Matrix4Row.R0, Matrix4Col.C1, cameraX.y());
+        view.set(Matrix4Row.R0, Matrix4Col.C2, cameraX.z());
 
-        view.set(Matrix4Row.R1, Matrix4Col.C0, cameraX.y());
+        view.set(Matrix4Row.R1, Matrix4Col.C0, cameraY.x());
         view.set(Matrix4Row.R1, Matrix4Col.C1, cameraY.y());
-        view.set(Matrix4Row.R1, Matrix4Col.C2, cameraZ.y());
+        view.set(Matrix4Row.R1, Matrix4Col.C2, cameraY.z());
 
-        view.set(Matrix4Row.R2, Matrix4Col.C0, cameraX.z());
-        view.set(Matrix4Row.R2, Matrix4Col.C1, cameraY.z());
+        view.set(Matrix4Row.R2, Matrix4Col.C0, cameraZ.x());
+        view.set(Matrix4Row.R2, Matrix4Col.C1, cameraZ.y());
         view.set(Matrix4Row.R2, Matrix4Col.C2, cameraZ.z());
 
-        view.set(Matrix4Row.R3, Matrix4Col.C0, cameraXProj);
-        view.set(Matrix4Row.R3, Matrix4Col.C1, cameraYProj);
-        view.set(Matrix4Row.R3, Matrix4Col.C2, cameraZProj);
+        float eyeX = position.x();
+        float eyeY = position.y();
+        float eyeZ = position.z();
+
+        view.set(Matrix4Row.R0, Matrix4Col.C3,
+                -cameraX.x() * eyeX - cameraX.y() * eyeY - cameraX.z() * eyeZ);
+        view.set(Matrix4Row.R1, Matrix4Col.C3,
+                -cameraY.x() * eyeX - cameraY.y() * eyeY - cameraY.z() * eyeZ);
+        view.set(Matrix4Row.R2, Matrix4Col.C3,
+                -cameraZ.x() * eyeX - cameraZ.y() * eyeY - cameraZ.z() * eyeZ);
     }
 
     public Matrix4 view() {
