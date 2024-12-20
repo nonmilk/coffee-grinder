@@ -24,7 +24,7 @@ public class ZBuffer {
     }
 
     public boolean draw(int x, int y, float z) {
-        if (x >= width || y >= height) {
+        if (x >= width || y >= height || x < 0 || y < 0) {
             throw new IllegalArgumentException("Accesing coordinate outside of dimensions");
         }
 
