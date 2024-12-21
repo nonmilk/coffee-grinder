@@ -5,7 +5,6 @@ import java.util.Objects;
 import io.github.shimeoki.jfx.rasterization.color.Colorf;
 import io.github.shimeoki.jfx.rasterization.color.HTMLColorf;
 import io.github.shimeoki.jfx.rasterization.math.Floats;
-import io.github.shimeoki.jfx.rasterization.triangle.color.GradientTriangleFiller;
 import io.github.shimeoki.jfx.rasterization.triangle.color.TriangleFiller;
 import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
 
@@ -78,19 +77,19 @@ public class TexturedFiller implements TriangleFiller {
     }
 
     private float alpha() {
-        int x = (int) texturedTriangle.barycentricX(lambda1, lambda2, lambda3);
-        int y = (int) texturedTriangle.barycentricY(lambda1, lambda2, lambda3);
+        int x = (int) Math.round(texturedTriangle.barycentricX(lambda1, lambda2, lambda3));
+        int y = (int) Math.round(texturedTriangle.barycentricY(lambda1, lambda2, lambda3));
         float z = texturedTriangle.barycentricZ(lambda1, lambda2, lambda3);
 
         if (!zBuffer.draw(x, y, z)) {
-            return 0;
+            return -1;
         }
 
         alpha1 = lambda1 * color1.alpha();
         alpha2 = lambda2 * color2.alpha();
         alpha3 = lambda3 * color3.alpha();
 
-        return Floats.confined(0, alpha1 + alpha2 + alpha3, 1);
+        return alpha1 + alpha2 + alpha3;
     }
 
     public void setTriangle(final TexturedTriangle texturedTriangle) {
@@ -105,6 +104,16 @@ public class TexturedFiller implements TriangleFiller {
         lambda2 = b.lambda2();
         lambda3 = b.lambda3();
 
-        return new Colorf(red(), green(), blue(), alpha());
+        float alpha = alpha();
+        if (alpha < 0) {
+            return null;
+        }
+
+        // black outline for debugging
+        if (lambda1 < 0.02 || lambda2 < 0.02 || lambda3 < 0.02) {
+            return HTMLColorf.BLACK;
+        }
+
+        return new Colorf(red(), green(), blue(), alpha);
     }
 }

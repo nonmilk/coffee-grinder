@@ -29,11 +29,11 @@ public class TexturedTriangle implements Triangle {
     }
 
     public float barycentricX(float lambda1, float lambda2, float lambda3) {
-        return v1.x() * lambda1 + v2.x() * lambda2 + v3().x() * lambda3;
+        return v1.x() * lambda1 + v2.x() * lambda2 + v3.x() * lambda3;
     }
 
     public float barycentricY(float lambda1, float lambda2, float lambda3) {
-        return v1.y() * lambda1 + v2.y() * lambda2 + v3().y() * lambda3;
+        return v1.y() * lambda1 + v2.y() * lambda2 + v3.y() * lambda3;
     }
 
     public float barycentricZ(float lambda1, float lambda2, float lambda3) {
