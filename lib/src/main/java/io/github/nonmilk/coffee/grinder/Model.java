@@ -118,9 +118,7 @@ public class Model {
 
     private void clearNormals() {
         for (final ObjVertexNormal normal : normals) {
-            normal.setI(0);
-            normal.setJ(0);
-            normal.setK(0);
+            normal.clear();
         }
     }
 
