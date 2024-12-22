@@ -43,10 +43,11 @@ public class Model {
         // FIXME recalculate normals
         normals = obj.vertexData().vertexNormals();
         faces = obj.elements().faces();
+        final int facesCount = faces.size();
 
         final List<Integer> vertexPolygonCount = new ArrayList<>(vertexCount);
 
-        for (int i = 0; i < vertexCount; i++) {
+        for (int i = 0; i < facesCount; i++) {
             // addFaceNormals(face, vertexPolygonCount);
             if (faces.get(i).triplets().size() > 3) {
                 final ObjFace face = faces.remove(i);
