@@ -63,13 +63,6 @@ public class Model {
 
         for (ObjFace face : faces) {
             clearFaceNormals(face, normalFaceCounts, vertexNormals);
-            System.out.println(face.triplets().get(2).format());
-        }
-
-        final List<Integer> vertexPolygonCount = new ArrayList<>(vertexCount);
-        // cringe
-        for (int i = 0; i < vertexCount; i++) {
-            vertexPolygonCount.add(0);
         }
 
         for (int i = faces.size() - 1; i >= 0; i--) {
@@ -142,20 +135,11 @@ public class Model {
         for (ObjTriplet triplet : face.triplets()) {
             ObjVertex vertex = triplet.vertex();
             if (normalFaceCounts.containsKey(vertex)) {
-                // normalFaceCounts.put(
-                // triplet.vertex(),
-                // normalFaceCounts.get(triplet.vertex()) + 1);
-                System.out.println("normal:");
-                System.out.println(triplet.vertexNormal());
                 triplet.setVertexNormal(vertexNormals.get(vertex));
             } else {
-
                 final ObjVertexNormal emptyNormal = new ObjVertexNormal(0, 0, 0);
                 normals.add(emptyNormal);
                 triplet.setVertexNormal(emptyNormal);
-                System.out.println(normals.size());
-                System.out.println(triplet.vertexNormal());
-                System.out.println(triplet.format());
                 normalFaceCounts.put(triplet.vertex(), 1);
                 vertexNormals.put(triplet.vertex(), emptyNormal);
             }
