@@ -61,6 +61,10 @@ public class Model {
         final int facesCount = faces.size();
 
         final List<Integer> vertexPolygonCount = new ArrayList<>(vertexCount);
+        // cringe
+        for (int i = 0; i < vertexCount; i++) {
+            vertexPolygonCount.add(0);
+        }
 
         for (int i = 0; i < facesCount; i++) {
             ObjFace face = faces.get(i);
