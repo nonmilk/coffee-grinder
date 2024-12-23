@@ -52,12 +52,21 @@ public class Model {
         final List<Integer> vertexPolygonCount = new ArrayList<>(vertexCount);
 
         for (int i = 0; i < facesCount; i++) {
-            // addFaceNormals(face, vertexPolygonCount);
-            if (faces.get(i).triplets().size() > 3) {
-                final ObjFace face = faces.remove(i);
+            ObjFace face = faces.get(i);
+            addFaceNormals(face, vertexPolygonCount);
+            if (face.triplets().size() > 3) {
+                faces.remove(i);
                 i--;
                 triangulateFace(face);
             }
+        }
+
+        for (int i = 0; i < vertexCount; i++) {
+            int scalingCoefficient = vertexPolygonCount.get(i);
+            ObjVertexNormal normal = normals.get(i);
+            normal.setI(normal.i() / scalingCoefficient);
+            normal.setJ(normal.j() / scalingCoefficient);
+            normal.setK(normal.k() / scalingCoefficient);
         }
     }
 
@@ -127,7 +136,6 @@ public class Model {
                 case VERTEX_NORMAL, ALL:
                     triplet.vertexNormal().clear();
                     break;
-            
                 default:
                     ObjVertexNormal emptyNormal = new ObjVertexNormal(0, 0, 0);
                     normals.add(emptyNormal);
@@ -137,10 +145,23 @@ public class Model {
     }
 
     private void addFaceNormals(final ObjFace face, final List<Integer> vertexPolygonCount) {
-        // FIXME sum all face normals with vertex and divide by face count
+        Vector3 normal = faceNormal(face);
+        for (ObjTriplet triplet : face.triplets()) {
+            ObjVertexNormal vertexNormal = triplet.vertexNormal();
+            vertexNormal.setI(vertexNormal.i() + normal.x());
+            vertexNormal.setJ(vertexNormal.j() + normal.y());
+            vertexNormal.setK(vertexNormal.k() + normal.z());
+
+            int vertexIndex = normals.indexOf(vertexNormal);
+            int vertexInPolygon = vertexPolygonCount.get(vertexIndex) + 1;
+            vertexPolygonCount.set(vertexIndex, vertexInPolygon);
+        }
+
     }
 
     private Vector3 faceNormal(final ObjFace face) {
+        // FIXME we might be calculating negative normals, switch order if black
+        // FIXME needs a loop for when vertices are in a line
         final ObjVertex vertex1 = face.triplets().get(0).vertex();
         final ObjVertex vertex2 = face.triplets().get(1).vertex();
         final ObjVertex vertex3 = face.triplets().get(2).vertex();
