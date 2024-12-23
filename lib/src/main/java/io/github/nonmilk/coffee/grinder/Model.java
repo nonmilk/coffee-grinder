@@ -40,10 +40,14 @@ public class Model {
         vertices = obj.vertexData().vertices();
         final int vertexCount = vertices.size();
         textureVertices = obj.vertexData().textureVertices();
-        // FIXME recalculate normals
         normals = obj.vertexData().vertexNormals();
         faces = obj.elements().faces();
         final int facesCount = faces.size();
+
+        // FIXME move calculations to a separate method
+        for (ObjFace face : faces) {
+            clearFaceNormals(face);
+        }
 
         final List<Integer> vertexPolygonCount = new ArrayList<>(vertexCount);
 
@@ -117,9 +121,18 @@ public class Model {
         return rotatedVertices;
     }
 
-    private void clearNormals() {
-        for (final ObjVertexNormal normal : normals) {
-            normal.clear();
+    private void clearFaceNormals(ObjFace face) {
+        for (ObjTriplet triplet : face.triplets()) {
+            switch (triplet.format()) {
+                case VERTEX_NORMAL, ALL:
+                    triplet.vertexNormal().clear();
+                    break;
+            
+                default:
+                    ObjVertexNormal emptyNormal = new ObjVertexNormal(0, 0, 0);
+                    normals.add(emptyNormal);
+                    triplet.setVertexNormal(emptyNormal);
+            }
         }
     }
 
