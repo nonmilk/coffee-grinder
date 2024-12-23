@@ -21,7 +21,9 @@ import io.github.nonmilk.coffee.grinder.math.Vec2f;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Model {
@@ -53,12 +55,16 @@ public class Model {
 
     public void triangulateWithNormals() {
         // MUST BE USED FOR EVERY MODEL
-        for (ObjFace face : faces) {
-            clearFaceNormals(face);
-        }
-
+        normals.clear();
         final int vertexCount = vertices.size();
-        final int facesCount = faces.size();
+
+        final Map<ObjVertex, Integer> normalFaceCounts = new HashMap<>(vertexCount);
+        final Map<ObjVertex, ObjVertexNormal> vertexNormals = new HashMap<>(vertexCount);
+
+        for (ObjFace face : faces) {
+            clearFaceNormals(face, normalFaceCounts, vertexNormals);
+            System.out.println(face.triplets().get(2).format());
+        }
 
         final List<Integer> vertexPolygonCount = new ArrayList<>(vertexCount);
         // cringe
@@ -66,22 +72,14 @@ public class Model {
             vertexPolygonCount.add(0);
         }
 
-        for (int i = 0; i < facesCount; i++) {
-            ObjFace face = faces.get(i);
-            addFaceNormals(face, vertexPolygonCount);
+        for (int i = faces.size() - 1; i >= 0; i--) {
+            final ObjFace face = faces.get(i);
+            addFaceNormals(face, normalFaceCounts);
+
             if (face.triplets().size() > 3) {
                 faces.remove(i);
-                i--;
                 triangulateFace(face);
             }
-        }
-
-        for (int i = 0; i < vertexCount; i++) {
-            int scalingCoefficient = vertexPolygonCount.get(i);
-            ObjVertexNormal normal = normals.get(i);
-            normal.setI(normal.i() / scalingCoefficient);
-            normal.setJ(normal.j() / scalingCoefficient);
-            normal.setK(normal.k() / scalingCoefficient);
         }
     }
 
@@ -137,31 +135,51 @@ public class Model {
         return rotatedVertices;
     }
 
-    private void clearFaceNormals(ObjFace face) {
+    private void clearFaceNormals(
+            final ObjFace face,
+            final Map<ObjVertex, Integer> normalFaceCounts,
+            final Map<ObjVertex, ObjVertexNormal> vertexNormals) {
         for (ObjTriplet triplet : face.triplets()) {
-            switch (triplet.format()) {
-                case VERTEX_NORMAL, ALL:
-                    triplet.vertexNormal().clear();
-                    break;
-                default:
-                    ObjVertexNormal emptyNormal = new ObjVertexNormal(0, 0, 0);
-                    normals.add(emptyNormal);
-                    triplet.setVertexNormal(emptyNormal);
+            ObjVertex vertex = triplet.vertex();
+            if (normalFaceCounts.containsKey(vertex)) {
+                // normalFaceCounts.put(
+                // triplet.vertex(),
+                // normalFaceCounts.get(triplet.vertex()) + 1);
+                System.out.println("normal:");
+                System.out.println(triplet.vertexNormal());
+                triplet.setVertexNormal(vertexNormals.get(vertex));
+            } else {
+
+                final ObjVertexNormal emptyNormal = new ObjVertexNormal(0, 0, 0);
+                normals.add(emptyNormal);
+                triplet.setVertexNormal(emptyNormal);
+                System.out.println(normals.size());
+                System.out.println(triplet.vertexNormal());
+                System.out.println(triplet.format());
+                normalFaceCounts.put(triplet.vertex(), 1);
+                vertexNormals.put(triplet.vertex(), emptyNormal);
             }
         }
     }
 
-    private void addFaceNormals(final ObjFace face, final List<Integer> vertexPolygonCount) {
-        Vector3 normal = faceNormal(face);
+    private void addFaceNormals(final ObjFace face, final Map<ObjVertex, Integer> normalFaceCounts) {
+        final Vector3 normal = faceNormal(face);
         for (ObjTriplet triplet : face.triplets()) {
-            ObjVertexNormal vertexNormal = triplet.vertexNormal();
-            vertexNormal.setI(vertexNormal.i() + normal.x());
-            vertexNormal.setJ(vertexNormal.j() + normal.y());
-            vertexNormal.setK(vertexNormal.k() + normal.z());
+            System.out.println(triplet.format());
+            final ObjVertexNormal vertexNormal = triplet.vertexNormal();
+            final ObjVertex vertex = triplet.vertex();
+            final int scalingCoefficient = normalFaceCounts.get(vertex);
+            final int scalingIncremented = scalingCoefficient + 1;
+            // calculates avg in one pass
+            // some consider it to be unnatural
+            vertexNormal.setI(
+                    (vertexNormal.i() * scalingCoefficient + normal.x()) / scalingIncremented);
+            vertexNormal.setJ(
+                    (vertexNormal.j() * scalingCoefficient + normal.y()) / scalingIncremented);
+            vertexNormal.setK(
+                    (vertexNormal.k() * scalingCoefficient + normal.z()) / scalingIncremented);
 
-            int vertexIndex = normals.indexOf(vertexNormal);
-            int vertexInPolygon = vertexPolygonCount.get(vertexIndex) + 1;
-            vertexPolygonCount.set(vertexIndex, vertexInPolygon);
+            normalFaceCounts.put(vertex, scalingIncremented);
         }
 
     }
