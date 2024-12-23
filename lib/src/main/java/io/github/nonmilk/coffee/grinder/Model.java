@@ -173,6 +173,6 @@ public class Model {
         final Vector3 edge1 = Vec3Math.subtracted(vector2, vector1);
         final Vector3 edge2 = Vec3Math.subtracted(vector3, vector2);
 
-        return Vec3Math.cross(edge1, edge2);
+        return Vec3Math.normalized(Vec3Math.cross(edge1, edge2));
     }
 }
