@@ -38,16 +38,27 @@ public class Model {
 
     public Model(final ObjFile obj) {
         vertices = obj.vertexData().vertices();
-        final int vertexCount = vertices.size();
         textureVertices = obj.vertexData().textureVertices();
         normals = obj.vertexData().vertexNormals();
         faces = obj.elements().faces();
-        final int facesCount = faces.size();
+    }
 
-        // FIXME move calculations to a separate method
+    public Matrix4 modelMatrix() {
+        return modelMatrix;
+    }
+
+    public List<ObjFace> faces() {
+        return faces;
+    }
+
+    public void triangulateWithNormals() {
+        // MUST BE USED FOR EVERY MODEL
         for (ObjFace face : faces) {
             clearFaceNormals(face);
         }
+
+        final int vertexCount = vertices.size();
+        final int facesCount = faces.size();
 
         final List<Integer> vertexPolygonCount = new ArrayList<>(vertexCount);
 
@@ -68,14 +79,6 @@ public class Model {
             normal.setJ(normal.j() / scalingCoefficient);
             normal.setK(normal.k() / scalingCoefficient);
         }
-    }
-
-    public Matrix4 modelMatrix() {
-        return modelMatrix;
-    }
-
-    public List<ObjFace> faces() {
-        return faces;
     }
 
     private void triangulateFace(final ObjFace face) {
