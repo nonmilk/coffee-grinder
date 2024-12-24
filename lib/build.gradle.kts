@@ -15,6 +15,7 @@ dependencies {
     implementation("io.github.shimeoki:jshaper:0.10.2")
     implementation("io.github.traunin:triangulation:1.1.0")
     implementation("io.github.alphameo:linear_algebra:1.0.0")
+    implementation(files("../libs/Graphic_Conveyor-1.1.0.jar"))
 }
 
 java {

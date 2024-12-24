@@ -6,6 +6,7 @@ module io.github.nonmilk.coffee.grinder {
     // not transitive
     requires io.github.shimeoki.jfx.rasterization;
     requires io.github.traunin.triangulation;
+    requires ru.vsu.cs.konygina_d.render_engine;
 
     // transitive
     requires transitive io.github.shimeoki.jshaper;
