@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import io.github.shimeoki.jfx.rasterization.color.Colorf;
 import io.github.shimeoki.jfx.rasterization.color.HTMLColorf;
-import io.github.shimeoki.jfx.rasterization.math.Floats;
 import io.github.shimeoki.jfx.rasterization.triangle.color.TriangleFiller;
 import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
 
@@ -57,7 +56,7 @@ public class TexturedFiller implements TriangleFiller {
         red2 = lambda2 * color2.red();
         red3 = lambda3 * color3.red();
 
-        return Floats.confined(0, red1 + red2 + red3, 1);
+        return red1 + red2 + red3;
     }
 
     private float green() {
@@ -65,7 +64,7 @@ public class TexturedFiller implements TriangleFiller {
         green2 = lambda2 * color2.green();
         green3 = lambda3 * color3.green();
 
-        return Floats.confined(0, green1 + green2 + green3, 1);
+        return green1 + green2 + green3;
     }
 
     private float blue() {
@@ -73,7 +72,7 @@ public class TexturedFiller implements TriangleFiller {
         blue2 = lambda2 * color2.blue();
         blue3 = lambda3 * color3.blue();
 
-        return Floats.confined(0, blue1 + blue2 + blue3, 1);
+        return blue1 + blue2 + blue3;
     }
 
     private float alpha() {
