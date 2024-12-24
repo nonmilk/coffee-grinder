@@ -74,6 +74,13 @@ public class Model {
                 triangulateFace(face);
             }
         }
+
+        for (ObjVertexNormal normal : normals) {
+            float length = Vec3Math.len(new Vec3f(normal.i(), normal.j(), normal.k()));
+            normal.setI(normal.i() / length);
+            normal.setJ(normal.j() / length);
+            normal.setK(normal.k() / length);
+        }
     }
 
     private void triangulateFace(final ObjFace face) {
@@ -140,7 +147,7 @@ public class Model {
                 final ObjVertexNormal emptyNormal = new ObjVertexNormal(0, 0, 0);
                 normals.add(emptyNormal);
                 triplet.setVertexNormal(emptyNormal);
-                normalFaceCounts.put(triplet.vertex(), 1);
+                normalFaceCounts.put(triplet.vertex(), 0);
                 vertexNormals.put(triplet.vertex(), emptyNormal);
             }
         }
@@ -149,7 +156,6 @@ public class Model {
     private void addFaceNormals(final ObjFace face, final Map<ObjVertex, Integer> normalFaceCounts) {
         final Vector3 normal = faceNormal(face);
         for (ObjTriplet triplet : face.triplets()) {
-            System.out.println(triplet.format());
             final ObjVertexNormal vertexNormal = triplet.vertexNormal();
             final ObjVertex vertex = triplet.vertex();
             final int scalingCoefficient = normalFaceCounts.get(vertex);

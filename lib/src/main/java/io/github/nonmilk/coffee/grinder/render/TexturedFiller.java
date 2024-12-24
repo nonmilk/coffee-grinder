@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import io.github.shimeoki.jfx.rasterization.color.Colorf;
 import io.github.shimeoki.jfx.rasterization.color.HTMLColorf;
-import io.github.shimeoki.jfx.rasterization.math.Floats;
 import io.github.shimeoki.jfx.rasterization.triangle.color.TriangleFiller;
 import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
 
@@ -14,6 +13,7 @@ public class TexturedFiller implements TriangleFiller {
     private final Colorf color3;
 
     private final ZBuffer zBuffer;
+    private float baseBrightness;
 
     private float lambda1;
     private float lambda2;
@@ -44,12 +44,25 @@ public class TexturedFiller implements TriangleFiller {
      *
      * @throws NullPointerException if z-buffer is {@code null}
      */
-    public TexturedFiller(final ZBuffer zBuffer) {
+    public TexturedFiller(final ZBuffer zBuffer, final float baseBrightness) {
         // FIXME use triangle textures
         this.zBuffer = Objects.requireNonNull(zBuffer);
         color1 = HTMLColorf.RED;
         color2 = HTMLColorf.LIME;
         color3 = HTMLColorf.BLUE;
+        setBrightness(baseBrightness);
+    }
+
+    public float baseBrightness() {
+        return baseBrightness;
+    }
+
+    public void setBrightness(float brightness) {
+        if (brightness < 0 || brightness > 1) {
+            throw new IllegalArgumentException("Brightness has to be in [0, 1]");
+        }
+
+        this.baseBrightness = brightness;
     }
 
     private float red() {
@@ -57,7 +70,7 @@ public class TexturedFiller implements TriangleFiller {
         red2 = lambda2 * color2.red();
         red3 = lambda3 * color3.red();
 
-        return Floats.confined(0, red1 + red2 + red3, 1);
+        return red1 + red2 + red3;
     }
 
     private float green() {
@@ -65,7 +78,7 @@ public class TexturedFiller implements TriangleFiller {
         green2 = lambda2 * color2.green();
         green3 = lambda3 * color3.green();
 
-        return Floats.confined(0, green1 + green2 + green3, 1);
+        return green1 + green2 + green3;
     }
 
     private float blue() {
@@ -73,7 +86,7 @@ public class TexturedFiller implements TriangleFiller {
         blue2 = lambda2 * color2.blue();
         blue3 = lambda3 * color3.blue();
 
-        return Floats.confined(0, blue1 + blue2 + blue3, 1);
+        return blue1 + blue2 + blue3;
     }
 
     private float alpha() {
@@ -110,10 +123,13 @@ public class TexturedFiller implements TriangleFiller {
         }
 
         // black outline for debugging
-        if (lambda1 < 0.02 || lambda2 < 0.02 || lambda3 < 0.02) {
-            return HTMLColorf.BLACK;
-        }
+        // if (lambda1 < 0.02 || lambda2 < 0.02 || lambda3 < 0.02) {
+        //     return HTMLColorf.BLACK;
+        // }
 
-        return new Colorf(red(), green(), blue(), alpha);
+        float normalLightness =  texturedTriangle.lightness(lambda1, lambda2, lambda3);
+        float lightness = baseBrightness + (1 - baseBrightness) * normalLightness;
+
+        return new Colorf(red() * lightness, green() * lightness, blue() * lightness, alpha);
     }
 }
