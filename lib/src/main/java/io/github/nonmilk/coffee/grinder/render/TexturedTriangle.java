@@ -53,7 +53,7 @@ public class TexturedTriangle implements Triangle {
         Vec4Math.divide(vertex, vertex.w());
 
         float width = transform.width();
-        float height = transform.heigth();
+        float height = transform.height();
         return new Vec3f(
                 vertex.x() * width + width / 2,
                 -vertex.y() * height + height / 2,

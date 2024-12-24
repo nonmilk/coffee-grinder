@@ -59,7 +59,7 @@ public class ScreenTransform {
         return (float) canvas.getWidth();
     }
 
-    public float heigth() {
+    public float height() {
         return (float) canvas.getHeight();
     }
 }
