@@ -13,6 +13,7 @@ public class TexturedFiller implements TriangleFiller {
     private final Colorf color3;
 
     private final ZBuffer zBuffer;
+    private float baseBrightness;
 
     private float lambda1;
     private float lambda2;
@@ -43,12 +44,25 @@ public class TexturedFiller implements TriangleFiller {
      *
      * @throws NullPointerException if z-buffer is {@code null}
      */
-    public TexturedFiller(final ZBuffer zBuffer) {
+    public TexturedFiller(final ZBuffer zBuffer, final float baseBrightness) {
         // FIXME use triangle textures
         this.zBuffer = Objects.requireNonNull(zBuffer);
         color1 = HTMLColorf.RED;
         color2 = HTMLColorf.LIME;
         color3 = HTMLColorf.BLUE;
+        setBrightness(baseBrightness);
+    }
+
+    public float baseBrightness() {
+        return baseBrightness;
+    }
+
+    public void setBrightness(float brightness) {
+        if (brightness < 0 || brightness > 1) {
+            throw new IllegalArgumentException("Brightness has to be in [0, 1]");
+        }
+
+        this.baseBrightness = brightness;
     }
 
     private float red() {
@@ -109,10 +123,13 @@ public class TexturedFiller implements TriangleFiller {
         }
 
         // black outline for debugging
-        if (lambda1 < 0.02 || lambda2 < 0.02 || lambda3 < 0.02) {
-            return HTMLColorf.BLACK;
-        }
+        // if (lambda1 < 0.02 || lambda2 < 0.02 || lambda3 < 0.02) {
+        //     return HTMLColorf.BLACK;
+        // }
 
-        return new Colorf(red(), green(), blue(), alpha);
+        float normalLightness =  texturedTriangle.lightness(lambda1, lambda2, lambda3);
+        float lightness = baseBrightness + (1 - baseBrightness) * normalLightness;
+
+        return new Colorf(red() * lightness, green() * lightness, blue() * lightness, alpha);
     }
 }

@@ -23,7 +23,7 @@ public class Renderer {
         triangler = new IntBresenhamTriangler(ctx);
         // FIXME get screen dimensions?
         this.zBuffer = new ZBuffer(1920, 1080);
-        this.texturedFiller = new TexturedFiller(zBuffer);
+        this.texturedFiller = new TexturedFiller(zBuffer, 0.5f);
         triangler.setFiller(texturedFiller);
     }
 
