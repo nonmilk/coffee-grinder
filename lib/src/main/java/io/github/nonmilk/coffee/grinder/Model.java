@@ -149,7 +149,6 @@ public class Model {
     private void addFaceNormals(final ObjFace face, final Map<ObjVertex, Integer> normalFaceCounts) {
         final Vector3 normal = faceNormal(face);
         for (ObjTriplet triplet : face.triplets()) {
-            System.out.println(triplet.format());
             final ObjVertexNormal vertexNormal = triplet.vertexNormal();
             final ObjVertex vertex = triplet.vertex();
             final int scalingCoefficient = normalFaceCounts.get(vertex);
