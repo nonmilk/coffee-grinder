@@ -16,8 +16,7 @@ public class ScreenTransform {
     private final Matrix4 projection;
     private final Matrix4 viewProjection;
     private final Matrix4 model;
-    private final float width;
-    private final float height;
+    private final Canvas canvas;
     private final Vector3 lightRay;
 
     public ScreenTransform(
@@ -33,9 +32,7 @@ public class ScreenTransform {
         this.viewProjection = Mat4Math.prod(projection, view);
         this.lightRay = Vec3Math.normalized(camera.orientation().lookDir());
 
-        Canvas canvas = Objects.requireNonNull(ctx).getCanvas();
-        this.width = (float) canvas.getWidth();
-        this.height = (float) canvas.getHeight();
+        this.canvas = Objects.requireNonNull(ctx).getCanvas();
     }
 
     public Matrix4 view() {
@@ -59,10 +56,10 @@ public class ScreenTransform {
     }
 
     public float width() {
-        return width;
+        return (float) canvas.getWidth();
     }
 
     public float heigth() {
-        return height;
+        return (float) canvas.getHeight();
     }
 }
