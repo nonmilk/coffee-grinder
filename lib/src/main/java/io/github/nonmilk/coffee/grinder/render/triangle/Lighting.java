@@ -12,8 +12,7 @@ public class Lighting {
     private Vector3 ray;
 
     public Lighting(final float baseBrightness) {
-        setRay(new Vec3f(1, 0, 0));
-        setRay(ray);
+        this(baseBrightness, new Vec3f(1, 0, 0));
     }
 
     public Lighting(final float baseBrightness, final Vector3 ray) {
