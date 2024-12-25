@@ -14,12 +14,12 @@ import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 
-public class Positioning {
+public class Shape {
     private Vec3f v1;
     private Vec3f v2;
     private Vec3f v3;
 
-    public Positioning(final Vec3f v1, final Vec3f v2, final Vec3f v3) {
+    public Shape(final Vec3f v1, final Vec3f v2, final Vec3f v3) {
         this.v1 = Objects.requireNonNull(v1);
         this.v2 = Objects.requireNonNull(v2);
         this.v3 = Objects.requireNonNull(v3);
@@ -37,7 +37,7 @@ public class Positioning {
         return v3;
     }
 
-    public static Positioning makePositioningFromFace(final ObjFace face, final ScreenTransform transform) {
+    public static Shape makeShapeFromFace(final ObjFace face, final ScreenTransform transform) {
         Objects.requireNonNull(face);
         Objects.requireNonNull(transform);
         final List<ObjTriplet> triplets = face.triplets();
@@ -48,7 +48,7 @@ public class Positioning {
         final Vec3f v1 = vertexToScreen(triplet1.vertex(), transform);
         final Vec3f v2 = vertexToScreen(triplet2.vertex(), transform);
         final Vec3f v3 = vertexToScreen(triplet3.vertex(), transform);
-        return new Positioning(v1, v2, v3);
+        return new Shape(v1, v2, v3);
     }
 
     private static Vec3f vertexToScreen(final ObjVertex objVertex, final ScreenTransform transform) {

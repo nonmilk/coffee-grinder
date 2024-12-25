@@ -81,9 +81,9 @@ public class TexturedFiller implements TriangleFiller {
     }
 
     private float alpha() {
-        int x = (int) Math.round(renderedFace.positioning().barycentricX(triangleBarycentrics));
-        int y = (int) Math.round(renderedFace.positioning().barycentricY(triangleBarycentrics));
-        float z = renderedFace.positioning().barycentricZ(triangleBarycentrics);
+        int x = (int) Math.round(renderedFace.shape().barycentricX(triangleBarycentrics));
+        int y = (int) Math.round(renderedFace.shape().barycentricY(triangleBarycentrics));
+        float z = renderedFace.shape().barycentricZ(triangleBarycentrics);
 
         if (!zBuffer.draw(x, y, z)) {
             return -1;
