@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.mat.Mat4Math;
-import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vec4Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.alphameo.linear_algebra.vec.Vector4;
+import io.github.nonmilk.coffee.grinder.math.UnitVec3f;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
 import io.github.nonmilk.coffee.grinder.math.Vec4f;
 import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
-import io.github.shimeoki.jfx.rasterization.math.Floats;
 import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
@@ -22,14 +21,10 @@ public class Normal {
     private Vector3 v2n;
     private Vector3 v3n;
 
-    public Normal(final Vector3 v1n, final Vector3 v2n, final Vector3 v3n) {
-        checkNormalized(v1n);
-        checkNormalized(v2n);
-        checkNormalized(v3n);
-
-        this.v1n = v1n;
-        this.v2n = v2n;
-        this.v3n = v3n;
+    public Normal(final UnitVec3f v1n, final UnitVec3f v2n, final UnitVec3f v3n) {
+        this.v1n = Objects.requireNonNull(v1n);
+        this.v2n = Objects.requireNonNull(v2n);
+        this.v3n = Objects.requireNonNull(v3n);
     }
 
     public Vector3 barycentricNormal(final TriangleBarycentrics barycentrics) {
@@ -57,17 +52,6 @@ public class Normal {
     public Vector3 v3n() {
         return v3n;
     }
-    
-    private static void checkNormalized(Vector3 normal) {
-        Objects.requireNonNull(normal);
-
-        // length check, likely hurts performance, uncomment if needed
-        /*
-        if (!Floats.equals(1, Vec3Math.len2(normal))) {
-            throw new IllegalArgumentException("Input is not normalized");
-        }
-         */
-    }
 
     public static Normal makeNormalFromFace(final ObjFace face, final ScreenTransform transform) {
         Objects.requireNonNull(face);
@@ -78,23 +62,20 @@ public class Normal {
         final ObjTriplet triplet2 = triplets.get(1);
         final ObjTriplet triplet3 = triplets.get(2);
 
-        final Vector3 v1n = normalToWorld(triplet1.vertexNormal(), transform);
-        final Vector3 v2n = normalToWorld(triplet2.vertexNormal(), transform);
-        final Vector3 v3n = normalToWorld(triplet3.vertexNormal(), transform);
+        final UnitVec3f v1n = normalToWorld(triplet1.vertexNormal(), transform);
+        final UnitVec3f v2n = normalToWorld(triplet2.vertexNormal(), transform);
+        final UnitVec3f v3n = normalToWorld(triplet3.vertexNormal(), transform);
 
         return new Normal(v1n, v2n, v3n);
     }
 
-    private static Vec3f normalToWorld(final ObjVertexNormal objNormal, final ScreenTransform transform) {
-        Vector4 vertex = new Vec4f(objNormal);
-        vertex = Mat4Math.prod(transform.model(), vertex);
+    private static UnitVec3f normalToWorld(final ObjVertexNormal objNormal, final ScreenTransform transform) {
+        Vector4 v = new Vec4f(objNormal);
+        v = Mat4Math.prod(transform.model(), v);
         // do we need to convert them to camera?
         // vertex = Mat4Math.prod(transform.view(), vertex);
-        Vec4Math.divide(vertex, vertex.w());
+        Vec4Math.divide(v, v.w());
 
-        return new Vec3f(
-                vertex.x(),
-                vertex.y(),
-                vertex.z());
+        return new UnitVec3f(v.x(), v.y(), v.z());
     }
 }
