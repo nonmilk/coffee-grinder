@@ -2,6 +2,8 @@ package io.github.nonmilk.coffee.grinder.render;
 
 import java.util.Objects;
 
+import io.github.alphameo.linear_algebra.vec.Vector3;
+import io.github.nonmilk.coffee.grinder.render.triangle.Lighting;
 import io.github.shimeoki.jfx.rasterization.color.Colorf;
 import io.github.shimeoki.jfx.rasterization.color.HTMLColorf;
 import io.github.shimeoki.jfx.rasterization.triangle.color.TriangleFiller;
@@ -13,7 +15,7 @@ public class TexturedFiller implements TriangleFiller {
     private final Colorf color3;
 
     private final ZBuffer zBuffer;
-    private float baseBrightness;
+    private final Lighting lighting;
 
     private float lambda1;
     private float lambda2;
@@ -34,8 +36,9 @@ public class TexturedFiller implements TriangleFiller {
     private float alpha1;
     private float alpha2;
     private float alpha3;
+    private TriangleBarycentrics triangleBarycentrics;
 
-    private TexturedTriangle texturedTriangle;
+    private RenderedFace renderedFace;
 
     /**
      * Creates a new {@link TexturedFiller} instance.
@@ -44,25 +47,13 @@ public class TexturedFiller implements TriangleFiller {
      *
      * @throws NullPointerException if z-buffer is {@code null}
      */
-    public TexturedFiller(final ZBuffer zBuffer, final float baseBrightness) {
+    public TexturedFiller(final ZBuffer zBuffer, final Lighting lighting) {
         // FIXME use triangle textures
         this.zBuffer = Objects.requireNonNull(zBuffer);
+        this.lighting = Objects.requireNonNull(lighting);
         color1 = HTMLColorf.RED;
         color2 = HTMLColorf.LIME;
         color3 = HTMLColorf.BLUE;
-        setBrightness(baseBrightness);
-    }
-
-    public float baseBrightness() {
-        return baseBrightness;
-    }
-
-    public void setBrightness(float brightness) {
-        if (brightness < 0 || brightness > 1) {
-            throw new IllegalArgumentException("Brightness has to be in [0, 1]");
-        }
-
-        this.baseBrightness = brightness;
     }
 
     private float red() {
@@ -90,9 +81,9 @@ public class TexturedFiller implements TriangleFiller {
     }
 
     private float alpha() {
-        int x = (int) Math.round(texturedTriangle.barycentricX(lambda1, lambda2, lambda3));
-        int y = (int) Math.round(texturedTriangle.barycentricY(lambda1, lambda2, lambda3));
-        float z = texturedTriangle.barycentricZ(lambda1, lambda2, lambda3);
+        int x = (int) Math.round(renderedFace.shape().barycentricX(triangleBarycentrics));
+        int y = (int) Math.round(renderedFace.shape().barycentricY(triangleBarycentrics));
+        float z = renderedFace.shape().barycentricZ(triangleBarycentrics);
 
         if (!zBuffer.draw(x, y, z)) {
             return -1;
@@ -105,8 +96,8 @@ public class TexturedFiller implements TriangleFiller {
         return alpha1 + alpha2 + alpha3;
     }
 
-    public void setTriangle(final TexturedTriangle texturedTriangle) {
-        this.texturedTriangle = Objects.requireNonNull(texturedTriangle);
+    public void setTriangle(final RenderedFace renderedFace) {
+        this.renderedFace = Objects.requireNonNull(renderedFace);
     }
 
     @Override
@@ -116,6 +107,7 @@ public class TexturedFiller implements TriangleFiller {
         lambda1 = b.lambda1();
         lambda2 = b.lambda2();
         lambda3 = b.lambda3();
+        triangleBarycentrics = b;
 
         float alpha = alpha();
         if (alpha < 0) {
@@ -124,11 +116,12 @@ public class TexturedFiller implements TriangleFiller {
 
         // black outline for debugging
         // if (lambda1 < 0.02 || lambda2 < 0.02 || lambda3 < 0.02) {
-        //     return HTMLColorf.BLACK;
+        // return HTMLColorf.BLACK;
         // }
+        
+        Vector3 normal = renderedFace.normal().barycentricNormal(b);
 
-        float normalLightness =  texturedTriangle.lightness(lambda1, lambda2, lambda3);
-        float lightness = baseBrightness + (1 - baseBrightness) * normalLightness;
+        float lightness = lighting.lightness(normal);
 
         return new Colorf(red() * lightness, green() * lightness, blue() * lightness, alpha);
     }

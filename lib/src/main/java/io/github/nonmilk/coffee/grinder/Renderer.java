@@ -1,11 +1,13 @@
 package io.github.nonmilk.coffee.grinder;
 
+import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.nonmilk.coffee.grinder.camera.Camera;
 import io.github.nonmilk.coffee.grinder.render.Scene;
 import io.github.nonmilk.coffee.grinder.render.TexturedFiller;
-import io.github.nonmilk.coffee.grinder.render.TexturedTriangle;
+import io.github.nonmilk.coffee.grinder.render.RenderedFace;
 import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
 import io.github.nonmilk.coffee.grinder.render.ZBuffer;
+import io.github.nonmilk.coffee.grinder.render.triangle.Lighting;
 import io.github.shimeoki.jfx.rasterization.triangle.IntBresenhamTriangler;
 import io.github.shimeoki.jfx.rasterization.triangle.Triangler;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
@@ -17,13 +19,15 @@ public class Renderer {
     private Triangler triangler;
     private TexturedFiller texturedFiller;
     private ZBuffer zBuffer;
+    private Lighting lighting;
 
     public Renderer(GraphicsContext ctx) {
         this.ctx = ctx;
         triangler = new IntBresenhamTriangler(ctx);
         // FIXME get screen dimensions?
         this.zBuffer = new ZBuffer(1920, 1080);
-        this.texturedFiller = new TexturedFiller(zBuffer, 0.5f);
+        this.lighting = new Lighting(0.3f);
+        this.texturedFiller = new TexturedFiller(zBuffer, lighting);
         triangler.setFiller(texturedFiller);
     }
 
@@ -51,9 +55,10 @@ public class Renderer {
     // assumes a model was triangulated
     private void renderModel(Model model) {
         for (ObjFace face : model.faces()) {
-            ScreenTransform transform = new ScreenTransform(
-                model, scene.selectedCamera(), ctx);
-            TexturedTriangle triangle = new TexturedTriangle(face, transform);
+            Camera camera = scene.selectedCamera();
+            ScreenTransform transform = new ScreenTransform(model, camera, ctx);
+            lighting.setRay(Vec3Math.normalized(camera.orientation().lookDir()));
+            RenderedFace triangle = new RenderedFace(face, transform);
             texturedFiller.setTriangle(triangle);
 
             triangler.draw(triangle);
