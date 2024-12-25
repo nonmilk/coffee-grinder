@@ -1,6 +1,11 @@
 package io.github.nonmilk.coffee.grinder;
 
-import io.github.alphameo.linear_algebra.mat.*;
+import io.github.alphameo.linear_algebra.mat.Mat3;
+import io.github.alphameo.linear_algebra.mat.Mat3Math;
+import io.github.alphameo.linear_algebra.mat.Matrix3;
+import io.github.alphameo.linear_algebra.mat.Mat4;
+import io.github.alphameo.linear_algebra.mat.Mat4Math;
+import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.shimeoki.jshaper.obj.data.ObjFile;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
@@ -9,15 +14,22 @@ import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import io.github.traunin.triangulation.Triangulation;
-import ru.vsu.cs.konygina_d.render_engine.*;
 import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.nonmilk.coffee.grinder.math.Floats;
 import io.github.nonmilk.coffee.grinder.math.Vec2f;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
+import ru.vsu.cs.konygina_d.render_engine.Rotator;
+import ru.vsu.cs.konygina_d.render_engine.Scaling;
+import ru.vsu.cs.konygina_d.render_engine.Translator;
+import ru.vsu.cs.konygina_d.render_engine.Transformation;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
 
 public class Model {
 
