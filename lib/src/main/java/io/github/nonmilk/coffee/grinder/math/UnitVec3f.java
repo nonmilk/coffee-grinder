@@ -9,10 +9,10 @@ public class UnitVec3f implements Vector3 {
     private float z;
 
     public UnitVec3f(float x, float y, float z) {
-        if (!Floats.equals(1, x * x + y * y + z * z)) {
+        if (!Floats.laxEquals(1, x * x + y * y + z * z)) {
             throw new IllegalArgumentException("Unit vector has to have length 1");
         }
-        
+
         this.x = x;
         this.y = y;
         this.z = z;
