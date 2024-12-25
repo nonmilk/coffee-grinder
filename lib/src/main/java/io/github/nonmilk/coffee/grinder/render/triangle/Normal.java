@@ -8,9 +8,9 @@ import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
 
 public class Normal {
-    private final Vector3 v1n;
-    private final Vector3 v2n;
-    private final Vector3 v3n;
+    private Vector3 v1n;
+    private Vector3 v2n;
+    private Vector3 v3n;
 
     public Normal(final Vector3 v1n, final Vector3 v2n, final Vector3 v3n) {
         Objects.requireNonNull(v1n);
@@ -68,5 +68,17 @@ public class Normal {
 
     public Vector3 v3n() {
         return v3n;
+    }
+
+    public void setV1n(Vector3 v1n) {
+        this.v1n = v1n;
+    }
+
+    public void setV2n(Vector3 v2n) {
+        this.v2n = v2n;
+    }
+
+    public void setV3n(Vector3 v3n) {
+        this.v3n = v3n;
     }
 }
