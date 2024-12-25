@@ -37,18 +37,6 @@ public class Positioning {
         return v3;
     }
 
-    public void setV1(Vec3f v1) {
-        this.v1 = Objects.requireNonNull(v1);
-    }
-
-    public void setV2(Vec3f v2) {
-        this.v1 = Objects.requireNonNull(v2);
-    }
-
-    public void setV3(Vec3f v3) {
-        this.v1 = Objects.requireNonNull(v3);
-    }
-
     public static Positioning makePositioningFromFace(final ObjFace face, final ScreenTransform transform) {
         Objects.requireNonNull(face);
         Objects.requireNonNull(transform);

@@ -57,22 +57,7 @@ public class Normal {
     public Vector3 v3n() {
         return v3n;
     }
-
-    public void setV1n(final Vector3 v1n) {
-        checkNormalized(v1n);
-        this.v1n = v1n;
-    }
-
-    public void setV2n(final Vector3 v2n) {
-        checkNormalized(v2n);
-        this.v2n = v2n;
-    }
-
-    public void setV3n(final Vector3 v3n) {
-        checkNormalized(v3n);
-        this.v3n = v3n;
-    }
-
+    
     private static void checkNormalized(Vector3 normal) {
         Objects.requireNonNull(normal);
 
