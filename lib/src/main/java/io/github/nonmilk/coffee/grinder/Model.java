@@ -1,11 +1,5 @@
 package io.github.nonmilk.coffee.grinder;
 
-import io.github.alphameo.linear_algebra.mat.Mat3;
-import io.github.alphameo.linear_algebra.mat.Mat3Math;
-import io.github.alphameo.linear_algebra.mat.Matrix3;
-import io.github.alphameo.linear_algebra.mat.Mat4;
-import io.github.alphameo.linear_algebra.mat.Mat4Math;
-import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.shimeoki.jshaper.obj.data.ObjFile;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
@@ -14,21 +8,22 @@ import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import io.github.traunin.triangulation.Triangulation;
+import io.github.alphameo.linear_algebra.mat.Mat3;
+import io.github.alphameo.linear_algebra.mat.Mat3Math;
+import io.github.alphameo.linear_algebra.mat.Mat4;
+import io.github.alphameo.linear_algebra.mat.Matrix4;
+import io.github.alphameo.linear_algebra.mat.Matrix3;
 import io.github.alphameo.linear_algebra.vec.Vec3;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.nonmilk.coffee.grinder.math.Floats;
 import io.github.nonmilk.coffee.grinder.math.Vec2f;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
-import ru.vsu.cs.konygina_d.render_engine.Rotator;
-import ru.vsu.cs.konygina_d.render_engine.Scaling;
-import ru.vsu.cs.konygina_d.render_engine.Translator;
-import ru.vsu.cs.konygina_d.render_engine.Transformation;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Model {
@@ -37,15 +32,11 @@ public class Model {
     private final List<ObjTextureVertex> textureVertices;
     private final List<ObjFace> faces;
     private final List<ObjVertexNormal> normals;
-    private Matrix4 modelMatrix = Mat4Math.unitMat();
-
-    private final Scaling scaling = new Scaling();
-    RotationOrder rotationOrder = RotationOrder.XYZ;
-    private final Rotator rotatorX = new Rotator(Rotator.Axis.X);
-    private final Rotator rotatorY = new Rotator(Rotator.Axis.Y);
-    private final Rotator rotatorZ = new Rotator(Rotator.Axis.Z);
-    private final Translator translator = new Translator();
-    private boolean calculated = false;
+    private final Matrix4 modelMatrix = new Mat4(
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1);
 
     public Model(final ObjFile obj) {
         vertices = obj.vertexData().vertices();
@@ -54,101 +45,8 @@ public class Model {
         faces = obj.elements().faces();
     }
 
-    public enum RotationOrder {
-        XYZ, XZY, YXZ, YZX, ZXY, ZYX;
-    }
-
     public Matrix4 modelMatrix() {
-        if (calculated) {
-            return new Mat4(modelMatrix);
-        }
-
-        Transformation at = constructTransformation(rotationOrder);
-        modelMatrix = at.getMatrix();
-        calculated = true;
-
-        return new Mat4(modelMatrix);
-    }
-
-    private Transformation constructTransformation(RotationOrder order) {
-        switch (order) {
-            case XYZ -> {
-                return new Transformation(translator, rotatorZ, rotatorY, rotatorX, scaling);
-            }
-            case XZY -> {
-                return new Transformation(translator, rotatorY, rotatorZ, rotatorX, scaling);
-            }
-            case YXZ -> {
-                return new Transformation(translator, rotatorZ, rotatorX, rotatorY, scaling);
-            }
-            case YZX -> {
-                return new Transformation(translator, rotatorX, rotatorZ, rotatorY, scaling);
-            }
-            case ZXY -> {
-                return new Transformation(translator, rotatorY, rotatorX, rotatorZ, scaling);
-            }
-            case ZYX -> {
-                return new Transformation(translator, rotatorX, rotatorY, rotatorZ, scaling);
-            }
-            default -> {
-                return constructTransformation(RotationOrder.XYZ);
-            }
-        }
-    }
-
-    public void scale(float x, float y, float z) {
-        scaling.set(x, y, z);
-        calculated = false;
-    }
-
-    public void scaleRelative(float dx, float dy, float dz) {
-        scaling.setRelative(dx, dy, dz);
-        calculated = false;
-    }
-
-    public void translate(float x, float y, float z) {
-        translator.set(x, y, z);
-        calculated = false;
-    }
-
-    public void translateRelative(float dx, float dy, float dz) {
-        translator.setRelative(dx, dy, dz);
-        calculated = false;
-    }
-
-    public void rotateX(float angle) {
-        rotatorX.setAngle(angle);
-        calculated = false;
-    }
-
-    public void rotateXRelative(float dAngle) {
-        rotatorX.setAngle(dAngle);
-        calculated = false;
-    }
-
-    public void rotateY(float angle) {
-        rotatorY.setAngle(angle);
-        calculated = false;
-    }
-
-    public void rotateYRelative(float dAngle) {
-        rotatorY.setAngle(dAngle);
-        calculated = false;
-    }
-
-    public void rotateZ(float angle) {
-        rotatorZ.setAngle(angle);
-        calculated = false;
-    }
-
-    public void rotateZRelative(float dAngle) {
-        rotatorZ.setAngle(dAngle);
-        calculated = false;
-    }
-
-    public void setRotationOrder(RotationOrder order) {
-        this.rotationOrder = order;
-        calculated = false;
+        return modelMatrix;
     }
 
     public List<ObjFace> faces() {
