@@ -32,8 +32,7 @@ public class Normal {
         this.v3n = v3n;
     }
 
-    public float lightness(final TriangleBarycentrics barycentrics, final Vector3 ray) {
-        checkNormalized(ray);
+    public Vector3 barycentricNormal(final TriangleBarycentrics barycentrics) {
         Objects.requireNonNull(barycentrics);
 
         final float l1 = barycentrics.lambda1();
@@ -44,8 +43,7 @@ public class Normal {
         final float y = v1n.y() * l1 + v2n.y() * l2 + v3n.y() * l3;
         final float z = v1n.z() * l1 + v2n.z() * l2 + v3n.z() * l3;
 
-        // manual dot product to avoid Vec3f creation
-        return -ray.x() * x - ray.y() * y - ray.z() * z;
+        return new Vec3f(x, y, z);
     }
 
     public Vector3 v1n() {
