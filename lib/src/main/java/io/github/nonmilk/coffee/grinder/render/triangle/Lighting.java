@@ -4,18 +4,17 @@ import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
-import io.github.nonmilk.coffee.grinder.math.Vec3f;
-import io.github.shimeoki.jfx.rasterization.math.Floats;
+import io.github.nonmilk.coffee.grinder.math.UnitVec3f;
 
 public class Lighting {
     private float baseBrightness;
     private Vector3 ray;
 
     public Lighting(final float baseBrightness) {
-        this(baseBrightness, new Vec3f(1, 0, 0));
+        this(baseBrightness, new UnitVec3f(1, 0, 0));
     }
 
-    public Lighting(final float baseBrightness, final Vector3 ray) {
+    public Lighting(final float baseBrightness, final UnitVec3f ray) {
         setBrightness(baseBrightness);
         setRay(ray);
     }
@@ -37,12 +36,7 @@ public class Lighting {
     }
 
     public void setRay(final Vector3 ray) {
-        Objects.requireNonNull(ray);
-        if (!Floats.equals(1, Vec3Math.len2(ray))) {
-            throw new IllegalArgumentException("Light direction has to be normalized");
-        }
-
-        this.ray = ray;
+        this.ray = Objects.requireNonNull(ray);
     }
 
     public float lightness(Vector3 normal) {
