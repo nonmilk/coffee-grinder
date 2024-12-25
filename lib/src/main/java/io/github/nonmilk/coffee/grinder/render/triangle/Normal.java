@@ -2,9 +2,9 @@ package io.github.nonmilk.coffee.grinder.render.triangle;
 
 import java.util.Objects;
 
-// import io.github.alphameo.linear_algebra.vec.Vec3Math;
+import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
-// import io.github.shimeoki.jfx.rasterization.math.Floats;
+import io.github.shimeoki.jfx.rasterization.math.Floats;
 import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
 
 public class Normal {
@@ -13,22 +13,9 @@ public class Normal {
     private Vector3 v3n;
 
     public Normal(final Vector3 v1n, final Vector3 v2n, final Vector3 v3n) {
-        Objects.requireNonNull(v1n);
-        Objects.requireNonNull(v2n);
-        Objects.requireNonNull(v3n);
-
-        // length check, likely hurts performance, uncomment if needed
-        /*
-        if (!Floats.equals(1, Vec3Math.len2(v1n))) {
-            throw new IllegalArgumentException("Normal v1n is not of length 1");
-        }
-        if (!Floats.equals(1, Vec3Math.len2(v2n))) {
-            throw new IllegalArgumentException("Normal v2n is not of length 1");
-        }
-        if (!Floats.equals(1, Vec3Math.len2(v3n))) {
-            throw new IllegalArgumentException("Normal v3n is not of length 1");
-        }
-        */
+        checkNormalized(v1n);
+        checkNormalized(v2n);
+        checkNormalized(v3n);
 
         this.v1n = v1n;
         this.v2n = v2n;
@@ -36,15 +23,8 @@ public class Normal {
     }
 
     public float lightness(final TriangleBarycentrics barycentrics, final Vector3 ray) {
+        checkNormalized(ray);
         Objects.requireNonNull(barycentrics);
-        Objects.requireNonNull(ray);
-
-        // length check, likely hurts performance, uncomment if needed
-        /*
-        if (!Floats.equals(1, Vec3Math.len2(v1n))) {
-            throw new IllegalArgumentException("Light ray is not of length 1");
-        }
-        */
         
         final float l1 = barycentrics.lambda1();
         final float l2 = barycentrics.lambda2();
@@ -71,14 +51,28 @@ public class Normal {
     }
 
     public void setV1n(Vector3 v1n) {
+        checkNormalized(v1n);
         this.v1n = v1n;
     }
 
     public void setV2n(Vector3 v2n) {
+        checkNormalized(v2n);
         this.v2n = v2n;
     }
 
     public void setV3n(Vector3 v3n) {
+        checkNormalized(v3n);
         this.v3n = v3n;
+    }
+
+    private static void checkNormalized(Vector3 normal) {
+        Objects.requireNonNull(normal);
+
+        // length check, likely hurts performance, uncomment if needed
+        /*
+        if (!Floats.equals(1, Vec3Math.len2(normal))) {
+            throw new IllegalArgumentException("Input is not normalized");
+        }
+        */
     }
 }
