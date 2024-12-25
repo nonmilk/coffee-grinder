@@ -35,7 +35,7 @@ public class TexturedFiller implements TriangleFiller {
     private float alpha2;
     private float alpha3;
 
-    private TexturedTriangle texturedTriangle;
+    private RenderedFace renderedFace;
 
     /**
      * Creates a new {@link TexturedFiller} instance.
@@ -90,9 +90,9 @@ public class TexturedFiller implements TriangleFiller {
     }
 
     private float alpha() {
-        int x = (int) Math.round(texturedTriangle.barycentricX(lambda1, lambda2, lambda3));
-        int y = (int) Math.round(texturedTriangle.barycentricY(lambda1, lambda2, lambda3));
-        float z = texturedTriangle.barycentricZ(lambda1, lambda2, lambda3);
+        int x = (int) Math.round(renderedFace.barycentricX(lambda1, lambda2, lambda3));
+        int y = (int) Math.round(renderedFace.barycentricY(lambda1, lambda2, lambda3));
+        float z = renderedFace.barycentricZ(lambda1, lambda2, lambda3);
 
         if (!zBuffer.draw(x, y, z)) {
             return -1;
@@ -105,8 +105,8 @@ public class TexturedFiller implements TriangleFiller {
         return alpha1 + alpha2 + alpha3;
     }
 
-    public void setTriangle(final TexturedTriangle texturedTriangle) {
-        this.texturedTriangle = Objects.requireNonNull(texturedTriangle);
+    public void setTriangle(final RenderedFace renderedFace) {
+        this.renderedFace = Objects.requireNonNull(renderedFace);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class TexturedFiller implements TriangleFiller {
         //     return HTMLColorf.BLACK;
         // }
 
-        float normalLightness =  texturedTriangle.lightness(lambda1, lambda2, lambda3);
+        float normalLightness =  renderedFace.lightness(lambda1, lambda2, lambda3);
         float lightness = baseBrightness + (1 - baseBrightness) * normalLightness;
 
         return new Colorf(red() * lightness, green() * lightness, blue() * lightness, alpha);

@@ -16,7 +16,7 @@ import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
-public class TexturedTriangle implements Triangle {
+public class RenderedFace implements Triangle {
 
     private final ScreenTransform transform;
 
@@ -28,7 +28,7 @@ public class TexturedTriangle implements Triangle {
     private final Vec3f v2n;
     private final Vec3f v3n;
 
-    public TexturedTriangle(final ObjFace face, final ScreenTransform transform) {
+    public RenderedFace(final ObjFace face, final ScreenTransform transform) {
         Objects.requireNonNull(face);
         this.transform = Objects.requireNonNull(transform);
 

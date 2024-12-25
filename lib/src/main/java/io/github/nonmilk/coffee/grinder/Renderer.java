@@ -3,7 +3,7 @@ package io.github.nonmilk.coffee.grinder;
 import io.github.nonmilk.coffee.grinder.camera.Camera;
 import io.github.nonmilk.coffee.grinder.render.Scene;
 import io.github.nonmilk.coffee.grinder.render.TexturedFiller;
-import io.github.nonmilk.coffee.grinder.render.TexturedTriangle;
+import io.github.nonmilk.coffee.grinder.render.RenderedFace;
 import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
 import io.github.nonmilk.coffee.grinder.render.ZBuffer;
 import io.github.shimeoki.jfx.rasterization.triangle.IntBresenhamTriangler;
@@ -53,7 +53,7 @@ public class Renderer {
         for (ObjFace face : model.faces()) {
             ScreenTransform transform = new ScreenTransform(
                 model, scene.selectedCamera(), ctx);
-            TexturedTriangle triangle = new TexturedTriangle(face, transform);
+            RenderedFace triangle = new RenderedFace(face, transform);
             texturedFiller.setTriangle(triangle);
 
             triangler.draw(triangle);
