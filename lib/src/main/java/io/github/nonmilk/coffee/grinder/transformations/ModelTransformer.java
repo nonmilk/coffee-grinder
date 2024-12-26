@@ -1,6 +1,5 @@
 package io.github.nonmilk.coffee.grinder.transformations;
 
-import io.github.alphameo.linear_algebra.mat.Mat4;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.nonmilk.coffee.grinder.Model;
 import ru.vsu.cs.konygina_d.render_engine.Rotator;
@@ -8,11 +7,13 @@ import ru.vsu.cs.konygina_d.render_engine.Scaling;
 import ru.vsu.cs.konygina_d.render_engine.Transformation;
 import ru.vsu.cs.konygina_d.render_engine.Translator;
 
-public class ModelTransformer {
+import java.util.Objects;
+
+public final class ModelTransformer {
     private final Model model;
-    Matrix4 resultingMatrix;
+    private Matrix4 resultingMatrix;
     private final Scaling scaling = new Scaling();
-    RotationOrder rotationOrder = RotationOrder.XYZ;
+    private RotationOrder rotationOrder = RotationOrder.XYZ;
     private final Rotator rotatorX = new Rotator(Rotator.Axis.X);
     private final Rotator rotatorY = new Rotator(Rotator.Axis.Y);
     private final Rotator rotatorZ = new Rotator(Rotator.Axis.Z);
@@ -21,6 +22,7 @@ public class ModelTransformer {
 
 
     public ModelTransformer(Model model) {
+        Objects.requireNonNull(model);
         this.model = model;
         resultingMatrix = model.modelMatrix();
     }
@@ -38,6 +40,7 @@ public class ModelTransformer {
     }
 
     private Transformation constructTransformation(RotationOrder order) {
+        Objects.requireNonNull(order);
         switch (order) {
             case XYZ -> {
                 return new Transformation(translator, rotatorZ, rotatorY, rotatorX, scaling);
@@ -88,32 +91,33 @@ public class ModelTransformer {
         calculated = false;
     }
 
-    public void rotateXRelative(float dAngle) {
-        rotatorX.setAngle(dAngle);
+    public void rotateXRelative(float radians) {
+        rotatorX.setAngle(radians);
         calculated = false;
     }
 
-    public void rotateY(float angle) {
-        rotatorY.setAngle(angle);
+    public void rotateY(float radians) {
+        rotatorY.setAngle(radians);
         calculated = false;
     }
 
-    public void rotateYRelative(float dAngle) {
-        rotatorY.setAngle(dAngle);
+    public void rotateYRelative(float radians) {
+        rotatorY.setAngle(radians);
         calculated = false;
     }
 
-    public void rotateZ(float angle) {
-        rotatorZ.setAngle(angle);
+    public void rotateZ(float radians) {
+        rotatorZ.setAngle(radians);
         calculated = false;
     }
 
-    public void rotateZRelative(float dAngle) {
-        rotatorZ.setAngle(dAngle);
+    public void rotateZRelative(float radians) {
+        rotatorZ.setAngle(radians);
         calculated = false;
     }
 
     public void setRotationOrder(RotationOrder order) {
+        Objects.requireNonNull(order);
         this.rotationOrder = order;
         calculated = false;
     }
