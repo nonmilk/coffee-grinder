@@ -2,10 +2,10 @@ package io.github.nonmilk.coffee.grinder.transformations;
 
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.nonmilk.coffee.grinder.Model;
-import ru.vsu.cs.konygina_d.render_engine.Rotator;
-import ru.vsu.cs.konygina_d.render_engine.Scaling;
-import ru.vsu.cs.konygina_d.render_engine.Transformation;
-import ru.vsu.cs.konygina_d.render_engine.Translator;
+import ru.vsu.cs.konygina_d.affine.Rotator;
+import ru.vsu.cs.konygina_d.affine.Scaling;
+import ru.vsu.cs.konygina_d.affine.Transformation;
+import ru.vsu.cs.konygina_d.affine.Translator;
 
 import java.util.Objects;
 
