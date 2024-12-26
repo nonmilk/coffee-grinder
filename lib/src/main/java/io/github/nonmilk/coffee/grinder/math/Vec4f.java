@@ -2,6 +2,7 @@ package io.github.nonmilk.coffee.grinder.math;
 
 import io.github.alphameo.linear_algebra.vec.Vector4;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
+import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
 public class Vec4f implements Vector4 {
 
@@ -21,6 +22,13 @@ public class Vec4f implements Vector4 {
         this.x = vertex.x();
         this.y = vertex.y();
         this.z = vertex.z();
+        this.w = 1;
+    }
+
+    public Vec4f(ObjVertexNormal normal) {
+        this.x = normal.i();
+        this.y = normal.j();
+        this.z = normal.k();
         this.w = 1;
     }
 
