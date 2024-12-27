@@ -32,14 +32,14 @@ public final class ModelTransformer {
             return resultingMatrix;
         }
 
-        Transformation at = constructTransformation(rotationOrder);
+        Transformation at = construct(rotationOrder);
         resultingMatrix = at.getMatrix();
         calculated = true;
 
         return resultingMatrix;
     }
 
-    private Transformation constructTransformation(RotationOrder order) {
+    private Transformation construct(RotationOrder order) {
         Objects.requireNonNull(order);
         switch (order) {
             case XYZ -> {
@@ -61,57 +61,57 @@ public final class ModelTransformer {
                 return new Transformation(translator, rotatorX, rotatorY, rotatorZ, scaling);
             }
             default -> {
-                return constructTransformation(RotationOrder.XYZ);
+                return construct(RotationOrder.XYZ);
             }
         }
     }
 
-    public void scale(float x, float y, float z) {
+    public void setScaling(float x, float y, float z) {
         scaling.set(x, y, z);
         calculated = false;
     }
 
-    public void scaleRelative(float dx, float dy, float dz) {
+    public void setRelativeScaling(float dx, float dy, float dz) {
         scaling.setRelative(dx, dy, dz);
         calculated = false;
     }
 
-    public void translate(float x, float y, float z) {
+    public void setTranslation(float x, float y, float z) {
         translator.set(x, y, z);
         calculated = false;
     }
 
-    public void translateRelative(float dx, float dy, float dz) {
+    public void setRelativeTranslation(float dx, float dy, float dz) {
         translator.setRelative(dx, dy, dz);
         calculated = false;
     }
 
-    public void rotateX(float angle) {
+    public void setRotationX(float angle) {
         rotatorX.setAngle(angle);
         calculated = false;
     }
 
-    public void rotateXRelative(float radians) {
+    public void setRelativeRotationX(float radians) {
         rotatorX.setAngle(radians);
         calculated = false;
     }
 
-    public void rotateY(float radians) {
+    public void setRotationY(float radians) {
         rotatorY.setAngle(radians);
         calculated = false;
     }
 
-    public void rotateYRelative(float radians) {
+    public void setRelativeRotationY(float radians) {
         rotatorY.setAngle(radians);
         calculated = false;
     }
 
-    public void rotateZ(float radians) {
+    public void setRotationZ(float radians) {
         rotatorZ.setAngle(radians);
         calculated = false;
     }
 
-    public void rotateZRelative(float radians) {
+    public void setRelativeRotationZ(float radians) {
         rotatorZ.setAngle(radians);
         calculated = false;
     }
