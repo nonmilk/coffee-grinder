@@ -6,7 +6,6 @@ module io.github.nonmilk.coffee.grinder {
     requires transitive javafx.graphics;
     requires transitive io.github.shimeoki.jshaper;
     requires transitive io.github.alphameo.linear_algebra;
-    requires transitive ru.vsu.cs.konygina_d.affine;
 
     exports io.github.nonmilk.coffee.grinder;
 }

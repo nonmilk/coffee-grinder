@@ -17,7 +17,6 @@ dependencies {
 
     api("io.github.shimeoki:jshaper:0.10.2")
     api("io.github.alphameo:linear_algebra:1.0.0")
-    api(files("dependencies/Graphic_Conveyor-1.1.0.jar"))
 }
 
 java {
