@@ -2,10 +2,10 @@ package io.github.nonmilk.coffee.grinder.transformations;
 
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.nonmilk.coffee.grinder.Model;
-import ru.vsu.cs.konygina_d.affine.Rotator;
-import ru.vsu.cs.konygina_d.affine.Scaling;
-import ru.vsu.cs.konygina_d.affine.Transformation;
-import ru.vsu.cs.konygina_d.affine.Translator;
+import io.github.nonmilk.coffee.grinder.math.affine.Rotator;
+import io.github.nonmilk.coffee.grinder.math.affine.Scaling;
+import io.github.nonmilk.coffee.grinder.math.affine.Transformation;
+import io.github.nonmilk.coffee.grinder.math.affine.Translator;
 
 import java.util.Objects;
 
@@ -19,7 +19,6 @@ public final class ModelTransformer {
     private final Rotator rotatorZ = new Rotator(Rotator.Axis.Z);
     private final Translator translator = new Translator();
     private boolean calculated = false;
-
 
     public ModelTransformer(Model model) {
         Objects.requireNonNull(model);
