@@ -2,98 +2,48 @@ package io.github.nonmilk.coffee.grinder.render;
 
 import java.util.Objects;
 
+import io.github.alphameo.linear_algebra.vec.Vector2;
 import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.nonmilk.coffee.grinder.render.triangle.Lighting;
 import io.github.shimeoki.jfx.rasterization.color.Colorf;
-import io.github.shimeoki.jfx.rasterization.color.HTMLColorf;
 import io.github.shimeoki.jfx.rasterization.triangle.color.TriangleFiller;
 import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
 
 public class TexturedFiller implements TriangleFiller {
-    private final Colorf color1;
-    private final Colorf color2;
-    private final Colorf color3;
-
     private final ZBuffer zBuffer;
     private final Lighting lighting;
+    private Texture texture;
 
-    private float lambda1;
-    private float lambda2;
-    private float lambda3;
-
-    private float red1;
-    private float red2;
-    private float red3;
-
-    private float green1;
-    private float green2;
-    private float green3;
-
-    private float blue1;
-    private float blue2;
-    private float blue3;
-
-    private float alpha1;
-    private float alpha2;
-    private float alpha3;
-    private TriangleBarycentrics triangleBarycentrics;
+    private boolean useTexture = true;
+    private boolean useLighting = true;
 
     private RenderedFace renderedFace;
 
-    /**
-     * Creates a new {@link TexturedFiller} instance.
-     *
-     * @param zBuffer z-buffer
-     *
-     * @throws NullPointerException if z-buffer is {@code null}
-     */
-    public TexturedFiller(final ZBuffer zBuffer, final Lighting lighting) {
-        // FIXME use triangle textures
+    public TexturedFiller(final ZBuffer zBuffer, final Lighting lighting, final Texture texture) {
         this.zBuffer = Objects.requireNonNull(zBuffer);
         this.lighting = Objects.requireNonNull(lighting);
-        color1 = HTMLColorf.RED;
-        color2 = HTMLColorf.LIME;
-        color3 = HTMLColorf.BLUE;
+        this.texture = Objects.requireNonNull(texture);
     }
 
-    private float red() {
-        red1 = lambda1 * color1.red();
-        red2 = lambda2 * color2.red();
-        red3 = lambda3 * color3.red();
-
-        return red1 + red2 + red3;
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
 
-    private float green() {
-        green1 = lambda1 * color1.green();
-        green2 = lambda2 * color2.green();
-        green3 = lambda3 * color3.green();
+    private boolean canDraw(final TriangleBarycentrics triangleBarycentrics) {
+        final int x = (int) Math.round(renderedFace.shape().barycentricX(triangleBarycentrics));
+        final int y = (int) Math.round(renderedFace.shape().barycentricY(triangleBarycentrics));
+        final float z = renderedFace.shape().barycentricZ(triangleBarycentrics);
 
-        return green1 + green2 + green3;
+        return zBuffer.draw(x, y, z);
     }
 
-    private float blue() {
-        blue1 = lambda1 * color1.blue();
-        blue2 = lambda2 * color2.blue();
-        blue3 = lambda3 * color3.blue();
+    private Colorf colorAtBarycentric(final TriangleBarycentrics triangleBarycentrics) {
+        // FIXME handle null uv-s
+        final Vector2 uv = renderedFace.uv().barycentricUV(triangleBarycentrics);
+        final float x = uv.x();
+        final float y = uv.y();
 
-        return blue1 + blue2 + blue3;
-    }
-
-    private float alpha() {
-        int x = (int) Math.round(renderedFace.shape().barycentricX(triangleBarycentrics));
-        int y = (int) Math.round(renderedFace.shape().barycentricY(triangleBarycentrics));
-        float z = renderedFace.shape().barycentricZ(triangleBarycentrics);
-
-        if (!zBuffer.draw(x, y, z)) {
-            return -1;
-        }
-
-        alpha1 = lambda1 * color1.alpha();
-        alpha2 = lambda2 * color2.alpha();
-        alpha3 = lambda3 * color3.alpha();
-
-        return alpha1 + alpha2 + alpha3;
+        return texture.pixelColor(x, y);
     }
 
     public void setTriangle(final RenderedFace renderedFace) {
@@ -104,13 +54,7 @@ public class TexturedFiller implements TriangleFiller {
     public Colorf color(final TriangleBarycentrics b) {
         Objects.requireNonNull(b);
 
-        lambda1 = b.lambda1();
-        lambda2 = b.lambda2();
-        lambda3 = b.lambda3();
-        triangleBarycentrics = b;
-
-        float alpha = alpha();
-        if (alpha < 0) {
+        if (!canDraw(b) || !useTexture) {
             return null;
         }
 
@@ -118,11 +62,22 @@ public class TexturedFiller implements TriangleFiller {
         // if (lambda1 < 0.02 || lambda2 < 0.02 || lambda3 < 0.02) {
         // return HTMLColorf.BLACK;
         // }
-        
-        Vector3 normal = renderedFace.normal().barycentricNormal(b);
 
-        float lightness = lighting.lightness(normal);
+        final Vector3 normal = renderedFace.normal().barycentricNormal(b);
+        final Colorf resultColor;
+        final Colorf colorAtBarycentric = colorAtBarycentric(b);
 
-        return new Colorf(red() * lightness, green() * lightness, blue() * lightness, alpha);
+        if (useLighting) {
+            float lightness = lighting.lightness(normal);
+            resultColor = new Colorf(
+                    colorAtBarycentric.red() * lightness,
+                    colorAtBarycentric.green() * lightness,
+                    colorAtBarycentric.blue() * lightness,
+                    colorAtBarycentric.alpha());
+        } else {
+            resultColor = colorAtBarycentric;
+        }
+
+        return resultColor;
     }
 }
