@@ -7,9 +7,11 @@ import io.github.nonmilk.coffee.grinder.render.TexturedFiller;
 import io.github.nonmilk.coffee.grinder.render.RenderedFace;
 import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
 import io.github.nonmilk.coffee.grinder.render.ZBuffer;
+import io.github.nonmilk.coffee.grinder.render.ColorTexture;
 import io.github.nonmilk.coffee.grinder.render.triangle.Lighting;
 import io.github.shimeoki.jfx.rasterization.triangle.IntBresenhamTriangler;
 import io.github.shimeoki.jfx.rasterization.triangle.Triangler;
+import io.github.shimeoki.jfx.rasterization.color.Colorf;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -27,7 +29,7 @@ public class Renderer {
         // FIXME get screen dimensions?
         this.zBuffer = new ZBuffer(1920, 1080);
         this.lighting = new Lighting(0.3f);
-        this.texturedFiller = new TexturedFiller(zBuffer, lighting);
+        this.texturedFiller = new TexturedFiller(zBuffer, lighting, new ColorTexture(new Colorf(0.5f, 0.5f, 0.5f, 1f)));
         triangler.setFiller(texturedFiller);
     }
 
@@ -54,6 +56,7 @@ public class Renderer {
 
     // assumes a model was triangulated
     private void renderModel(Model model) {
+        texturedFiller.setTexture(model.texture());
         for (ObjFace face : model.faces()) {
             Camera camera = scene.selectedCamera();
             ScreenTransform transform = new ScreenTransform(model, camera, ctx);
