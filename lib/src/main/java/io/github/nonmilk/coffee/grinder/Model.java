@@ -19,11 +19,13 @@ import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.nonmilk.coffee.grinder.math.Floats;
 import io.github.nonmilk.coffee.grinder.math.Vec2f;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
+import io.github.nonmilk.coffee.grinder.render.Texture;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class Model {
@@ -37,12 +39,14 @@ public class Model {
             0, 1, 0, 0,
             0, 0, 1, 0,
             0, 0, 0, 1);
+    private Texture texture;
 
-    public Model(final ObjFile obj) {
+    public Model(final ObjFile obj, final Texture texture) {
         vertices = obj.vertexData().vertices();
         textureVertices = obj.vertexData().textureVertices();
         normals = obj.vertexData().vertexNormals();
         faces = obj.elements().faces();
+        this.texture = texture;
     }
 
     public Matrix4 modelMatrix() {
@@ -51,6 +55,14 @@ public class Model {
 
     public List<ObjFace> faces() {
         return faces;
+    }
+
+    public Texture texture() {
+        return texture;
+    }
+
+    public void setTexture(final Texture texture) {
+        this.texture = Objects.requireNonNull(texture);
     }
 
     public void triangulateWithNormals() {
