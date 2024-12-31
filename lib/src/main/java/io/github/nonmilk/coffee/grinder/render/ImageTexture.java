@@ -25,7 +25,7 @@ public class ImageTexture implements Texture {
             throw new IllegalArgumentException("x, y has to be in [-1, 1]");
         }
 
-        final int clr = texture.getRGB((int) Math.floor((x + 1) * width / 2), (int) Math.floor((y + 1) * height / 2));
+        final int clr = texture.getRGB((int) Math.floor(Math.abs(x) * width), (int) Math.floor(Math.abs(y) * height));
 
         final float alpha = (float) ((clr & 0xff000000) >>> 24) / 255f;
         final float red = (float) ((clr & 0x00ff0000) >> 16) / 255f;
