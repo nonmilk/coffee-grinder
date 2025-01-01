@@ -9,7 +9,7 @@ import io.github.alphameo.linear_algebra.vec.Vector4;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
 import io.github.nonmilk.coffee.grinder.math.Vec4f;
 import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
-import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
+import io.github.shimeoki.jfx.rasterization.triangle.Barycentrics;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
@@ -65,7 +65,7 @@ public class Shape {
                 vertex.z());
     }
 
-    public float barycentricX(final TriangleBarycentrics barycentrics) {
+    public float barycentricX(final Barycentrics barycentrics) {
         Objects.requireNonNull(barycentrics);
         final float l1 = barycentrics.lambda1();
         final float l2 = barycentrics.lambda2();
@@ -74,7 +74,7 @@ public class Shape {
         return v1.x() * l1 + v2.x() * l2 + v3.x() * l3;
     }
 
-    public float barycentricY(final TriangleBarycentrics barycentrics) {
+    public float barycentricY(final Barycentrics barycentrics) {
         Objects.requireNonNull(barycentrics);
         final float l1 = barycentrics.lambda1();
         final float l2 = barycentrics.lambda2();
@@ -83,7 +83,7 @@ public class Shape {
         return v1.y() * l1 + v2.y() * l2 + v3.y() * l3;
     }
 
-    public float barycentricZ(final TriangleBarycentrics barycentrics) {
+    public float barycentricZ(final Barycentrics barycentrics) {
         Objects.requireNonNull(barycentrics);
         final float l1 = barycentrics.lambda1();
         final float l2 = barycentrics.lambda2();
