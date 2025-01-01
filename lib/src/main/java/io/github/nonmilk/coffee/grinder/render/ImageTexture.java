@@ -7,7 +7,7 @@ import java.util.Objects;
 
 import javax.imageio.ImageIO;
 
-import io.github.shimeoki.jfx.rasterization.color.Colorf;
+import io.github.shimeoki.jfx.rasterization.Colorf;
 
 public class ImageTexture implements Texture {
     private final BufferedImage texture;
