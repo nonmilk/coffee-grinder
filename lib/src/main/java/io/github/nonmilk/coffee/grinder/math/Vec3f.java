@@ -2,7 +2,7 @@ package io.github.nonmilk.coffee.grinder.math;
 
 import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.shimeoki.jfx.rasterization.geom.Point2f;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
+import io.github.shimeoki.jshaper.obj.Vertex;
 
 // rename?
 public class Vec3f implements Vector3, Point2f {
@@ -20,7 +20,7 @@ public class Vec3f implements Vector3, Point2f {
         this.z = z;
     }
 
-    public Vec3f(ObjVertex vertex) {
+    public Vec3f(Vertex vertex) {
         this.x = vertex.x();
         this.y = vertex.y();
         this.z = vertex.z();
