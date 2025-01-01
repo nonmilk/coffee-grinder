@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.vec.Vector2;
 import io.github.nonmilk.coffee.grinder.math.Vec2f;
-import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
+import io.github.shimeoki.jfx.rasterization.triangle.Barycentrics;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
@@ -21,7 +21,7 @@ public class UV {
         this.uv3 = Objects.requireNonNull(uv3);
     }
 
-    public Vector2 barycentricUV(final TriangleBarycentrics barycentrics) {
+    public Vector2 barycentricUV(final Barycentrics barycentrics) {
         Objects.requireNonNull(barycentrics);
 
         final float l1 = barycentrics.lambda1();
