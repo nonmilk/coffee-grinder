@@ -11,7 +11,7 @@ import io.github.nonmilk.coffee.grinder.math.UnitVec3f;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
 import io.github.nonmilk.coffee.grinder.math.Vec4f;
 import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
-import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
+import io.github.shimeoki.jfx.rasterization.triangle.Barycentrics;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
@@ -27,7 +27,7 @@ public class Normal {
         this.v3n = Objects.requireNonNull(v3n);
     }
 
-    public Vector3 barycentricNormal(final TriangleBarycentrics barycentrics) {
+    public Vector3 barycentricNormal(final Barycentrics barycentrics) {
         Objects.requireNonNull(barycentrics);
 
         final float l1 = barycentrics.lambda1();
