@@ -1,8 +1,8 @@
 package io.github.nonmilk.coffee.grinder.math;
 
 import io.github.alphameo.linear_algebra.vec.Vector4;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import io.github.shimeoki.jshaper.obj.Vertex;
+import io.github.shimeoki.jshaper.obj.VertexNormal;
 
 public class Vec4f implements Vector4 {
 
@@ -18,14 +18,14 @@ public class Vec4f implements Vector4 {
         this.w = w;
     }
 
-    public Vec4f(ObjVertex vertex) {
+    public Vec4f(Vertex vertex) {
         this.x = vertex.x();
         this.y = vertex.y();
         this.z = vertex.z();
         this.w = 1;
     }
 
-    public Vec4f(ObjVertexNormal normal) {
+    public Vec4f(VertexNormal normal) {
         this.x = normal.i();
         this.y = normal.j();
         this.z = normal.k();
