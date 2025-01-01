@@ -2,6 +2,7 @@ module io.github.nonmilk.coffee.grinder {
 
     requires io.github.shimeoki.jfx.rasterization;
     requires io.github.traunin.triangulation;
+    requires java.desktop;
 
     requires transitive javafx.graphics;
     requires transitive io.github.shimeoki.jshaper;

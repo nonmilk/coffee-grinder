@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import io.github.nonmilk.coffee.grinder.render.triangle.Normal;
 import io.github.nonmilk.coffee.grinder.render.triangle.Shape;
+import io.github.nonmilk.coffee.grinder.render.triangle.UV;
 import io.github.shimeoki.jfx.rasterization.geom.Point2f;
 import io.github.shimeoki.jfx.rasterization.triangle.geom.Triangle;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
@@ -12,6 +13,7 @@ public class RenderedFace implements Triangle {
 
     private final Shape shape;
     private final Normal normal;
+    private final UV uv;
 
     public RenderedFace(final ObjFace face, final ScreenTransform transform) {
         Objects.requireNonNull(face);
@@ -19,6 +21,14 @@ public class RenderedFace implements Triangle {
 
         shape = Shape.makeShapeFromFace(face, transform);
         normal = Normal.makeNormalFromFace(face, transform);
+        switch (face.triplets().getFirst().format()) {
+            case ALL, TEXTURE_VERTEX:
+                uv = UV.makeUVFromFace(face);
+                break;
+            default:
+                uv = null;
+                break;
+        }
     }
 
     public Normal normal() {
@@ -27,6 +37,10 @@ public class RenderedFace implements Triangle {
 
     public Shape shape() {
         return shape;
+    }
+
+    public UV uv() {
+        return uv;
     }
 
     @Override
