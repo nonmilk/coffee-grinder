@@ -6,9 +6,9 @@ import java.util.Objects;
 import io.github.alphameo.linear_algebra.vec.Vector2;
 import io.github.nonmilk.coffee.grinder.math.Vec2f;
 import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
-import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
-import io.github.shimeoki.jshaper.obj.geom.ObjFace;
-import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
+import io.github.shimeoki.jshaper.obj.Triplet;
+import io.github.shimeoki.jshaper.obj.Face;
+import io.github.shimeoki.jshaper.obj.TextureVertex;
 
 public class UV {
     private final Vector2 uv1;
@@ -34,14 +34,14 @@ public class UV {
         return new Vec2f(x, y);
     }
 
-    public static UV makeUVFromFace(final ObjFace face) {
+    public static UV makeUVFromFace(final Face face) {
         Objects.requireNonNull(face);
 
-        final List<ObjTriplet> triplets = face.triplets();
+        final List<Triplet> triplets = face.triplets();
 
-        final ObjTriplet triplet1 = triplets.get(0);
-        final ObjTriplet triplet2 = triplets.get(1);
-        final ObjTriplet triplet3 = triplets.get(2);
+        final Triplet triplet1 = triplets.get(0);
+        final Triplet triplet2 = triplets.get(1);
+        final Triplet triplet3 = triplets.get(2);
 
         final Vector2 uv1 = uvFromTextureVertex(triplet1.textureVertex());
         final Vector2 uv2 = uvFromTextureVertex(triplet2.textureVertex());
@@ -50,7 +50,7 @@ public class UV {
         return new UV(uv1, uv2, uv3);
     }
 
-    private static Vector2 uvFromTextureVertex(final ObjTextureVertex textureVertex) {
+    private static Vector2 uvFromTextureVertex(final TextureVertex textureVertex) {
         return new Vec2f(textureVertex.u(), textureVertex.v());
     }
 }
