@@ -9,9 +9,9 @@ import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
 import io.github.nonmilk.coffee.grinder.render.ZBuffer;
 import io.github.nonmilk.coffee.grinder.render.ColorTexture;
 import io.github.nonmilk.coffee.grinder.render.triangle.Lighting;
-import io.github.shimeoki.jfx.rasterization.triangle.IntBresenhamTriangler;
-import io.github.shimeoki.jfx.rasterization.triangle.Triangler;
-import io.github.shimeoki.jfx.rasterization.color.Colorf;
+import io.github.shimeoki.jfx.rasterization.IntBresenhamTriangler;
+import io.github.shimeoki.jfx.rasterization.Triangler;
+import io.github.shimeoki.jfx.rasterization.Colorf;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 import javafx.scene.canvas.GraphicsContext;
 
