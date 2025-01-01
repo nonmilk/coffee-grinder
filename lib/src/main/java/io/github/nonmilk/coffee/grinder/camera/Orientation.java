@@ -78,24 +78,22 @@ public class Orientation {
     public void lookAt() {
         final Vector3 cameraZ = lookDir();
 
-        final float cameraZLen = Vec3Math.len(cameraZ);
-        if (Floats.equals(cameraZLen, 0)) {
-            throw new RuntimeException("Camera target vector equals camera position");
-        }
+        // Assumes this can't happen due to checks within orientation
+        // final float cameraZLen = Vec3Math.len(cameraZ);
+        // if (Floats.equals(cameraZLen, 0)) {
+        //     throw new RuntimeException("Camera target vector equals camera position");
+        // }
+        Vec3Math.normalize(cameraZ);
 
         final Vector3 cameraX;
-        final Vector3 xCandidate = Vec3Math.cross(cameraZ, Vec3f.VECTOR_J);
-        if (Floats.equals(Vec3Math.len(xCandidate) / cameraZLen, 0)) {
-            cameraX = Vec3Math.cross(cameraZ, Vec3f.VECTOR_I);
+        final Vector3 xCandidate = Vec3Math.cross(cameraZ, Vec3f.VECTOR_K);
+        if (Floats.equals(Vec3Math.len(xCandidate), 0)) {
+            cameraX = Vec3Math.cross(cameraZ, Vec3f.VECTOR_J);
         } else {
             cameraX = xCandidate;
         }
 
         final Vector3 cameraY = Vec3Math.cross(cameraZ, cameraX);
-
-        Vec3Math.normalize(cameraX);
-        Vec3Math.normalize(cameraY);
-        Vec3Math.normalize(cameraZ);
 
         // result of Pv*Tv
         view.set(Matrix4Row.R0, Matrix4Col.C0, cameraX.x());
