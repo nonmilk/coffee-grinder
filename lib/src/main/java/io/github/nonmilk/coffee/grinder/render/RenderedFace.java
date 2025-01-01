@@ -5,8 +5,8 @@ import java.util.Objects;
 import io.github.nonmilk.coffee.grinder.render.triangle.Normal;
 import io.github.nonmilk.coffee.grinder.render.triangle.Shape;
 import io.github.nonmilk.coffee.grinder.render.triangle.UV;
-import io.github.shimeoki.jfx.rasterization.geom.Point2f;
-import io.github.shimeoki.jfx.rasterization.triangle.geom.Triangle;
+import io.github.shimeoki.jfx.rasterization.Point2f;
+import io.github.shimeoki.jfx.rasterization.Triangle;
 import io.github.shimeoki.jshaper.obj.Face;
 
 public class RenderedFace implements Triangle {

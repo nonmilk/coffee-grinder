@@ -5,11 +5,12 @@ import java.util.Objects;
 import io.github.alphameo.linear_algebra.vec.Vector2;
 import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.nonmilk.coffee.grinder.render.triangle.Lighting;
-import io.github.shimeoki.jfx.rasterization.color.Colorf;
-import io.github.shimeoki.jfx.rasterization.triangle.color.TriangleFiller;
-import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
+import io.github.shimeoki.jfx.rasterization.Colorf;
+import io.github.shimeoki.jfx.rasterization.Point2i;
+import io.github.shimeoki.jfx.rasterization.triangle.Filler;
+import io.github.shimeoki.jfx.rasterization.triangle.Barycentrics;
 
-public class TexturedFiller implements TriangleFiller {
+public class TexturedFiller implements Filler {
     private final ZBuffer zBuffer;
     private final Lighting lighting;
     private Texture texture;
@@ -29,7 +30,7 @@ public class TexturedFiller implements TriangleFiller {
         this.texture = texture;
     }
 
-    private boolean canDraw(final TriangleBarycentrics triangleBarycentrics) {
+    private boolean canDraw(final Barycentrics triangleBarycentrics) {
         final int x = (int) Math.round(renderedFace.shape().barycentricX(triangleBarycentrics));
         final int y = (int) Math.round(renderedFace.shape().barycentricY(triangleBarycentrics));
         final float z = renderedFace.shape().barycentricZ(triangleBarycentrics);
@@ -37,7 +38,7 @@ public class TexturedFiller implements TriangleFiller {
         return zBuffer.draw(x, y, z);
     }
 
-    private Colorf colorAtBarycentric(final TriangleBarycentrics triangleBarycentrics) {
+    private Colorf colorAtBarycentric(final Barycentrics triangleBarycentrics) {
         // FIXME handle null uv-s
         final Vector2 uv = renderedFace.uv().barycentricUV(triangleBarycentrics);
         final float x = uv.x();
@@ -51,7 +52,7 @@ public class TexturedFiller implements TriangleFiller {
     }
 
     @Override
-    public Colorf color(final TriangleBarycentrics b) {
+    public Colorf color(final Barycentrics b, final Point2i p) {
         Objects.requireNonNull(b);
 
         if (!canDraw(b) || !useTexture) {

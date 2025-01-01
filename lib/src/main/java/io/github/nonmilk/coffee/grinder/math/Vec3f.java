@@ -1,8 +1,8 @@
 package io.github.nonmilk.coffee.grinder.math;
 
 import io.github.alphameo.linear_algebra.vec.Vector3;
-import io.github.shimeoki.jfx.rasterization.geom.Point2f;
 import io.github.shimeoki.jshaper.obj.Vertex;
+import io.github.shimeoki.jfx.rasterization.Point2f;
 
 // rename?
 public class Vec3f implements Vector3, Point2f {
