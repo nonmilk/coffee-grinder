@@ -1,12 +1,12 @@
 package io.github.nonmilk.coffee.grinder;
 
-import io.github.shimeoki.jshaper.obj.data.ObjFile;
-import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
-import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
-import io.github.shimeoki.jshaper.obj.geom.ObjFace;
-import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import io.github.shimeoki.jshaper.ObjFile;
+import io.github.shimeoki.jshaper.obj.Group;
+import io.github.shimeoki.jshaper.obj.Triplet;
+import io.github.shimeoki.jshaper.obj.Face;
+import io.github.shimeoki.jshaper.obj.TextureVertex;
+import io.github.shimeoki.jshaper.obj.Vertex;
+import io.github.shimeoki.jshaper.obj.VertexNormal;
 import io.github.traunin.triangulation.Triangulation;
 import io.github.alphameo.linear_algebra.mat.Mat3;
 import io.github.alphameo.linear_algebra.mat.Mat3Math;
@@ -30,10 +30,10 @@ import java.util.Set;
 
 public class Model {
 
-    private final List<ObjVertex> vertices;
-    private final List<ObjTextureVertex> textureVertices;
-    private final List<ObjFace> faces;
-    private final List<ObjVertexNormal> normals;
+    private final List<Vertex> vertices;
+    private final List<TextureVertex> textureVertices;
+    private final List<Face> faces;
+    private final List<VertexNormal> normals;
     private final Matrix4 modelMatrix = new Mat4(
             1, 0, 0, 0,
             0, 1, 0, 0,
@@ -53,7 +53,7 @@ public class Model {
         return modelMatrix;
     }
 
-    public List<ObjFace> faces() {
+    public List<Face> faces() {
         return faces;
     }
 
@@ -70,15 +70,15 @@ public class Model {
         normals.clear();
         final int vertexCount = vertices.size();
 
-        final Map<ObjVertex, Integer> normalFaceCounts = new HashMap<>(vertexCount);
-        final Map<ObjVertex, ObjVertexNormal> vertexNormals = new HashMap<>(vertexCount);
+        final Map<Vertex, Integer> normalFaceCounts = new HashMap<>(vertexCount);
+        final Map<Vertex, VertexNormal> vertexNormals = new HashMap<>(vertexCount);
 
-        for (ObjFace face : faces) {
+        for (Face face : faces) {
             clearFaceNormals(face, normalFaceCounts, vertexNormals);
         }
 
         for (int i = faces.size() - 1; i >= 0; i--) {
-            final ObjFace face = faces.get(i);
+            final Face face = faces.get(i);
             addFaceNormals(face, normalFaceCounts);
 
             if (face.triplets().size() > 3) {
@@ -87,7 +87,7 @@ public class Model {
             }
         }
 
-        for (ObjVertexNormal normal : normals) {
+        for (VertexNormal normal : normals) {
             float length = Vec3Math.len(new Vec3f(normal.i(), normal.j(), normal.k()));
             normal.setI(normal.i() / length);
             normal.setJ(normal.j() / length);
@@ -95,8 +95,8 @@ public class Model {
         }
     }
 
-    private void triangulateFace(final ObjFace face) {
-        final List<ObjTriplet> faceTriplets = face.triplets();
+    private void triangulateFace(final Face face) {
+        final List<Triplet> faceTriplets = face.triplets();
         final Vector3 faceNormal = faceNormal(face);
         final Vector3 axis = Vec3Math.cross(faceNormal, Vec3f.VECTOR_K);
         // if polygon is parallel to XY, we set the rotation axis
@@ -109,19 +109,19 @@ public class Model {
         final List<Vec2f> flatPolygon = rotatePolygon(faceTriplets, axis, angle);
 
         final List<int[]> triangles = Triangulation.earClippingTriangulate(flatPolygon);
-        final Set<ObjGroupName> groupNames = face.groupNames();
+        final Set<Group> groups = face.groups();
         for (final int[] triangle : triangles) {
-            final List<ObjTriplet> triplets = new ArrayList<>(3);
+            final List<Triplet> triplets = new ArrayList<>(3);
             // better way?
             triplets.add(faceTriplets.get(triangle[0]));
             triplets.add(faceTriplets.get(triangle[1]));
             triplets.add(faceTriplets.get(triangle[2]));
-            faces.add(new ObjFace(triplets, groupNames));
+            faces.add(new Face(triplets, groups));
         }
     }
 
     private List<Vec2f> rotatePolygon(
-            final List<ObjTriplet> triplets,
+            final List<Triplet> triplets,
             final Vector3 axis,
             final float angle) {
 
@@ -138,7 +138,7 @@ public class Model {
                 -uy * sin, ux * sin, cos);
 
         final List<Vec2f> rotatedVertices = new ArrayList<>(triplets.size());
-        for (final ObjTriplet triplet : triplets) {
+        for (final Triplet triplet : triplets) {
             final Vector3 rotatedVertex = Mat3Math.prod(
                     rotationMatrix, new Vec3f(triplet.vertex()));
             rotatedVertices.add(new Vec2f(rotatedVertex.x(), rotatedVertex.y()));
@@ -148,15 +148,15 @@ public class Model {
     }
 
     private void clearFaceNormals(
-            final ObjFace face,
-            final Map<ObjVertex, Integer> normalFaceCounts,
-            final Map<ObjVertex, ObjVertexNormal> vertexNormals) {
-        for (ObjTriplet triplet : face.triplets()) {
-            ObjVertex vertex = triplet.vertex();
+            final Face face,
+            final Map<Vertex, Integer> normalFaceCounts,
+            final Map<Vertex, VertexNormal> vertexNormals) {
+        for (Triplet triplet : face.triplets()) {
+            Vertex vertex = triplet.vertex();
             if (normalFaceCounts.containsKey(vertex)) {
                 triplet.setVertexNormal(vertexNormals.get(vertex));
             } else {
-                final ObjVertexNormal emptyNormal = new ObjVertexNormal(0, 0, 0);
+                final VertexNormal emptyNormal = new VertexNormal(0, 0, 0);
                 normals.add(emptyNormal);
                 triplet.setVertexNormal(emptyNormal);
                 normalFaceCounts.put(triplet.vertex(), 0);
@@ -165,11 +165,11 @@ public class Model {
         }
     }
 
-    private void addFaceNormals(final ObjFace face, final Map<ObjVertex, Integer> normalFaceCounts) {
+    private void addFaceNormals(final Face face, final Map<Vertex, Integer> normalFaceCounts) {
         final Vector3 normal = faceNormal(face);
-        for (ObjTriplet triplet : face.triplets()) {
-            final ObjVertexNormal vertexNormal = triplet.vertexNormal();
-            final ObjVertex vertex = triplet.vertex();
+        for (Triplet triplet : face.triplets()) {
+            final VertexNormal vertexNormal = triplet.vertexNormal();
+            final Vertex vertex = triplet.vertex();
             final int scalingCoefficient = normalFaceCounts.get(vertex);
             final int scalingIncremented = scalingCoefficient + 1;
             // calculates avg in one pass
@@ -186,12 +186,12 @@ public class Model {
 
     }
 
-    private Vector3 faceNormal(final ObjFace face) {
+    private Vector3 faceNormal(final Face face) {
         // FIXME we might be calculating negative normals, switch order if black
         // FIXME needs a loop for when vertices are in a line
-        final ObjVertex vertex1 = face.triplets().get(0).vertex();
-        final ObjVertex vertex2 = face.triplets().get(1).vertex();
-        final ObjVertex vertex3 = face.triplets().get(2).vertex();
+        final Vertex vertex1 = face.triplets().get(0).vertex();
+        final Vertex vertex2 = face.triplets().get(1).vertex();
+        final Vertex vertex3 = face.triplets().get(2).vertex();
 
         final Vector3 vector1 = new Vec3(vertex1.x(), vertex1.y(), vertex1.z());
         final Vector3 vector2 = new Vec3(vertex2.x(), vertex2.y(), vertex2.z());
