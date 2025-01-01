@@ -63,11 +63,11 @@ public class TexturedFiller implements TriangleFiller {
         // return HTMLColorf.BLACK;
         // }
 
-        final Vector3 normal = renderedFace.normal().barycentricNormal(b);
         final Colorf resultColor;
         final Colorf colorAtBarycentric = colorAtBarycentric(b);
 
         if (useLighting) {
+            final Vector3 normal = renderedFace.normal().barycentricNormal(b);
             float lightness = lighting.lightness(normal);
             resultColor = new Colorf(
                     colorAtBarycentric.red() * lightness,
