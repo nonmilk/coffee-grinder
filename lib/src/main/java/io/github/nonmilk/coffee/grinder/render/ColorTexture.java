@@ -1,8 +1,8 @@
 package io.github.nonmilk.coffee.grinder.render;
 
-import io.github.shimeoki.jfx.rasterization.color.Colorf;
+import io.github.shimeoki.jfx.rasterization.Colorf;
 
-public class ColorTexture implements Texture{
+public class ColorTexture implements Texture {
     private final Colorf color;
 
     public ColorTexture(Colorf color) {
