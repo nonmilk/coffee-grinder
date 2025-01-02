@@ -32,7 +32,7 @@ public class RenderingPipeline {
     }
 
     public void renderScene(Scene scene) {
-        final Camera selectedCamera = scene.selectedCamera();
+        final Camera selectedCamera = scene.camera();
         // updates every frame, can be done externally
         // I'll leave it here until we find the best strategy
         // for updating it

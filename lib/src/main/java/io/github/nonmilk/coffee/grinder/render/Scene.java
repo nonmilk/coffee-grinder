@@ -8,12 +8,11 @@ import io.github.nonmilk.coffee.grinder.render.triangle.Lighting;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-// FIXME write scene
 public class Scene {
-    
-    private final List<Camera> cameras = new ArrayList<>();
-    private Camera selectedCamera;
+
+    private Camera camera;
     private final Lighting lighting = new Lighting(0.5f);
     private final List<Model> models = new ArrayList<>();
 
@@ -22,20 +21,16 @@ public class Scene {
     }
 
     public void lightFromCamera() {
-        Vector3 lookDir = selectedCamera.orientation().lookDir();
+        Vector3 lookDir = camera.orientation().lookDir();
         lighting.setRay(Vec3Math.normalized(lookDir));
     }
 
-    public void selectCamera(final int cameraIndex) {
-        selectedCamera = cameras.get(cameraIndex);
+    public Camera camera() {
+        return camera;
     }
 
-    public Camera selectedCamera() {
-        return selectedCamera;
-    }
-
-    public List<Camera> cameras() {
-        return cameras;
+    public void setCamera(final Camera c) {
+        this.camera = Objects.requireNonNull(c);
     }
 
     public List<Model> models() {
