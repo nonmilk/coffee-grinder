@@ -6,7 +6,6 @@ import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
-import io.github.nonmilk.coffee.grinder.Model;
 import io.github.nonmilk.coffee.grinder.camera.Camera;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,18 +14,13 @@ public class ScreenTransform {
     private final Matrix4 view;
     private final Matrix4 projection;
     private final Matrix4 viewProjection;
-    private final Matrix4 model;
+    private Matrix4 model = Mat4Math.unitMat();
     private final Canvas canvas;
     private final Vector3 lightRay;
 
-    public ScreenTransform(
-            final Model model,
-            final Camera camera,
-            final GraphicsContext ctx) {
-        Objects.requireNonNull(model);
+    public ScreenTransform(final Camera camera, final GraphicsContext ctx) {
         Objects.requireNonNull(camera);
 
-        this.model = model.modelMatrix();
         this.view = camera.orientation().view();
         this.projection = camera.projection();
         this.viewProjection = Mat4Math.prod(projection, view);
@@ -49,6 +43,10 @@ public class ScreenTransform {
 
     public Matrix4 model() {
         return model;
+    }
+
+    public void setModel(Matrix4 model) {
+        this.model = model;
     }
 
     public Vector3 lightRay() {
