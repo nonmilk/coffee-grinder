@@ -1,10 +1,7 @@
 package io.github.nonmilk.coffee.grinder;
 
-import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.nonmilk.coffee.grinder.camera.Camera;
 import io.github.nonmilk.coffee.grinder.render.*;
-import io.github.nonmilk.coffee.grinder.render.triangle.Lighting;
-import io.github.shimeoki.jfx.rasterization.Colorf;
 import io.github.shimeoki.jfx.rasterization.IntBresenhamTriangler;
 import io.github.shimeoki.jfx.rasterization.Triangler;
 import io.github.shimeoki.jshaper.obj.Face;
@@ -17,7 +14,6 @@ public class RenderingPipeline {
     private final Triangler triangler;
     private final TexturedFiller texturedFiller;
     private final ZBuffer zBuffer;
-    private final Lighting lighting;
     private final GraphicsContext ctx;
 
     public RenderingPipeline(final GraphicsContext ctx) {
@@ -30,9 +26,8 @@ public class RenderingPipeline {
 
         this.zBuffer = new ZBuffer(screenWidth, screenHeight);
         triangler = new IntBresenhamTriangler(ctx);
-        this.lighting = new Lighting(0.3f);
 
-        this.texturedFiller = new TexturedFiller(zBuffer, lighting, new ColorTexture(new Colorf(0.5f, 0.5f, 0.5f, 1f)));
+        this.texturedFiller = new TexturedFiller(zBuffer);
         triangler.setFiller(texturedFiller);
     }
 
@@ -44,7 +39,9 @@ public class RenderingPipeline {
         selectedCamera.orientation().lookAt();
 
         zBuffer.clear();
-        lighting.setRay(Vec3Math.normalized(selectedCamera.orientation().lookDir()));
+        scene.lightFromCamera();
+        texturedFiller.setLighting(scene.lighting());
+
         final ScreenTransform transform = new ScreenTransform(selectedCamera, ctx);
 
         for (Model model : scene.models()) {

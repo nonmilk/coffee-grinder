@@ -9,10 +9,11 @@ import io.github.shimeoki.jfx.rasterization.Colorf;
 import io.github.shimeoki.jfx.rasterization.Point2i;
 import io.github.shimeoki.jfx.rasterization.triangle.Filler;
 import io.github.shimeoki.jfx.rasterization.triangle.Barycentrics;
+import javafx.scene.effect.Light;
 
 public class TexturedFiller implements Filler {
     private final ZBuffer zBuffer;
-    private final Lighting lighting;
+    private Lighting lighting;
     private Texture texture;
 
     private boolean useTexture = true;
@@ -20,14 +21,16 @@ public class TexturedFiller implements Filler {
 
     private RenderedFace renderedFace;
 
-    public TexturedFiller(final ZBuffer zBuffer, final Lighting lighting, final Texture texture) {
+    public TexturedFiller(final ZBuffer zBuffer) {
         this.zBuffer = Objects.requireNonNull(zBuffer);
-        this.lighting = Objects.requireNonNull(lighting);
-        this.texture = Objects.requireNonNull(texture);
     }
 
     public void setTexture(Texture texture) {
-        this.texture = texture;
+        this.texture = Objects.requireNonNull(texture);
+    }
+
+    public void setLighting(Lighting lighting) {
+        this.lighting = Objects.requireNonNull(lighting);
     }
 
     private boolean canDraw(final Barycentrics triangleBarycentrics) {
@@ -67,7 +70,7 @@ public class TexturedFiller implements Filler {
         final Colorf resultColor;
         final Colorf colorAtBarycentric = colorAtBarycentric(b);
 
-        if (useLighting) {
+        if (useLighting && lighting != null) {
             final Vector3 normal = renderedFace.normal().barycentricNormal(b);
             float lightness = lighting.lightness(normal);
             resultColor = new Colorf(
