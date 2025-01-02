@@ -42,11 +42,11 @@ public class Renderer {
     }
 
     public void render() {
-        Camera selectedCamera = scene.selectedCamera();
+        Camera camera = scene.camera();
         // updates every frame, can be done externally
         // I'll leave it here untill we find the best strategy
         // for updating it
-        selectedCamera.orientation().lookAt();
+        camera.orientation().lookAt();
 
         zBuffer.clear();
         for (Model model : scene.models()) {
@@ -58,7 +58,7 @@ public class Renderer {
     private void renderModel(Model model) {
         texturedFiller.setTexture(model.texture());
         for (Face face : model.faces()) {
-            Camera camera = scene.selectedCamera();
+            Camera camera = scene.camera();
             ScreenTransform transform = new ScreenTransform(model, camera, ctx);
             lighting.setRay(Vec3Math.normalized(camera.orientation().lookDir()));
             RenderedFace triangle = new RenderedFace(face, transform);
