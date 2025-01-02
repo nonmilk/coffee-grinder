@@ -12,11 +12,11 @@ repositories {
 
 dependencies {
 
-    implementation("io.github.shimeoki.jfx:rasterization:2.0.1")
-    implementation("io.github.traunin:triangulation:1.1.0")
+    implementation("io.github.shimeoki.jfx:rasterization:3.0.0")
+    implementation("io.github.traunin:triangulation:1.1.1")
 
-    api("io.github.shimeoki:jshaper:0.10.2")
-    api("io.github.alphameo:linear_algebra:1.0.0")
+    api("io.github.shimeoki:jshaper:0.15.0")
+    api("io.github.alphameo:linear_algebra:1.2.0")
 }
 
 java {

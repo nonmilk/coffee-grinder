@@ -11,10 +11,10 @@ import io.github.nonmilk.coffee.grinder.math.UnitVec3f;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
 import io.github.nonmilk.coffee.grinder.math.Vec4f;
 import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
-import io.github.shimeoki.jfx.rasterization.triangle.geom.TriangleBarycentrics;
-import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
-import io.github.shimeoki.jshaper.obj.geom.ObjFace;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import io.github.shimeoki.jshaper.obj.Triplet;
+import io.github.shimeoki.jshaper.obj.Face;
+import io.github.shimeoki.jshaper.obj.VertexNormal;
+import io.github.shimeoki.jfx.rasterization.triangle.Barycentrics;
 
 public class Normal {
     private Vector3 v1n;
@@ -27,7 +27,7 @@ public class Normal {
         this.v3n = Objects.requireNonNull(v3n);
     }
 
-    public Vector3 barycentricNormal(final TriangleBarycentrics barycentrics) {
+    public Vector3 barycentricNormal(final Barycentrics barycentrics) {
         Objects.requireNonNull(barycentrics);
 
         final float l1 = barycentrics.lambda1();
@@ -53,14 +53,14 @@ public class Normal {
         return v3n;
     }
 
-    public static Normal makeNormalFromFace(final ObjFace face, final ScreenTransform transform) {
+    public static Normal makeNormalFromFace(final Face face, final ScreenTransform transform) {
         Objects.requireNonNull(face);
         Objects.requireNonNull(transform);
-        final List<ObjTriplet> triplets = face.triplets();
+        final List<Triplet> triplets = face.triplets();
 
-        final ObjTriplet triplet1 = triplets.get(0);
-        final ObjTriplet triplet2 = triplets.get(1);
-        final ObjTriplet triplet3 = triplets.get(2);
+        final Triplet triplet1 = triplets.get(0);
+        final Triplet triplet2 = triplets.get(1);
+        final Triplet triplet3 = triplets.get(2);
 
         final UnitVec3f v1n = normalToWorld(triplet1.vertexNormal(), transform);
         final UnitVec3f v2n = normalToWorld(triplet2.vertexNormal(), transform);
@@ -69,7 +69,7 @@ public class Normal {
         return new Normal(v1n, v2n, v3n);
     }
 
-    private static UnitVec3f normalToWorld(final ObjVertexNormal objNormal, final ScreenTransform transform) {
+    private static UnitVec3f normalToWorld(final VertexNormal objNormal, final ScreenTransform transform) {
         Vector4 v = new Vec4f(objNormal);
         v = Mat4Math.prod(transform.model(), v);
         // do we need to convert them to camera?

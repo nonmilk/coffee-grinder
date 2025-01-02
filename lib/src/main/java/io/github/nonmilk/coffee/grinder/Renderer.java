@@ -2,17 +2,17 @@ package io.github.nonmilk.coffee.grinder;
 
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.nonmilk.coffee.grinder.camera.Camera;
-import io.github.nonmilk.coffee.grinder.render.Scene;
-import io.github.nonmilk.coffee.grinder.render.TexturedFiller;
-import io.github.nonmilk.coffee.grinder.render.RenderedFace;
-import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
-import io.github.nonmilk.coffee.grinder.render.ZBuffer;
 import io.github.nonmilk.coffee.grinder.render.ColorTexture;
+import io.github.nonmilk.coffee.grinder.render.RenderedFace;
+import io.github.nonmilk.coffee.grinder.render.Scene;
+import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
+import io.github.nonmilk.coffee.grinder.render.TexturedFiller;
+import io.github.nonmilk.coffee.grinder.render.ZBuffer;
 import io.github.nonmilk.coffee.grinder.render.triangle.Lighting;
-import io.github.shimeoki.jfx.rasterization.triangle.IntBresenhamTriangler;
-import io.github.shimeoki.jfx.rasterization.triangle.Triangler;
-import io.github.shimeoki.jfx.rasterization.color.Colorf;
-import io.github.shimeoki.jshaper.obj.geom.ObjFace;
+import io.github.shimeoki.jfx.rasterization.Colorf;
+import io.github.shimeoki.jfx.rasterization.IntBresenhamTriangler;
+import io.github.shimeoki.jfx.rasterization.Triangler;
+import io.github.shimeoki.jshaper.obj.Face;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Renderer {
@@ -57,7 +57,7 @@ public class Renderer {
     // assumes a model was triangulated
     private void renderModel(Model model) {
         texturedFiller.setTexture(model.texture());
-        for (ObjFace face : model.faces()) {
+        for (Face face : model.faces()) {
             Camera camera = scene.selectedCamera();
             ScreenTransform transform = new ScreenTransform(model, camera, ctx);
             lighting.setRay(Vec3Math.normalized(camera.orientation().lookDir()));
