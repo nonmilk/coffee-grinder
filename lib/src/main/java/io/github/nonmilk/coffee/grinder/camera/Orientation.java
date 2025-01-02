@@ -93,6 +93,7 @@ public class Orientation {
             cameraX = xCandidate;
         }
 
+        Vec3Math.normalize(cameraX);
         final Vector3 cameraY = Vec3Math.cross(cameraZ, cameraX);
 
         // result of Pv*Tv
