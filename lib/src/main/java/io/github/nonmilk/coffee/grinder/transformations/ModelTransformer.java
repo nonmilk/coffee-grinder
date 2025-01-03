@@ -70,8 +70,8 @@ public final class ModelTransformer {
         calculated = false;
     }
 
-    public void setRelativeScaling(float dx, float dy, float dz) {
-        scaling.setRelative(dx, dy, dz);
+    public void setRelativeScaling(float multX, float multY, float multZ) {
+        scaling.setRelative(multX, multY, multZ);
         calculated = false;
     }
 
@@ -85,33 +85,33 @@ public final class ModelTransformer {
         calculated = false;
     }
 
-    public void setRotationX(float angle) {
-        rotatorX.setAngle(angle);
+    public void setRotationX(float rad) {
+        rotatorX.setAngle(rad);
         calculated = false;
     }
 
-    public void setRelativeRotationX(float radians) {
-        rotatorX.setAngle(radians);
+    public void setRelativeRotationX(float dRad) {
+        rotatorX.setRelative(dRad);
         calculated = false;
     }
 
-    public void setRotationY(float radians) {
-        rotatorY.setAngle(radians);
+    public void setRotationY(float rad) {
+        rotatorY.setAngle(rad);
         calculated = false;
     }
 
-    public void setRelativeRotationY(float radians) {
-        rotatorY.setAngle(radians);
+    public void setRelativeRotationY(float dRad) {
+        rotatorY.setRelative(dRad);
         calculated = false;
     }
 
-    public void setRotationZ(float radians) {
-        rotatorZ.setAngle(radians);
+    public void setRotationZ(float rad) {
+        rotatorZ.setAngle(rad);
         calculated = false;
     }
 
-    public void setRelativeRotationZ(float radians) {
-        rotatorZ.setAngle(radians);
+    public void setRelativeRotationZ(float dRad) {
+        rotatorZ.setRelative(dRad);
         calculated = false;
     }
 
