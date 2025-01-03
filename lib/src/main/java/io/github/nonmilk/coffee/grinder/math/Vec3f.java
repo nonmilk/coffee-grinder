@@ -91,4 +91,9 @@ public class Vec3f implements Vector3, Point2f {
     public int size() {
         return 3;
     };
+
+    @Override
+    public Vec3f clone() {
+        return new Vec3f(this.x, this.y, this.z);
+    }
 }

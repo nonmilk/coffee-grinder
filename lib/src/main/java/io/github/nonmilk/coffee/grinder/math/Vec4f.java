@@ -112,4 +112,9 @@ public class Vec4f implements Vector4 {
     public int size() {
         return 4;
     };
+
+    @Override
+    public Vec4f clone() {
+        return new Vec4f(this.x, this.y, this.z, this.w);
+    }
 }
