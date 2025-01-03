@@ -63,4 +63,9 @@ public class Vec2f implements Vector2f, Vector2 {
     public int size() {
         return 2;
     };
+
+    @Override
+    public Vec2f clone() {
+        return new Vec2f(this.x, this.y);
+    }
 }

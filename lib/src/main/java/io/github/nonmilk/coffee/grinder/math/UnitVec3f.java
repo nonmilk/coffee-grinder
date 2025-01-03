@@ -18,7 +18,6 @@ public class UnitVec3f implements Vector3 {
         this.z = z;
     }
 
-
     @Override
     public float x() {
         return x;
@@ -72,4 +71,9 @@ public class UnitVec3f implements Vector3 {
     public int size() {
         return 3;
     };
+
+    @Override
+    public UnitVec3f clone() {
+        return new UnitVec3f(this.x, this.y, this.z);
+    }
 }

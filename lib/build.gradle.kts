@@ -16,7 +16,7 @@ dependencies {
     implementation("io.github.traunin:triangulation:1.1.1")
 
     api("io.github.shimeoki:jshaper:0.15.0")
-    api("io.github.alphameo:linear_algebra:1.2.0")
+    api("io.github.alphameo:linear_algebra:2.0.0")
 }
 
 java {
