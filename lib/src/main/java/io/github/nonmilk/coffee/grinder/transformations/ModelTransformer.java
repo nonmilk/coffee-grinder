@@ -96,12 +96,12 @@ public final class ModelTransformer {
     /**
      * Multiplies existing scaling factors for each axis.
      * 
-     * @param dx multiplier for existing X axis multiplier
-     * @param dy multiplier for existing Y axis multiplier
-     * @param dz multiplier for existing Z axis multiplier
+     * @param multX multiplier for existing X axis multiplier
+     * @param multY multiplier for existing Y axis multiplier
+     * @param multZ multiplier for existing Z axis multiplier
      */
-    public void setRelativeScaling(float dx, float dy, float dz) {
-        scaling.setRelative(dx, dy, dz);
+    public void setRelativeScaling(float multX, float multY, float multZ) {
+        scaling.setRelative(multX, multY, multZ);
         calculated = false;
     }
 
@@ -130,62 +130,62 @@ public final class ModelTransformer {
     }
 
     /**
-     * Sets new value for the X-axis rotation angle. *
+     * Sets new value for the X-axis rotation angle in radians.
      * 
-     * @param angle new angle value of rotation
+     * @param rad new angle value of rotation in radians
      */
-    public void setRotationX(float angle) {
-        rotatorX.setAngle(angle);
+    public void setRotationX(float rad) {
+        rotatorX.setAngle(rad);
         calculated = false;
     }
 
     /**
-     * Adds a value to the X-axis rotation angle.
+     * Adds a value to the X-axis rotation angle in radians.
      * 
-     * @param radians change of the rotaion angle value
+     * @param dRad change of the rotaion angle value in radians
      */
-    public void setRelativeRotationX(float radians) {
-        rotatorX.setAngle(radians);
+    public void setRelativeRotationX(float dRad) {
+        rotatorX.setRelative(dRad);
         calculated = false;
     }
 
     /**
-     * Sets new value for the Y-axis rotation angle. *
+     * Sets new value for the Y-axis rotation angle in radians.
      * 
-     * @param angle new angle value of rotation
+     * @param rad new angle value of rotation in radians
      */
-    public void setRotationY(float radians) {
-        rotatorY.setAngle(radians);
+    public void setRotationY(float rad) {
+        rotatorY.setAngle(rad);
         calculated = false;
     }
 
     /**
-     * Adds a value to the Y-axis rotation angle.
+     * Adds a value to the Y-axis rotation angle in radians.
      * 
-     * @param radians change of the rotaion angle value
+     * @param dRad change of the rotaion angle value in radians
      */
-    public void setRelativeRotationY(float radians) {
-        rotatorY.setAngle(radians);
+    public void setRelativeRotationY(float dRad) {
+        rotatorY.setRelative(dRad);
         calculated = false;
     }
 
     /**
-     * Sets new value for the Z-axis rotation angle. *
+     * Sets new value for the Z-axis rotation angle in radians.
      * 
-     * @param angle new angle value of rotation
+     * @param rad new angle value of rotation in radians
      */
-    public void setRotationZ(float radians) {
-        rotatorZ.setAngle(radians);
+    public void setRotationZ(float rad) {
+        rotatorZ.setAngle(rad);
         calculated = false;
     }
 
     /**
-     * Adds a value to the Z-axis rotation angle.
+     * Adds a value to the Z-axis rotation angle in radians.
      * 
-     * @param radians change of the rotaion angle value
+     * @param dRad change of the rotaion angle value in radians
      */
-    public void setRelativeRotationZ(float radians) {
-        rotatorZ.setAngle(radians);
+    public void setRelativeRotationZ(float dRad) {
+        rotatorZ.setRelative(dRad);
         calculated = false;
     }
 
