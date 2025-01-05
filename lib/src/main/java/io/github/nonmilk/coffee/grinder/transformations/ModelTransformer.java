@@ -210,6 +210,13 @@ public final class ModelTransformer {
         calculated = false;
     }
 
+    /**
+     * Transforms given model by multiplying the transformation operator (a matrix
+     * constructed by the parameters specified in {@code ModelTransformer}) and the
+     * simple coordinate vertices of the given model.
+     * 
+     * @param model given for transformation
+     */
     public void transform(final Model model) {
         final Matrix4 m = this.matrix();
 
