@@ -2,6 +2,7 @@ package io.github.nonmilk.coffee.grinder;
 
 import io.github.shimeoki.jshaper.obj.Triplet;
 
+import java.util.List;
 import java.util.Objects;
 
 public final class MeshFace {
@@ -13,6 +14,15 @@ public final class MeshFace {
         this.v1 = Objects.requireNonNull(v1);
         this.v2 = Objects.requireNonNull(v2);
         this.v3 = Objects.requireNonNull(v3);
+    }
+
+    public MeshFace(List<Triplet> triplets) {
+        Objects.requireNonNull(triplets);
+        if (triplets.size() != 3) {
+            throw new IllegalArgumentException("Triplets list has to contain 3 triplets");
+        }
+        // JDK 22+
+        this(triplets.get(0), triplets.get(1), triplets.get(2));
     }
 
     public Triplet v1() {
