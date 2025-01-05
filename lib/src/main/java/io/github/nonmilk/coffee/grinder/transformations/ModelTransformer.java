@@ -32,7 +32,7 @@ public final class ModelTransformer {
     public ModelTransformer(Model model) {
         Objects.requireNonNull(model);
         this.model = model;
-        resultingMatrix = model.modelMatrix();
+        resultingMatrix = model.matrix();
     }
 
     /**
