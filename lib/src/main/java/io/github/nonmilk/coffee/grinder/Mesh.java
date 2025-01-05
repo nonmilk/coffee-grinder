@@ -30,6 +30,7 @@ public class Mesh {
     }
 
     public static Mesh makeFromObjFile(ObjFile obj) {
+        Objects.requireNonNull(obj);
         Mesh mesh = new Mesh(obj);
         mesh.triangulateWithNormals();
         return mesh;
