@@ -6,6 +6,7 @@ import java.util.Objects;
 import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.vec.Vec4Math;
 import io.github.alphameo.linear_algebra.vec.Vector4;
+import io.github.nonmilk.coffee.grinder.MeshFace;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
 import io.github.nonmilk.coffee.grinder.math.Vec4f;
 import io.github.nonmilk.coffee.grinder.render.ScreenTransform;
@@ -37,13 +38,13 @@ public class Shape {
         return v3;
     }
 
-    public static Shape makeShapeFromFace(final Face face, final ScreenTransform transform) {
+    public static Shape makeShapeFromMeshFace(final MeshFace face, final ScreenTransform transform) {
         Objects.requireNonNull(face);
         Objects.requireNonNull(transform);
-        final List<Triplet> triplets = face.triplets();
-        final Triplet triplet1 = triplets.get(0);
-        final Triplet triplet2 = triplets.get(1);
-        final Triplet triplet3 = triplets.get(2);
+
+        final Triplet triplet1 = face.v1();
+        final Triplet triplet2 = face.v2();
+        final Triplet triplet3 = face.v3();
 
         final Vec3f v1 = vertexToScreen(triplet1.vertex(), transform);
         final Vec3f v2 = vertexToScreen(triplet2.vertex(), transform);
