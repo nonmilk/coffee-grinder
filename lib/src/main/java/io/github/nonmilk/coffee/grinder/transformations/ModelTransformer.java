@@ -1,19 +1,24 @@
 package io.github.nonmilk.coffee.grinder.transformations;
 
+import static io.github.alphameo.linear_algebra.mat.Matrix4Col.C0;
+import static io.github.alphameo.linear_algebra.mat.Matrix4Col.C1;
+import static io.github.alphameo.linear_algebra.mat.Matrix4Col.C2;
+import static io.github.alphameo.linear_algebra.mat.Matrix4Col.C3;
+import static io.github.alphameo.linear_algebra.mat.Matrix4Row.R0;
+import static io.github.alphameo.linear_algebra.mat.Matrix4Row.R1;
+import static io.github.alphameo.linear_algebra.mat.Matrix4Row.R2;
+import static io.github.alphameo.linear_algebra.mat.Matrix4Row.R3;
+
+import java.util.Objects;
+
 import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
-import static io.github.alphameo.linear_algebra.mat.Matrix4Row.*;
-import static io.github.alphameo.linear_algebra.mat.Matrix4Col.*;
 import io.github.nonmilk.coffee.grinder.Model;
 import io.github.nonmilk.coffee.grinder.math.affine.Rotator;
 import io.github.nonmilk.coffee.grinder.math.affine.Scaling;
 import io.github.nonmilk.coffee.grinder.math.affine.Transformation;
 import io.github.nonmilk.coffee.grinder.math.affine.Translator;
 import io.github.shimeoki.jshaper.obj.Vertex;
-import io.github.shimeoki.jshaper.obj.VertexData;
-import io.github.shimeoki.jshaper.obj.VertexNormal;
-
-import java.util.Objects;
 
 /**
  * A class that takes model inside and constructs a transformation matrix from
