@@ -1,11 +1,17 @@
 package io.github.nonmilk.coffee.grinder.transformations;
 
+import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
+import static io.github.alphameo.linear_algebra.mat.Matrix4Row.*;
+import static io.github.alphameo.linear_algebra.mat.Matrix4Col.*;
 import io.github.nonmilk.coffee.grinder.Model;
 import io.github.nonmilk.coffee.grinder.math.affine.Rotator;
 import io.github.nonmilk.coffee.grinder.math.affine.Scaling;
 import io.github.nonmilk.coffee.grinder.math.affine.Transformation;
 import io.github.nonmilk.coffee.grinder.math.affine.Translator;
+import io.github.shimeoki.jshaper.obj.Vertex;
+import io.github.shimeoki.jshaper.obj.VertexData;
+import io.github.shimeoki.jshaper.obj.VertexNormal;
 
 import java.util.Objects;
 
@@ -14,8 +20,8 @@ import java.util.Objects;
  * the added parameters.
  */
 public final class ModelTransformer {
-    private final Model model;
     private Matrix4 resultingMatrix;
+
     private final Scaling scaling = new Scaling();
     private RotationOrder rotationOrder = RotationOrder.XYZ;
     private final Rotator rotatorX = new Rotator(Rotator.Axis.X);
@@ -29,10 +35,8 @@ public final class ModelTransformer {
      * 
      * @param model for constructing transformation matrix
      */
-    public ModelTransformer(Model model) {
-        Objects.requireNonNull(model);
-        this.model = model;
-        resultingMatrix = model.matrix();
+    public ModelTransformer() {
+        resultingMatrix = Mat4Math.unitMat();
     }
 
     /**
@@ -42,19 +46,19 @@ public final class ModelTransformer {
      * @return matrix that represents transformation operator for pixel in
      *         coordinate system
      */
-    public Matrix4 modelMatrix() {
+    public Matrix4 matrix() {
         if (calculated) {
             return resultingMatrix;
         }
 
-        Transformation at = construct(rotationOrder);
+        final Transformation at = construct(rotationOrder);
         resultingMatrix = at.getMatrix();
         calculated = true;
 
         return resultingMatrix;
     }
 
-    private Transformation construct(RotationOrder order) {
+    private Transformation construct(final RotationOrder order) {
         Objects.requireNonNull(order);
         switch (order) {
             case XYZ -> {
@@ -88,7 +92,7 @@ public final class ModelTransformer {
      * @param y new multiplier for Y axis
      * @param z new multiplier for Z axis
      */
-    public void setScaling(float x, float y, float z) {
+    public void setScaling(final float x, final float y, final float z) {
         scaling.set(x, y, z);
         calculated = false;
     }
@@ -100,7 +104,7 @@ public final class ModelTransformer {
      * @param multY multiplier for existing Y axis multiplier
      * @param multZ multiplier for existing Z axis multiplier
      */
-    public void setRelativeScaling(float multX, float multY, float multZ) {
+    public void setRelativeScaling(final float multX, final float multY, final float multZ) {
         scaling.setRelative(multX, multY, multZ);
         calculated = false;
     }
@@ -112,7 +116,7 @@ public final class ModelTransformer {
      * @param y new Y axis offset
      * @param z new Z axis offset
      */
-    public void setTranslation(float x, float y, float z) {
+    public void setTranslation(final float x, final float y, final float z) {
         translator.set(x, y, z);
         calculated = false;
     }
@@ -124,7 +128,7 @@ public final class ModelTransformer {
      * @param dy change of Y axis offset
      * @param dz change of Z axis offset
      */
-    public void setRelativeTranslation(float dx, float dy, float dz) {
+    public void setRelativeTranslation(final float dx, final float dy, final float dz) {
         translator.setRelative(dx, dy, dz);
         calculated = false;
     }
@@ -134,7 +138,7 @@ public final class ModelTransformer {
      * 
      * @param rad new angle value of rotation in radians
      */
-    public void setRotationX(float rad) {
+    public void setRotationX(final float rad) {
         rotatorX.setAngle(rad);
         calculated = false;
     }
@@ -144,7 +148,7 @@ public final class ModelTransformer {
      * 
      * @param dRad change of the rotaion angle value in radians
      */
-    public void setRelativeRotationX(float dRad) {
+    public void setRelativeRotationX(final float dRad) {
         rotatorX.setRelative(dRad);
         calculated = false;
     }
@@ -154,7 +158,7 @@ public final class ModelTransformer {
      * 
      * @param rad new angle value of rotation in radians
      */
-    public void setRotationY(float rad) {
+    public void setRotationY(final float rad) {
         rotatorY.setAngle(rad);
         calculated = false;
     }
@@ -164,7 +168,7 @@ public final class ModelTransformer {
      * 
      * @param dRad change of the rotaion angle value in radians
      */
-    public void setRelativeRotationY(float dRad) {
+    public void setRelativeRotationY(final float dRad) {
         rotatorY.setRelative(dRad);
         calculated = false;
     }
@@ -174,7 +178,7 @@ public final class ModelTransformer {
      * 
      * @param rad new angle value of rotation in radians
      */
-    public void setRotationZ(float rad) {
+    public void setRotationZ(final float rad) {
         rotatorZ.setAngle(rad);
         calculated = false;
     }
@@ -184,7 +188,7 @@ public final class ModelTransformer {
      * 
      * @param dRad change of the rotaion angle value in radians
      */
-    public void setRelativeRotationZ(float dRad) {
+    public void setRelativeRotationZ(final float dRad) {
         rotatorZ.setRelative(dRad);
         calculated = false;
     }
@@ -195,9 +199,76 @@ public final class ModelTransformer {
      * 
      * @param order axes rotation order
      */
-    public void setRotationOrder(RotationOrder order) {
+    public void setRotationOrder(final RotationOrder order) {
         Objects.requireNonNull(order);
         this.rotationOrder = order;
         calculated = false;
+    }
+
+    public void transform(final Model model) {
+        VertexData vd = model.obj().vertexData();
+
+        Matrix4 m = this.matrix();
+        for (Vertex v : vd.vertices()) {
+            transformVertex(m, v);
+        }
+
+        for (VertexNormal v : vd.vertexNormals()) {
+            transformVertexNormal(m, v);
+        }
+    }
+
+    private static void transformVertex(Matrix4 m, Vertex v) {
+        final float x = m.get(R0, C0) * v.x()
+                + m.get(R0, C1) * v.y()
+                + m.get(R0, C2) * v.z()
+                + m.get(R0, C3);
+
+        final float y = m.get(R1, C0) * v.x()
+                + m.get(R1, C1) * v.y()
+                + m.get(R1, C2) * v.z()
+                + m.get(R1, C3);
+
+        final float z = m.get(R2, C0) * v.x()
+                + m.get(R2, C1) * v.y()
+                + m.get(R2, C2) * v.z()
+                + m.get(R2, C3);
+
+        // virtual 4th coordinate. In initial vertex should be 1, so not used in product
+        final float w = m.get(R3, C0) * v.x()
+                + m.get(R3, C1) * v.y()
+                + m.get(R3, C2) * v.z()
+                + m.get(R3, C3);
+
+        v.setX(x / w);
+        v.setY(y / w);
+        v.setZ(z / w);
+    }
+
+    private static void transformVertexNormal(Matrix4 m, VertexNormal v) {
+        final float i = (m.get(R0, C0) * v.i()
+                + m.get(R0, C1) * v.j()
+                + m.get(R0, C2) * v.k()
+                + m.get(R0, C3));
+
+        final float j = (m.get(R1, C0) * v.i()
+                + m.get(R1, C1) * v.j()
+                + m.get(R1, C2) * v.k()
+                + m.get(R1, C3));
+
+        final float k = (m.get(R2, C0) * v.i()
+                + m.get(R2, C1) * v.j()
+                + m.get(R2, C2) * v.k()
+                + m.get(R2, C3));
+
+        // virtual 4th coordinate. In initial vertex should be 1, so not used in product
+        final float l = m.get(R3, C0) * v.i()
+                + m.get(R3, C1) * v.j()
+                + m.get(R3, C2) * v.k()
+                + m.get(R3, C3);
+
+        v.setI(i / l);
+        v.setJ(j / l);
+        v.setK(k / l);
     }
 }
