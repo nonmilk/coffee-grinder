@@ -4,6 +4,7 @@ import io.github.shimeoki.jshaper.ObjFile;
 import io.github.alphameo.linear_algebra.mat.Mat4;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.nonmilk.coffee.grinder.render.Texture;
+import io.github.nonmilk.coffee.grinder.transformations.ModelTransformer;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +13,7 @@ public class Model {
 
     private final ObjFile obj;
     private final Mesh mesh;
-    private final Matrix4 matrix = new Mat4(
+    private Matrix4 matrix = new Mat4(
             1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,
@@ -46,7 +47,12 @@ public class Model {
         this.texture = Objects.requireNonNull(texture);
     }
 
-    private ObjFile cloneObj(ObjFile obj) {
+    public void setTransform(final ModelTransformer modelTransformer) {
+        Objects.requireNonNull(modelTransformer);
+        matrix = modelTransformer.matrix();
+    }
+
+    private ObjFile cloneObj(final ObjFile obj) {
         // FIXME write this
         return Objects.requireNonNull(obj);
     }

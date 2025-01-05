@@ -1,24 +1,13 @@
 package io.github.nonmilk.coffee.grinder.transformations;
 
-import static io.github.alphameo.linear_algebra.mat.Matrix4Col.C0;
-import static io.github.alphameo.linear_algebra.mat.Matrix4Col.C1;
-import static io.github.alphameo.linear_algebra.mat.Matrix4Col.C2;
-import static io.github.alphameo.linear_algebra.mat.Matrix4Col.C3;
-import static io.github.alphameo.linear_algebra.mat.Matrix4Row.R0;
-import static io.github.alphameo.linear_algebra.mat.Matrix4Row.R1;
-import static io.github.alphameo.linear_algebra.mat.Matrix4Row.R2;
-import static io.github.alphameo.linear_algebra.mat.Matrix4Row.R3;
-
 import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
-import io.github.nonmilk.coffee.grinder.Model;
 import io.github.nonmilk.coffee.grinder.math.affine.Rotator;
 import io.github.nonmilk.coffee.grinder.math.affine.Scaling;
 import io.github.nonmilk.coffee.grinder.math.affine.Transformation;
 import io.github.nonmilk.coffee.grinder.math.affine.Translator;
-import io.github.shimeoki.jshaper.obj.Vertex;
 
 /**
  * A class that takes model inside and constructs a transformation matrix from
@@ -208,45 +197,5 @@ public final class ModelTransformer {
         Objects.requireNonNull(order);
         this.rotationOrder = order;
         calculated = false;
-    }
-
-    /**
-     * Transforms given model by multiplying the transformation operator (a matrix
-     * constructed by the parameters specified in {@code ModelTransformer}) and the
-     * simple coordinate vertices of the given model.
-     * 
-     * @param model given for transformation
-     */
-    public void transform(final Model model) {
-        final Matrix4 m = this.matrix();
-
-        float x, y, z, w;
-        for (final Vertex v : model.obj().vertexData().vertices()) {
-
-            x = m.get(R0, C0) * v.x()
-                    + m.get(R0, C1) * v.y()
-                    + m.get(R0, C2) * v.z()
-                    + m.get(R0, C3);
-
-            y = m.get(R1, C0) * v.x()
-                    + m.get(R1, C1) * v.y()
-                    + m.get(R1, C2) * v.z()
-                    + m.get(R1, C3);
-
-            z = m.get(R2, C0) * v.x()
-                    + m.get(R2, C1) * v.y()
-                    + m.get(R2, C2) * v.z()
-                    + m.get(R2, C3);
-
-            // virtual 4th coordinate. In initial vertex should be 1, so not used in product
-            w = m.get(R3, C0) * v.x()
-                    + m.get(R3, C1) * v.y()
-                    + m.get(R3, C2) * v.z()
-                    + m.get(R3, C3);
-
-            v.setX(x / w);
-            v.setY(y / w);
-            v.setZ(z / w);
-        }
     }
 }
