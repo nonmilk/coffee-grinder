@@ -18,7 +18,7 @@ public class Model {
 
     public Model(final ObjFile obj, final Texture texture) {
         this.obj = cloneObj(obj);
-        this.texture = texture;
+        setTexture(texture);
         // might move it somewhere else
         this.mesh = Mesh.makeFromObjFile(obj);
     }
