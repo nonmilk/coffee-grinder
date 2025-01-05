@@ -38,8 +38,8 @@ public class Mesh {
         return mesh;
     }
 
-    public List<Face> faces() {
-        return faces;
+    public List<MeshFace> meshFaces() {
+        return meshFaces;
     }
 
     public void triangulateWithNormals() {
