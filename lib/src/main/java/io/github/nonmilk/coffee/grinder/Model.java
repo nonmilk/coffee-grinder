@@ -5,6 +5,7 @@ import io.github.alphameo.linear_algebra.mat.Mat4;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.nonmilk.coffee.grinder.render.Texture;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Model {
@@ -27,6 +28,10 @@ public class Model {
 
     public ObjFile model() {
         return model;
+    }
+
+    public List<MeshFace> meshFaces() {
+        return mesh.meshFaces();
     }
 
     public Matrix4 modelMatrix() {
