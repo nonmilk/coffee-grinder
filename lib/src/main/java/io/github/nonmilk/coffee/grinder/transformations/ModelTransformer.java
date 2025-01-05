@@ -209,66 +209,33 @@ public final class ModelTransformer {
         VertexData vd = model.obj().vertexData();
 
         Matrix4 m = this.matrix();
+        float x, y, z, w;
         for (Vertex v : vd.vertices()) {
-            transformVertex(m, v);
+
+            x = m.get(R0, C0) * v.x()
+                    + m.get(R0, C1) * v.y()
+                    + m.get(R0, C2) * v.z()
+                    + m.get(R0, C3);
+
+            y = m.get(R1, C0) * v.x()
+                    + m.get(R1, C1) * v.y()
+                    + m.get(R1, C2) * v.z()
+                    + m.get(R1, C3);
+
+            z = m.get(R2, C0) * v.x()
+                    + m.get(R2, C1) * v.y()
+                    + m.get(R2, C2) * v.z()
+                    + m.get(R2, C3);
+
+            // virtual 4th coordinate. In initial vertex should be 1, so not used in product
+            w = m.get(R3, C0) * v.x()
+                    + m.get(R3, C1) * v.y()
+                    + m.get(R3, C2) * v.z()
+                    + m.get(R3, C3);
+
+            v.setX(x / w);
+            v.setY(y / w);
+            v.setZ(z / w);
         }
-
-        for (VertexNormal v : vd.vertexNormals()) {
-            transformVertexNormal(m, v);
-        }
-    }
-
-    private static void transformVertex(Matrix4 m, Vertex v) {
-        final float x = m.get(R0, C0) * v.x()
-                + m.get(R0, C1) * v.y()
-                + m.get(R0, C2) * v.z()
-                + m.get(R0, C3);
-
-        final float y = m.get(R1, C0) * v.x()
-                + m.get(R1, C1) * v.y()
-                + m.get(R1, C2) * v.z()
-                + m.get(R1, C3);
-
-        final float z = m.get(R2, C0) * v.x()
-                + m.get(R2, C1) * v.y()
-                + m.get(R2, C2) * v.z()
-                + m.get(R2, C3);
-
-        // virtual 4th coordinate. In initial vertex should be 1, so not used in product
-        final float w = m.get(R3, C0) * v.x()
-                + m.get(R3, C1) * v.y()
-                + m.get(R3, C2) * v.z()
-                + m.get(R3, C3);
-
-        v.setX(x / w);
-        v.setY(y / w);
-        v.setZ(z / w);
-    }
-
-    private static void transformVertexNormal(Matrix4 m, VertexNormal v) {
-        final float i = (m.get(R0, C0) * v.i()
-                + m.get(R0, C1) * v.j()
-                + m.get(R0, C2) * v.k()
-                + m.get(R0, C3));
-
-        final float j = (m.get(R1, C0) * v.i()
-                + m.get(R1, C1) * v.j()
-                + m.get(R1, C2) * v.k()
-                + m.get(R1, C3));
-
-        final float k = (m.get(R2, C0) * v.i()
-                + m.get(R2, C1) * v.j()
-                + m.get(R2, C2) * v.k()
-                + m.get(R2, C3));
-
-        // virtual 4th coordinate. In initial vertex should be 1, so not used in product
-        final float l = m.get(R3, C0) * v.i()
-                + m.get(R3, C1) * v.j()
-                + m.get(R3, C2) * v.k()
-                + m.get(R3, C3);
-
-        v.setI(i / l);
-        v.setJ(j / l);
-        v.setK(k / l);
     }
 }
