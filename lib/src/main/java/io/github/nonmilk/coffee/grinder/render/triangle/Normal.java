@@ -75,7 +75,8 @@ public class Normal {
         v = Mat4Math.prod(transform.model(), v);
         // do we need to convert them to camera?
         // vertex = Mat4Math.prod(transform.view(), vertex);
-        Vec4Math.divide(v, v.w());
+        v.setW(0);
+        Vec4Math.normalize(v);
 
         return new UnitVec3f(v.x(), v.y(), v.z());
     }
