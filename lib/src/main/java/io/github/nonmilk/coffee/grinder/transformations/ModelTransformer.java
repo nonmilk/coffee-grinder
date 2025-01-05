@@ -206,10 +206,10 @@ public final class ModelTransformer {
     }
 
     public void transform(final Model model) {
-        Matrix4 m = this.matrix();
+        final Matrix4 m = this.matrix();
 
         float x, y, z, w;
-        for (Vertex v : model.obj().vertexData().vertices()) {
+        for (final Vertex v : model.obj().vertexData().vertices()) {
 
             x = m.get(R0, C0) * v.x()
                     + m.get(R0, C1) * v.y()
