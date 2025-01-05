@@ -30,6 +30,7 @@ import java.util.Set;
 
 public class Model {
 
+    private final ObjFile model;
     private final List<Vertex> vertices;
     private final List<TextureVertex> textureVertices;
     private final List<Face> faces;
@@ -42,11 +43,16 @@ public class Model {
     private Texture texture;
 
     public Model(final ObjFile obj, final Texture texture) {
+        model = cloneObj(obj);
         vertices = obj.vertexData().vertices();
         textureVertices = obj.vertexData().textureVertices();
         normals = obj.vertexData().vertexNormals();
         faces = obj.elements().faces();
         this.texture = texture;
+    }
+
+    public ObjFile model() {
+        return model;
     }
 
     public Matrix4 modelMatrix() {
@@ -93,6 +99,11 @@ public class Model {
             normal.setJ(normal.j() / length);
             normal.setK(normal.k() / length);
         }
+    }
+
+    private ObjFile cloneObj(ObjFile obj) {
+        // FIXME write this
+        return Objects.requireNonNull(obj);        
     }
 
     private void triangulateFace(final Face face) {
