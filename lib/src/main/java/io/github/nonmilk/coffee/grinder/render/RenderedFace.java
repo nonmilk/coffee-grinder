@@ -2,6 +2,7 @@ package io.github.nonmilk.coffee.grinder.render;
 
 import java.util.Objects;
 
+import io.github.nonmilk.coffee.grinder.MeshFace;
 import io.github.nonmilk.coffee.grinder.render.triangle.Normal;
 import io.github.nonmilk.coffee.grinder.render.triangle.Shape;
 import io.github.nonmilk.coffee.grinder.render.triangle.UV;
@@ -15,15 +16,15 @@ public class RenderedFace implements Triangle {
     private final Normal normal;
     private final UV uv;
 
-    public RenderedFace(final Face face, final ScreenTransform transform) {
-        Objects.requireNonNull(face);
+    public RenderedFace(final MeshFace meshFace, final ScreenTransform transform) {
+        Objects.requireNonNull(meshFace);
         Objects.requireNonNull(transform);
 
-        shape = Shape.makeShapeFromFace(face, transform);
-        normal = Normal.makeNormalFromFace(face, transform);
-        switch (face.triplets().getFirst().format()) {
+        shape = Shape.makeShapeFromMeshFace(meshFace, transform);
+        normal = Normal.makeNormalFromMeshFace(meshFace, transform);
+        switch (meshFace.v1().format()) {
             case ALL, TEXTURE_VERTEX:
-                uv = UV.makeUVFromFace(face);
+                uv = UV.makeUVFromMeshFace(meshFace);
                 break;
             default:
                 uv = null;

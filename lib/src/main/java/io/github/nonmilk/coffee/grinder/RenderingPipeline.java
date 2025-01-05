@@ -51,12 +51,9 @@ public class RenderingPipeline {
         }
     }
 
-
-    // assumes a model was triangulated
-    // move to mesh
     private void renderModel(Model model, ScreenTransform transform) {
-        for (Face face : model.faces()) {
-            RenderedFace triangle = new RenderedFace(face, transform);
+        for (MeshFace meshFace : model.meshFaces()) {
+            RenderedFace triangle = new RenderedFace(meshFace, transform);
             texturedFiller.setTriangle(triangle);
 
             triangler.draw(triangle);

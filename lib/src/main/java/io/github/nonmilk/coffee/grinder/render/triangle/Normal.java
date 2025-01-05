@@ -7,6 +7,8 @@ import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.vec.Vec4Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
 import io.github.alphameo.linear_algebra.vec.Vector4;
+import io.github.nonmilk.coffee.grinder.Mesh;
+import io.github.nonmilk.coffee.grinder.MeshFace;
 import io.github.nonmilk.coffee.grinder.math.UnitVec3f;
 import io.github.nonmilk.coffee.grinder.math.Vec3f;
 import io.github.nonmilk.coffee.grinder.math.Vec4f;
@@ -53,14 +55,13 @@ public class Normal {
         return v3n;
     }
 
-    public static Normal makeNormalFromFace(final Face face, final ScreenTransform transform) {
+    public static Normal makeNormalFromMeshFace(final MeshFace face, final ScreenTransform transform) {
         Objects.requireNonNull(face);
         Objects.requireNonNull(transform);
-        final List<Triplet> triplets = face.triplets();
 
-        final Triplet triplet1 = triplets.get(0);
-        final Triplet triplet2 = triplets.get(1);
-        final Triplet triplet3 = triplets.get(2);
+        final Triplet triplet1 = face.v1();
+        final Triplet triplet2 = face.v2();
+        final Triplet triplet3 = face.v3();
 
         final UnitVec3f v1n = normalToWorld(triplet1.vertexNormal(), transform);
         final UnitVec3f v2n = normalToWorld(triplet2.vertexNormal(), transform);
