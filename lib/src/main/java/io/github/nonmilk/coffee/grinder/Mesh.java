@@ -29,12 +29,17 @@ public class Mesh {
         faces = obj.elements().faces();
     }
 
+    public static Mesh makeFromObjFile(ObjFile obj) {
+        Mesh mesh = new Mesh(obj);
+        mesh.triangulateWithNormals();
+        return mesh;
+    }
+
     public List<Face> faces() {
         return faces;
     }
 
     public void triangulateWithNormals() {
-        // MUST BE USED FOR EVERY MODEL
         normals.clear();
         final int vertexCount = vertices.size();
 
