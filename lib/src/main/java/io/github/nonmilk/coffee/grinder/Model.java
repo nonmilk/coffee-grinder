@@ -10,9 +10,9 @@ import java.util.Objects;
 
 public class Model {
 
-    private final ObjFile model;
+    private final ObjFile obj;
     private final Mesh mesh;
-    private final Matrix4 modelMatrix = new Mat4(
+    private final Matrix4 matrix = new Mat4(
             1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,
@@ -20,22 +20,22 @@ public class Model {
     private Texture texture;
 
     public Model(final ObjFile obj, final Texture texture) {
-        model = cloneObj(obj);
+        this.obj = cloneObj(obj);
         this.texture = texture;
         // might move it somewhere else
         this.mesh = Mesh.makeFromObjFile(obj);
     }
 
-    public ObjFile model() {
-        return model;
+    public ObjFile obj() {
+        return obj;
     }
 
     public List<MeshFace> meshFaces() {
         return mesh.meshFaces();
     }
 
-    public Matrix4 modelMatrix() {
-        return modelMatrix;
+    public Matrix4 matrix() {
+        return matrix;
     }
 
     public Texture texture() {
@@ -48,6 +48,6 @@ public class Model {
 
     private ObjFile cloneObj(ObjFile obj) {
         // FIXME write this
-        return Objects.requireNonNull(obj);        
+        return Objects.requireNonNull(obj);
     }
 }

@@ -45,7 +45,7 @@ public class RenderingPipeline {
         final ScreenTransform transform = new ScreenTransform(selectedCamera, ctx);
 
         for (Model model : scene.models()) {
-            transform.setModel(model.modelMatrix());
+            transform.setModel(model.matrix());
             texturedFiller.setTexture(model.texture());
             renderModel(model, transform);
         }
