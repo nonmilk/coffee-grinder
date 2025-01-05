@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Model {
 
     private final ObjFile model;
+    private final Mesh mesh;
     private final Matrix4 modelMatrix = new Mat4(
             1, 0, 0, 0,
             0, 1, 0, 0,
@@ -20,6 +21,8 @@ public class Model {
     public Model(final ObjFile obj, final Texture texture) {
         model = cloneObj(obj);
         this.texture = texture;
+        // might move it somewhere else
+        this.mesh = Mesh.makeFromObjFile(obj);
     }
 
     public ObjFile model() {
