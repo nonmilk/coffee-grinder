@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.vec.Vector2;
+import io.github.nonmilk.coffee.grinder.MeshFace;
 import io.github.nonmilk.coffee.grinder.math.Vec2f;
 import io.github.shimeoki.jshaper.obj.Triplet;
 import io.github.shimeoki.jshaper.obj.Face;
@@ -34,14 +35,12 @@ public class UV {
         return new Vec2f(x, y);
     }
 
-    public static UV makeUVFromFace(final Face face) {
+    public static UV makeUVFromMeshFace(final MeshFace face) {
         Objects.requireNonNull(face);
 
-        final List<Triplet> triplets = face.triplets();
-
-        final Triplet triplet1 = triplets.get(0);
-        final Triplet triplet2 = triplets.get(1);
-        final Triplet triplet3 = triplets.get(2);
+        final Triplet triplet1 = face.v1();
+        final Triplet triplet2 = face.v2();
+        final Triplet triplet3 = face.v3();
 
         final Vector2 uv1 = uvFromTextureVertex(triplet1.textureVertex());
         final Vector2 uv2 = uvFromTextureVertex(triplet2.textureVertex());
