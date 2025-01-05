@@ -20,6 +20,7 @@ public class Mesh {
     private final List<Vertex> vertices;
     private final List<TextureVertex> textureVertices;
     private final List<Face> faces;
+    private final List<MeshFace> meshFaces;
     private final List<VertexNormal> normals;
 
     private Mesh(ObjFile obj) {
@@ -27,6 +28,7 @@ public class Mesh {
         textureVertices = obj.vertexData().textureVertices();
         normals = obj.vertexData().vertexNormals();
         faces = obj.elements().faces();
+        meshFaces = new ArrayList<>(faces.size());
     }
 
     public static Mesh makeFromObjFile(ObjFile obj) {
@@ -56,8 +58,10 @@ public class Mesh {
             addFaceNormals(face, normalFaceCounts);
 
             if (face.triplets().size() > 3) {
-                faces.remove(i);
+                // faces.remove(i);
                 triangulateFace(face);
+            } else {
+                meshFaces.add(new MeshFace(face.triplets()));
             }
         }
 
@@ -85,12 +89,10 @@ public class Mesh {
         final List<int[]> triangles = Triangulation.earClippingTriangulate(flatPolygon);
         final Set<Group> groups = face.groups();
         for (final int[] triangle : triangles) {
-            final List<Triplet> triplets = new ArrayList<>(3);
-            // better way?
-            triplets.add(faceTriplets.get(triangle[0]));
-            triplets.add(faceTriplets.get(triangle[1]));
-            triplets.add(faceTriplets.get(triangle[2]));
-            faces.add(new Face(triplets, groups));
+            meshFaces.add(new MeshFace(
+                    faceTriplets.get(triangle[0]),
+                    faceTriplets.get(triangle[1]),
+                    faceTriplets.get(triangle[2])));
         }
     }
 
