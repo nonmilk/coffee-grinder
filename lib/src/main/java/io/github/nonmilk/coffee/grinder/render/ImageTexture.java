@@ -25,12 +25,8 @@ public final class ImageTexture implements Texture {
     private float green;
     private float blue;
 
-    public ImageTexture(final File f) {
-        try {
-            img = ImageIO.read(Objects.requireNonNull(f));
-        } catch (final IOException e) {
-            throw new IllegalArgumentException("file is not a valid image");
-        }
+    public ImageTexture(final BufferedImage img) {
+        this.img = Objects.requireNonNull(img);
 
         width = img.getWidth();
         height = img.getHeight();
@@ -53,5 +49,16 @@ public final class ImageTexture implements Texture {
         blue = (float) (argb & 0x000000ff) / 255f;
 
         return new Colorf(red, green, blue, alpha);
+    }
+
+    public ImageTexture fromFile(final File f) {
+        final BufferedImage img;
+        try {
+            img = ImageIO.read(Objects.requireNonNull(f));
+        } catch (final IOException e) {
+            throw new IllegalArgumentException("file is not a valid image");
+        }
+
+        return new ImageTexture(img);
     }
 }
