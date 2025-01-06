@@ -16,15 +16,6 @@ public final class ImageTexture implements Texture {
     private final int width;
     private final int height;
 
-    private int argb;
-    private int x;
-    private int y;
-
-    private float alpha;
-    private float red;
-    private float green;
-    private float blue;
-
     public ImageTexture(final BufferedImage img) {
         this.img = Objects.requireNonNull(img);
 
@@ -38,15 +29,15 @@ public final class ImageTexture implements Texture {
             throw new IllegalArgumentException("x, y has to be in [-1, 1]");
         }
 
-        this.x = (int) Math.floor(Math.abs(x) * width);
-        this.y = (int) Math.floor(Math.abs(y) * height);
+        final int imgX = (int) Math.floor(Math.abs(x) * width);
+        final int imgY = (int) Math.floor(Math.abs(y) * height);
 
-        argb = img.getRGB(this.x, this.y);
+        final int argb = img.getRGB(imgX, imgY);
 
-        alpha = (float) ((argb & 0xff000000) >>> 24) / 255f;
-        red = (float) ((argb & 0x00ff0000) >> 16) / 255f;
-        green = (float) ((argb & 0x0000ff00) >> 8) / 255f;
-        blue = (float) (argb & 0x000000ff) / 255f;
+        final float alpha = (float) ((argb & 0xff000000) >>> 24) / 255f;
+        final float red = (float) ((argb & 0x00ff0000) >> 16) / 255f;
+        final float green = (float) ((argb & 0x0000ff00) >> 8) / 255f;
+        final float blue = (float) (argb & 0x000000ff) / 255f;
 
         return new Colorf(red, green, blue, alpha);
     }
