@@ -42,12 +42,15 @@ public class ImageTexture implements Texture {
             throw new IllegalArgumentException("x, y has to be in [-1, 1]");
         }
 
-        final int clr = img.getRGB((int) Math.floor(Math.abs(x) * width), (int) Math.floor(Math.abs(y) * height));
+        this.x = (int) Math.floor(Math.abs(x) * width);
+        this.y = (int) Math.floor(Math.abs(y) * height);
 
-        final float alpha = (float) ((clr & 0xff000000) >>> 24) / 255f;
-        final float red = (float) ((clr & 0x00ff0000) >> 16) / 255f;
-        final float green = (float) ((clr & 0x0000ff00) >> 8) / 255f;
-        final float blue = (float) (clr & 0x000000ff) / 255f;
+        argb = img.getRGB(this.x, this.y);
+
+        alpha = (float) ((argb & 0xff000000) >>> 24) / 255f;
+        red = (float) ((argb & 0x00ff0000) >> 16) / 255f;
+        green = (float) ((argb & 0x0000ff00) >> 8) / 255f;
+        blue = (float) (argb & 0x000000ff) / 255f;
 
         return new Colorf(red, green, blue, alpha);
     }
