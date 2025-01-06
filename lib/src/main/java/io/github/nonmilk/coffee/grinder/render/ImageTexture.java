@@ -10,14 +10,21 @@ import javax.imageio.ImageIO;
 import io.github.shimeoki.jfx.rasterization.Colorf;
 
 public class ImageTexture implements Texture {
-    private final BufferedImage texture;
+
+    private final BufferedImage img;
+
     private final int width;
     private final int height;
 
-    private ImageTexture(final BufferedImage image) {
-        texture = image;
-        width = image.getWidth();
-        height = image.getHeight();
+    public ImageTexture(final File f) {
+        try {
+            img = ImageIO.read(Objects.requireNonNull(f));
+        } catch (final IOException e) {
+            throw new IllegalArgumentException("file is not a valid image");
+        }
+
+        width = img.getWidth();
+        height = img.getHeight();
     }
 
     public Colorf pixelColor(final float x, final float y) {
@@ -25,7 +32,7 @@ public class ImageTexture implements Texture {
             throw new IllegalArgumentException("x, y has to be in [-1, 1]");
         }
 
-        final int clr = texture.getRGB((int) Math.floor(Math.abs(x) * width), (int) Math.floor(Math.abs(y) * height));
+        final int clr = img.getRGB((int) Math.floor(Math.abs(x) * width), (int) Math.floor(Math.abs(y) * height));
 
         final float alpha = (float) ((clr & 0xff000000) >>> 24) / 255f;
         final float red = (float) ((clr & 0x00ff0000) >> 16) / 255f;
@@ -33,17 +40,5 @@ public class ImageTexture implements Texture {
         final float blue = (float) (clr & 0x000000ff) / 255f;
 
         return new Colorf(red, green, blue, alpha);
-    }
-
-    public static ImageTexture makeFromFile(final File file) {
-        Objects.requireNonNull(file);
-        final BufferedImage image;
-        try {
-            image = ImageIO.read(file);
-        } catch (IllegalArgumentException | IOException e) {
-            throw new IllegalArgumentException("Unable to read texutre");
-        }
-
-        return new ImageTexture(image);
     }
 }
