@@ -9,41 +9,47 @@ import javax.imageio.ImageIO;
 
 import io.github.shimeoki.jfx.rasterization.Colorf;
 
-public class ImageTexture implements Texture {
-    private final BufferedImage texture;
+public final class ImageTexture implements Texture {
+
+    private final BufferedImage img;
+
     private final int width;
     private final int height;
 
-    private ImageTexture(final BufferedImage image) {
-        texture = image;
-        width = image.getWidth();
-        height = image.getHeight();
+    public ImageTexture(final BufferedImage img) {
+        this.img = Objects.requireNonNull(img);
+
+        width = img.getWidth();
+        height = img.getHeight();
     }
 
+    @Override
     public Colorf pixelColor(final float x, final float y) {
         if (x < -1 || y < -1 || x > 1 || y > 1) {
             throw new IllegalArgumentException("x, y has to be in [-1, 1]");
         }
 
-        final int clr = texture.getRGB((int) Math.floor(Math.abs(x) * width), (int) Math.floor(Math.abs(y) * height));
+        final int imgX = (int) Math.floor(Math.abs(x) * width);
+        final int imgY = (int) Math.floor(Math.abs(y) * height);
 
-        final float alpha = (float) ((clr & 0xff000000) >>> 24) / 255f;
-        final float red = (float) ((clr & 0x00ff0000) >> 16) / 255f;
-        final float green = (float) ((clr & 0x0000ff00) >> 8) / 255f;
-        final float blue = (float) (clr & 0x000000ff) / 255f;
+        final int argb = img.getRGB(imgX, imgY);
+
+        final float alpha = (float) ((argb & 0xff000000) >>> 24) / 255f;
+        final float red = (float) ((argb & 0x00ff0000) >> 16) / 255f;
+        final float green = (float) ((argb & 0x0000ff00) >> 8) / 255f;
+        final float blue = (float) (argb & 0x000000ff) / 255f;
 
         return new Colorf(red, green, blue, alpha);
     }
 
-    public static ImageTexture makeFromFile(final File file) {
-        Objects.requireNonNull(file);
-        final BufferedImage image;
+    public static ImageTexture fromFile(final File f) {
+        final BufferedImage img;
         try {
-            image = ImageIO.read(file);
-        } catch (IllegalArgumentException | IOException e) {
-            throw new IllegalArgumentException("Unable to read texutre");
+            img = ImageIO.read(Objects.requireNonNull(f));
+        } catch (final IOException e) {
+            throw new IllegalArgumentException("file is not a valid image");
         }
 
-        return new ImageTexture(image);
+        return new ImageTexture(img);
     }
 }
