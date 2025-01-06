@@ -51,7 +51,7 @@ public final class ImageTexture implements Texture {
         return new Colorf(red, green, blue, alpha);
     }
 
-    public ImageTexture fromFile(final File f) {
+    public static ImageTexture fromFile(final File f) {
         final BufferedImage img;
         try {
             img = ImageIO.read(Objects.requireNonNull(f));
