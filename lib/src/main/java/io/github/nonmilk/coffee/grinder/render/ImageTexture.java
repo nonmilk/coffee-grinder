@@ -27,6 +27,7 @@ public class ImageTexture implements Texture {
         height = img.getHeight();
     }
 
+    @Override
     public Colorf pixelColor(final float x, final float y) {
         if (x < -1 || y < -1 || x > 1 || y > 1) {
             throw new IllegalArgumentException("x, y has to be in [-1, 1]");
