@@ -16,6 +16,15 @@ public class ImageTexture implements Texture {
     private final int width;
     private final int height;
 
+    private int argb;
+    private int x;
+    private int y;
+
+    private float alpha;
+    private float red;
+    private float green;
+    private float blue;
+
     public ImageTexture(final File f) {
         try {
             img = ImageIO.read(Objects.requireNonNull(f));
