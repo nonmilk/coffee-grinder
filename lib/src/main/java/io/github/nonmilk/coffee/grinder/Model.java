@@ -1,7 +1,6 @@
 package io.github.nonmilk.coffee.grinder;
 
 import io.github.shimeoki.jshaper.ObjFile;
-import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.nonmilk.coffee.grinder.render.Texture;
 import io.github.nonmilk.coffee.grinder.transformations.ModelTransformer;
@@ -13,7 +12,7 @@ public class Model {
 
     private final ObjFile obj;
     private final Mesh mesh;
-    private Matrix4 matrix = Mat4Math.unitMat();
+    private final ModelTransformer transformer = new ModelTransformer();
     private Texture texture;
 
     public Model(final ObjFile obj, final Texture texture) {
@@ -32,7 +31,7 @@ public class Model {
     }
 
     public Matrix4 matrix() {
-        return matrix;
+        return transformer.matrix();
     }
 
     public Texture texture() {
@@ -43,9 +42,8 @@ public class Model {
         this.texture = Objects.requireNonNull(texture);
     }
 
-    public void setTransform(final ModelTransformer modelTransformer) {
-        Objects.requireNonNull(modelTransformer);
-        matrix = modelTransformer.matrix();
+    public ModelTransformer transformer() {
+        return transformer;
     }
 
     private ObjFile cloneObj(final ObjFile obj) {
