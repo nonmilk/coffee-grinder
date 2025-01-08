@@ -39,8 +39,8 @@ public final class ImageTexture implements Texture {
             throw new IllegalArgumentException("x, y has to be in [-1, 1]");
         }
 
-        final int imgX = (int) Math.floor(Math.abs(x) * width);
-        final int imgY = (int) Math.floor(Math.abs(y) * height);
+        final int imgX = (int) (Math.abs(x) * width);
+        final int imgY = (int) (Math.abs(y) * height);
 
         final int argb = img.getRGB(imgX, imgY);
 
