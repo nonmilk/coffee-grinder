@@ -86,9 +86,9 @@ public class Orientation {
         Vec3Math.normalize(cameraZ);
 
         final Vector3 cameraX;
-        final Vector3 xCandidate = Vec3Math.cross(Vec3f.VECTOR_K, cameraZ);
+        final Vector3 xCandidate = Vec3Math.cross(Vec3f.VECTOR_J, cameraZ);
         if (Floats.equals(Vec3Math.len(xCandidate), 0)) {
-            cameraX = Vec3Math.cross(Vec3f.VECTOR_J, cameraZ);
+            cameraX = Vec3Math.cross(Vec3f.VECTOR_K, cameraZ);
         } else {
             cameraX = xCandidate;
         }
