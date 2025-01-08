@@ -151,18 +151,6 @@ public final class ModelTransformer {
     }
 
     /**
-     * Multiplies existing scaling factors for each axis.
-     * 
-     * @param multX multiplier for existing X axis multiplier
-     * @param multY multiplier for existing Y axis multiplier
-     * @param multZ multiplier for existing Z axis multiplier
-     */
-    public void setRelativeScaling(final float multX, final float multY, final float multZ) {
-        scaling.setRelative(multX, multY, multZ);
-        calculated = false;
-    }
-
-    /**
      * Sets new offsets for each axis.
      * 
      * @param tx new X axis offset
@@ -232,18 +220,6 @@ public final class ModelTransformer {
     }
 
     /**
-     * Adds value to each axis offset.
-     * 
-     * @param dx change of X axis offset
-     * @param dy change of Y axis offset
-     * @param dz change of Z axis offset
-     */
-    public void setRelativeTranslation(final float dx, final float dy, final float dz) {
-        translator.setRelative(dx, dy, dz);
-        calculated = false;
-    }
-
-    /**
      * Returns value of the X-axis rotation angle in radians.
      * 
      * @return angle value of the X-axis rotation in radians
@@ -259,16 +235,6 @@ public final class ModelTransformer {
      */
     public void setRotationX(final float rad) {
         rotatorX.setAngle(rad);
-        calculated = false;
-    }
-
-    /**
-     * Adds a value to the X-axis rotation angle in radians.
-     * 
-     * @param dRad change of the rotaion angle value in radians
-     */
-    public void setRelativeRotationX(final float dRad) {
-        rotatorX.setRelative(dRad);
         calculated = false;
     }
 
@@ -292,16 +258,6 @@ public final class ModelTransformer {
     }
 
     /**
-     * Adds a value to the Y-axis rotation angle in radians.
-     * 
-     * @param dRad change of the rotaion angle value in radians
-     */
-    public void setRelativeRotationY(final float dRad) {
-        rotatorY.setRelative(dRad);
-        calculated = false;
-    }
-
-    /**
      * Returns value of the Z-axis rotation angle in radians.
      * 
      * @return angle value of the Z-axis rotation in radians
@@ -317,16 +273,6 @@ public final class ModelTransformer {
      */
     public void setRotationZ(final float rad) {
         rotatorZ.setAngle(rad);
-        calculated = false;
-    }
-
-    /**
-     * Adds a value to the Z-axis rotation angle in radians.
-     * 
-     * @param dRad change of the rotaion angle value in radians
-     */
-    public void setRelativeRotationZ(final float dRad) {
-        rotatorZ.setRelative(dRad);
         calculated = false;
     }
 
