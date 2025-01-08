@@ -4,6 +4,8 @@ import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
+import io.github.alphameo.linear_algebra.mat.Matrix4Col;
+import io.github.alphameo.linear_algebra.mat.Matrix4Row;
 import io.github.nonmilk.coffee.grinder.math.affine.Rotator;
 import io.github.nonmilk.coffee.grinder.math.affine.Scaling;
 import io.github.nonmilk.coffee.grinder.math.affine.Transformation;
@@ -82,55 +84,154 @@ public final class ModelTransformer {
     /**
      * Sets new scaling multipliers for each axis.
      * 
-     * @param x new multiplier for X axis
-     * @param y new multiplier for Y axis
-     * @param z new multiplier for Z axis
+     * @param sx new multiplier for X axis
+     * @param sy new multiplier for Y axis
+     * @param sz new multiplier for Z axis
      */
-    public void setScaling(final float x, final float y, final float z) {
-        scaling.set(x, y, z);
+    public void setScaling(final float sx, final float sy, final float sz) {
+        scaling.set(sx, sy, sz);
         calculated = false;
     }
 
     /**
-     * Multiplies existing scaling factors for each axis.
+     * Returns scaling multiplier for X axis
      * 
-     * @param multX multiplier for existing X axis multiplier
-     * @param multY multiplier for existing Y axis multiplier
-     * @param multZ multiplier for existing Z axis multiplier
+     * @return multiplier for X axis
      */
-    public void setRelativeScaling(final float multX, final float multY, final float multZ) {
-        scaling.setRelative(multX, multY, multZ);
+    public float getScalingX() {
+        return scaling.getMatrix().get(Matrix4Row.R0, Matrix4Col.C0);
+    }
+
+    /**
+     * Sets new scaling multipliers for X axis.
+     * 
+     * @param s new multiplier for X axis
+     */
+    public void setScalingX(final float s) {
+        scaling.setX(s);
+        calculated = false;
+    }
+
+    /**
+     * Returns scaling multiplier for Y axis
+     * 
+     * @return multiplier for Y axis
+     */
+    public float getScalingY() {
+        return scaling.getMatrix().get(Matrix4Row.R1, Matrix4Col.C1);
+    }
+
+    /**
+     * Sets new scaling multipliers for Y axis.
+     * 
+     * @param s new multiplier for Y axis
+     */
+    public void setScalingY(final float s) {
+        scaling.setY(s);
+        calculated = false;
+    }
+
+    /**
+     * Returns scaling multiplier for Z axis
+     * 
+     * @return multiplier for Z axis
+     */
+    public float getScalingZ() {
+        return scaling.getMatrix().get(Matrix4Row.R2, Matrix4Col.C2);
+    }
+
+    /**
+     * Sets new scaling multipliers for Y axis.
+     * 
+     * @param s new multiplier for Z axis
+     */
+    public void setScalingZ(final float s) {
+        scaling.setZ(s);
         calculated = false;
     }
 
     /**
      * Sets new offsets for each axis.
      * 
-     * @param x new X axis offset
-     * @param y new Y axis offset
-     * @param z new Z axis offset
+     * @param tx new X axis offset
+     * @param ty new Y axis offset
+     * @param tz new Z axis offset
      */
-    public void setTranslation(final float x, final float y, final float z) {
-        translator.set(x, y, z);
+    public void setTranslation(final float tx, final float ty, final float tz) {
+        translator.set(tx, ty, tz);
         calculated = false;
     }
 
     /**
-     * Adds value to each axis offset.
+     * Returns offset for X axis.
      * 
-     * @param dx change of X axis offset
-     * @param dy change of Y axis offset
-     * @param dz change of Z axis offset
+     * @return X axis offset
      */
-    public void setRelativeTranslation(final float dx, final float dy, final float dz) {
-        translator.setRelative(dx, dy, dz);
+    public float getTranslationX() {
+        return translator.getMatrix().get(Matrix4Row.R0, Matrix4Col.C3);
+    }
+
+    /**
+     * Sets new offset for X axis.
+     * 
+     * @param t new X axis offset
+     */
+    public void setTranslationX(final float t) {
+        translator.setX(t);
         calculated = false;
     }
 
     /**
-     * Sets new value for the X-axis rotation angle in radians.
+     * Returns offset for Y axis.
      * 
-     * @param rad new angle value of rotation in radians
+     * @return Y axis offset
+     */
+    public float getTranslationY() {
+        return translator.getMatrix().get(Matrix4Row.R1, Matrix4Col.C3);
+    }
+
+    /**
+     * Sets new offset for Y axis.
+     * 
+     * @param t new Y axis offset
+     */
+    public void setTranslationY(final float t) {
+        translator.setY(t);
+        calculated = false;
+    }
+
+    /**
+     * Returns offset for Z axis.
+     * 
+     * @return Z axis offset
+     */
+    public float getTranslationZ() {
+        return translator.getMatrix().get(Matrix4Row.R2, Matrix4Col.C3);
+    }
+
+    /**
+     * Sets new offset for Z axis.
+     * 
+     * @param t new Z axis offset
+     */
+    public void setTranslationZ(final float t) {
+        translator.setZ(t);
+        calculated = false;
+    }
+
+    /**
+     * Returns value of the X-axis rotation angle in radians.
+     * 
+     * @return angle value of the X-axis rotation in radians
+     */
+    public float getRotationX() {
+        return rotatorX.getAngle();
+    }
+
+    /**
+     * Sets new value of the X-axis rotation angle in radians.
+     * 
+     * @param rad value of X-axis rotation in radians
      */
     public void setRotationX(final float rad) {
         rotatorX.setAngle(rad);
@@ -138,17 +239,16 @@ public final class ModelTransformer {
     }
 
     /**
-     * Adds a value to the X-axis rotation angle in radians.
+     * Returns value of the Y-axis rotation angle in radians.
      * 
-     * @param dRad change of the rotaion angle value in radians
+     * @return angle value of the Y-axis rotation in radians
      */
-    public void setRelativeRotationX(final float dRad) {
-        rotatorX.setRelative(dRad);
-        calculated = false;
+    public float getRotationY() {
+        return rotatorY.getAngle();
     }
 
     /**
-     * Sets new value for the Y-axis rotation angle in radians.
+     * Sets new value of the Y-axis rotation angle in radians.
      * 
      * @param rad new angle value of rotation in radians
      */
@@ -158,32 +258,21 @@ public final class ModelTransformer {
     }
 
     /**
-     * Adds a value to the Y-axis rotation angle in radians.
+     * Returns value of the Z-axis rotation angle in radians.
      * 
-     * @param dRad change of the rotaion angle value in radians
+     * @return angle value of the Z-axis rotation in radians
      */
-    public void setRelativeRotationY(final float dRad) {
-        rotatorY.setRelative(dRad);
-        calculated = false;
+    public float getRotationZ() {
+        return rotatorZ.getAngle();
     }
 
     /**
-     * Sets new value for the Z-axis rotation angle in radians.
+     * Sets new value of the Z-axis rotation angle in radians.
      * 
-     * @param rad new angle value of rotation in radians
+     * @param rad new angle value of the Z-axis rotation in radians
      */
     public void setRotationZ(final float rad) {
         rotatorZ.setAngle(rad);
-        calculated = false;
-    }
-
-    /**
-     * Adds a value to the Z-axis rotation angle in radians.
-     * 
-     * @param dRad change of the rotaion angle value in radians
-     */
-    public void setRelativeRotationZ(final float dRad) {
-        rotatorZ.setRelative(dRad);
         calculated = false;
     }
 

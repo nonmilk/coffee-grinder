@@ -63,8 +63,16 @@ public class Rotator implements AffineTransformation {
         }
     }
 
+    public Axis getAxis() {
+        return axis;
+    }
+
     public void setAxis(Axis newAxis) {
         this.axis = newAxis;
+    }
+
+    public float getAngle() {
+        return angle;
     }
 
     public void setAngle(float rad) {
