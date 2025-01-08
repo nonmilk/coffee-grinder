@@ -84,12 +84,12 @@ public final class ModelTransformer {
     /**
      * Sets new scaling multipliers for each axis.
      * 
-     * @param x new multiplier for X axis
-     * @param y new multiplier for Y axis
-     * @param z new multiplier for Z axis
+     * @param sx new multiplier for X axis
+     * @param sy new multiplier for Y axis
+     * @param sz new multiplier for Z axis
      */
-    public void setScaling(final float x, final float y, final float z) {
-        scaling.set(x, y, z);
+    public void setScaling(final float sx, final float sy, final float sz) {
+        scaling.set(sx, sy, sz);
         calculated = false;
     }
 
@@ -165,12 +165,12 @@ public final class ModelTransformer {
     /**
      * Sets new offsets for each axis.
      * 
-     * @param x new X axis offset
-     * @param y new Y axis offset
-     * @param z new Z axis offset
+     * @param tx new X axis offset
+     * @param ty new Y axis offset
+     * @param tz new Z axis offset
      */
-    public void setTranslation(final float x, final float y, final float z) {
-        translator.set(x, y, z);
+    public void setTranslation(final float tx, final float ty, final float tz) {
+        translator.set(tx, ty, tz);
         calculated = false;
     }
 
