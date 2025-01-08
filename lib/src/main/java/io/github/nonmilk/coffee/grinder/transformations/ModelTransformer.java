@@ -94,6 +94,15 @@ public final class ModelTransformer {
     }
 
     /**
+     * Returns scaling multiplier for X axis
+     * 
+     * @return multiplier for X axis
+     */
+    public float getScalingX() {
+        return scaling.getMatrix().get(Matrix4Row.R0, Matrix4Col.C0);
+    }
+
+    /**
      * Sets new scaling multipliers for X axis.
      * 
      * @param sx new multiplier for X axis
@@ -101,15 +110,6 @@ public final class ModelTransformer {
     public void setScalingX(final float sx) {
         scaling.setX(sx);
         calculated = false;
-    }
-
-    /**
-     * Returns scaling multiplier for X axis
-     * 
-     * @return multiplier for X axis
-     */
-    public float getScalingX() {
-        return scaling.getMatrix().get(Matrix4Row.R0, Matrix4Col.C0);
     }
 
     /**
@@ -175,7 +175,16 @@ public final class ModelTransformer {
     }
 
     /**
-     * Sets new offsets for X axis.
+     * Returns offset for X axis.
+     * 
+     * @return X axis offset
+     */
+    public float getTranslationX() {
+        return translator.getMatrix().get(Matrix4Row.R0, Matrix4Col.C3);
+    }
+
+    /**
+     * Sets new offset for X axis.
      * 
      * @param tx new X axis offset
      */
@@ -185,7 +194,16 @@ public final class ModelTransformer {
     }
 
     /**
-     * Sets new offsets for Y axis.
+     * Returns offset for Y axis.
+     * 
+     * @return Y axis offset
+     */
+    public float getTranslationY() {
+        return translator.getMatrix().get(Matrix4Row.R1, Matrix4Col.C3);
+    }
+
+    /**
+     * Sets new offset for Y axis.
      * 
      * @param ty new Y axis offset
      */
@@ -195,7 +213,16 @@ public final class ModelTransformer {
     }
 
     /**
-     * Sets new offsets for Z axis.
+     * Returns offset for Z axis.
+     * 
+     * @return Z axis offset
+     */
+    public float getTranslationZ() {
+        return translator.getMatrix().get(Matrix4Row.R2, Matrix4Col.C3);
+    }
+
+    /**
+     * Sets new offset for Z axis.
      * 
      * @param tz new Z axis offset
      */
