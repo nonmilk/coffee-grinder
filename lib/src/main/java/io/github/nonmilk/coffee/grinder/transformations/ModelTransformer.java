@@ -175,6 +175,36 @@ public final class ModelTransformer {
     }
 
     /**
+     * Sets new offsets for X axis.
+     * 
+     * @param tx new X axis offset
+     */
+    public void setTranslationX(final float tx) {
+        translator.setX(tx);
+        calculated = false;
+    }
+
+    /**
+     * Sets new offsets for Y axis.
+     * 
+     * @param ty new Y axis offset
+     */
+    public void setTranslationY(final float ty) {
+        translator.setY(ty);
+        calculated = false;
+    }
+
+    /**
+     * Sets new offsets for Z axis.
+     * 
+     * @param tz new Z axis offset
+     */
+    public void setTranslationZ(final float tz) {
+        translator.setZ(tz);
+        calculated = false;
+    }
+
+    /**
      * Adds value to each axis offset.
      * 
      * @param dx change of X axis offset
