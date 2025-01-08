@@ -4,6 +4,8 @@ import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
+import io.github.alphameo.linear_algebra.mat.Matrix4Col;
+import io.github.alphameo.linear_algebra.mat.Matrix4Row;
 import io.github.nonmilk.coffee.grinder.math.affine.Rotator;
 import io.github.nonmilk.coffee.grinder.math.affine.Scaling;
 import io.github.nonmilk.coffee.grinder.math.affine.Transformation;
@@ -89,6 +91,33 @@ public final class ModelTransformer {
     public void setScaling(final float x, final float y, final float z) {
         scaling.set(x, y, z);
         calculated = false;
+    }
+
+    /**
+     * Returns scaling multiplier for X axis
+     * 
+     * @return multiplier for X axis
+     */
+    public float getScalingX() {
+        return scaling.getMatrix().get(Matrix4Row.R0, Matrix4Col.C0);
+    }
+
+    /**
+     * Returns scaling multiplier for Y axis
+     * 
+     * @return multiplier for Y axis
+     */
+    public float getScalingY() {
+        return scaling.getMatrix().get(Matrix4Row.R1, Matrix4Col.C1);
+    }
+
+    /**
+     * Returns scaling multiplier for Z axis
+     * 
+     * @return multiplier for Z axis
+     */
+    public float getScalingZ() {
+        return scaling.getMatrix().get(Matrix4Row.R2, Matrix4Col.C2);
     }
 
     /**
