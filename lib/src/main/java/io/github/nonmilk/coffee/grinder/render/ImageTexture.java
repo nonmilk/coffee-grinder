@@ -1,5 +1,6 @@
 package io.github.nonmilk.coffee.grinder.render;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,10 +18,19 @@ public final class ImageTexture implements Texture {
     private final int height;
 
     public ImageTexture(final BufferedImage img) {
-        this.img = Objects.requireNonNull(img);
+        Objects.requireNonNull(img);
 
         width = img.getWidth();
         height = img.getHeight();
+
+        BufferedImage inverted = new BufferedImage(width, height, img.getType());
+
+        Graphics2D g = inverted.createGraphics();
+        // Flip image horizontally and vertically
+        g.drawImage(img, 0, 0, width, height, width, height, 0, 0, null);
+        g.dispose();
+
+        this.img = inverted;
     }
 
     @Override
@@ -29,8 +39,8 @@ public final class ImageTexture implements Texture {
             throw new IllegalArgumentException("x, y has to be in [-1, 1]");
         }
 
-        final int imgX = (int) Math.floor(Math.abs(x) * width);
-        final int imgY = (int) Math.floor(Math.abs(y) * height);
+        final int imgX = (int) (Math.abs(x) * width);
+        final int imgY = (int) (Math.abs(y) * height);
 
         final int argb = img.getRGB(imgX, imgY);
 
