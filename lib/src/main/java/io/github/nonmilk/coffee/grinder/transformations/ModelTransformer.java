@@ -105,10 +105,10 @@ public final class ModelTransformer {
     /**
      * Sets new scaling multipliers for X axis.
      * 
-     * @param sx new multiplier for X axis
+     * @param s new multiplier for X axis
      */
-    public void setScalingX(final float sx) {
-        scaling.setX(sx);
+    public void setScalingX(final float s) {
+        scaling.setX(s);
         calculated = false;
     }
 
@@ -124,10 +124,10 @@ public final class ModelTransformer {
     /**
      * Sets new scaling multipliers for Y axis.
      * 
-     * @param sy new multiplier for Y axis
+     * @param s new multiplier for Y axis
      */
-    public void setScalingY(final float sy) {
-        scaling.setY(sy);
+    public void setScalingY(final float s) {
+        scaling.setY(s);
         calculated = false;
     }
 
@@ -143,10 +143,10 @@ public final class ModelTransformer {
     /**
      * Sets new scaling multipliers for Y axis.
      * 
-     * @param sz new multiplier for Z axis
+     * @param s new multiplier for Z axis
      */
-    public void setScalingZ(final float sz) {
-        scaling.setZ(sz);
+    public void setScalingZ(final float s) {
+        scaling.setZ(s);
         calculated = false;
     }
 
@@ -174,10 +174,10 @@ public final class ModelTransformer {
     /**
      * Sets new offset for X axis.
      * 
-     * @param tx new X axis offset
+     * @param t new X axis offset
      */
-    public void setTranslationX(final float tx) {
-        translator.setX(tx);
+    public void setTranslationX(final float t) {
+        translator.setX(t);
         calculated = false;
     }
 
@@ -193,10 +193,10 @@ public final class ModelTransformer {
     /**
      * Sets new offset for Y axis.
      * 
-     * @param ty new Y axis offset
+     * @param t new Y axis offset
      */
-    public void setTranslationY(final float ty) {
-        translator.setY(ty);
+    public void setTranslationY(final float t) {
+        translator.setY(t);
         calculated = false;
     }
 
@@ -212,10 +212,10 @@ public final class ModelTransformer {
     /**
      * Sets new offset for Z axis.
      * 
-     * @param tz new Z axis offset
+     * @param t new Z axis offset
      */
-    public void setTranslationZ(final float tz) {
-        translator.setZ(tz);
+    public void setTranslationZ(final float t) {
+        translator.setZ(t);
         calculated = false;
     }
 
