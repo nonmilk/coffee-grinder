@@ -244,9 +244,18 @@ public final class ModelTransformer {
     }
 
     /**
-     * Sets new value for the X-axis rotation angle in radians.
+     * Returns value of the X-axis rotation angle in radians.
      * 
-     * @param rad new angle value of rotation in radians
+     * @return angle value of the X-axis rotation in radians
+     */
+    public float getRotationX() {
+        return rotatorX.getAngle();
+    }
+
+    /**
+     * Sets new value of the X-axis rotation angle in radians.
+     * 
+     * @param rad value of X-axis rotation in radians
      */
     public void setRotationX(final float rad) {
         rotatorX.setAngle(rad);
@@ -264,7 +273,16 @@ public final class ModelTransformer {
     }
 
     /**
-     * Sets new value for the Y-axis rotation angle in radians.
+     * Returns value of the Y-axis rotation angle in radians.
+     * 
+     * @return angle value of the Y-axis rotation in radians
+     */
+    public float getRotationY() {
+        return rotatorY.getAngle();
+    }
+
+    /**
+     * Sets new value of the Y-axis rotation angle in radians.
      * 
      * @param rad new angle value of rotation in radians
      */
@@ -284,9 +302,18 @@ public final class ModelTransformer {
     }
 
     /**
-     * Sets new value for the Z-axis rotation angle in radians.
+     * Returns value of the Z-axis rotation angle in radians.
      * 
-     * @param rad new angle value of rotation in radians
+     * @return angle value of the Z-axis rotation in radians
+     */
+    public float getRotationZ() {
+        return rotatorZ.getAngle();
+    }
+
+    /**
+     * Sets new value of the Z-axis rotation angle in radians.
+     * 
+     * @param rad new angle value of the Z-axis rotation in radians
      */
     public void setRotationZ(final float rad) {
         rotatorZ.setAngle(rad);
