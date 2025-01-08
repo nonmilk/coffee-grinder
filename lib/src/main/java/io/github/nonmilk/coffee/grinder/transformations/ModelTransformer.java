@@ -94,6 +94,16 @@ public final class ModelTransformer {
     }
 
     /**
+     * Sets new scaling multipliers for X axis.
+     * 
+     * @param sx new multiplier for X axis
+     */
+    public void setScalingX(final float sx) {
+        scaling.setX(sx);
+        calculated = false;
+    }
+
+    /**
      * Returns scaling multiplier for X axis
      * 
      * @return multiplier for X axis
@@ -112,12 +122,32 @@ public final class ModelTransformer {
     }
 
     /**
+     * Sets new scaling multipliers for Y axis.
+     * 
+     * @param sy new multiplier for Y axis
+     */
+    public void setScalingY(final float sy) {
+        scaling.setY(sy);
+        calculated = false;
+    }
+
+    /**
      * Returns scaling multiplier for Z axis
      * 
      * @return multiplier for Z axis
      */
     public float getScalingZ() {
         return scaling.getMatrix().get(Matrix4Row.R2, Matrix4Col.C2);
+    }
+
+    /**
+     * Sets new scaling multipliers for Y axis.
+     * 
+     * @param sz new multiplier for Z axis
+     */
+    public void setScalingZ(final float sz) {
+        scaling.setZ(sz);
+        calculated = false;
     }
 
     /**
