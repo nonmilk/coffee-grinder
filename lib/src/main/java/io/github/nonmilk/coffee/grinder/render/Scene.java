@@ -23,6 +23,7 @@ public class Scene {
     public void lightFromCamera() {
         Vector3 lookDir = camera.orientation().lookDir();
         lighting.setRay(Vec3Math.normalized(lookDir));
+        lighting.setCamera(camera);
     }
 
     public Camera camera() {

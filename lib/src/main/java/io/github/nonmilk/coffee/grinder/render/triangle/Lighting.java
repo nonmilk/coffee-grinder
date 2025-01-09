@@ -4,11 +4,13 @@ import java.util.Objects;
 
 import io.github.alphameo.linear_algebra.vec.Vec3Math;
 import io.github.alphameo.linear_algebra.vec.Vector3;
+import io.github.nonmilk.coffee.grinder.camera.Camera;
 import io.github.nonmilk.coffee.grinder.math.UnitVec3f;
 
 public class Lighting {
     private float baseBrightness;
     private Vector3 ray;
+    private Camera camera;
 
     public Lighting(final float baseBrightness) {
         this(baseBrightness, new UnitVec3f(1, 0, 0));
@@ -31,6 +33,10 @@ public class Lighting {
         this.baseBrightness = brightness;
     }
 
+    public void setCamera(Camera camera) {
+        this.camera = Objects.requireNonNull(camera);
+    }
+
     public Vector3 ray() {
         return ray;
     }
@@ -41,6 +47,13 @@ public class Lighting {
 
     public float lightness(Vector3 normal) {
         float normalLightness = -Vec3Math.dot(normal, ray);
-        return baseBrightness + (1 - baseBrightness) * normalLightness;
+        Vector3 reflection = reflect(normal, ray);
+        Vector3 lookDir = Vec3Math.normalized(camera.orientation().lookDir());
+        float specularLightness = (float) Math.pow(Math.max(0, Vec3Math.dot(lookDir, reflection)), 16);
+        return baseBrightness + (1 - baseBrightness) * normalLightness + specularLightness * 0.2f;
+    }
+
+    private Vector3 reflect(Vector3 normal, Vector3 ray) {
+        return Vec3Math.subtracted(ray, Vec3Math.multiplied(normal, 2 * Vec3Math.dot(ray, normal)));
     }
 }
