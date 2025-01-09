@@ -25,7 +25,10 @@ public class ZBuffer {
 
     public boolean draw(int x, int y, float z) {
         if (x >= width || y >= height || x < 0 || y < 0) {
-            throw new IllegalArgumentException("Accessing coordinate outside of dimensions");
+            return false;
+            // FIXME "not so good" design choice
+            // throw new IllegalArgumentException("Accessing coordinate outside of
+            // dimensions");
         }
 
         int posInArray = y * width + x;
