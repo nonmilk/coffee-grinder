@@ -42,6 +42,9 @@ public class TexturedFiller implements Filler {
         final int x = p.x();
         final int y = p.y();
         final float z = renderedFace.shape().barycentricZ(triangleBarycentrics);
+        if (z > 1 || z < -1 || x > transform.width() || x < 0 || y > transform.height() || y < 0) {
+            return false;
+        }
 
         return zBuffer.draw(x, y, z);
     }
