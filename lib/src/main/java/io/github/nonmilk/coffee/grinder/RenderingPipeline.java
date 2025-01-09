@@ -10,18 +10,15 @@ import io.github.shimeoki.jshaper.obj.Vertex;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RenderingPipeline {
     private final Triangler triangler;
     private final TexturedFiller texturedFiller;
     private final ZBuffer zBuffer;
     private final GraphicsContext ctx;
-    private List<Vertex> selected = new ArrayList<>();
 
     public RenderingPipeline(final GraphicsContext ctx) {
         this.ctx = Objects.requireNonNull(ctx);
@@ -84,7 +81,8 @@ public class RenderingPipeline {
                 })
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
-        this.selected = selected;
+
+        texturedFiller.setSelected(new HashSet<>(selected));
         return selected;
     }
 }
