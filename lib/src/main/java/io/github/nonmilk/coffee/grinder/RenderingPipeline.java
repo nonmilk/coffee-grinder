@@ -114,7 +114,7 @@ public class RenderingPipeline {
                     final int vY = Math.round(position.y());
                     return vX >= x && vX <= xMax &&
                             vY >= y && vY <= yMax &&
-                            Math.abs(position.z() - zBuffer.zAtCoords(vX, vY)) < 1;
+                            Math.abs(position.z() - zBuffer.zAtCoords(vX, vY)) < 0.1;
                 })
                 .map(Map.Entry::getKey) // Map back to the Vertex (key now)
                 .collect(Collectors.toList());
