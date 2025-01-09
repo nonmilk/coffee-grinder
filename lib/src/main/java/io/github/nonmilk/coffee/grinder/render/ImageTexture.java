@@ -20,8 +20,8 @@ public final class ImageTexture implements Texture {
     public ImageTexture(final BufferedImage img) {
         Objects.requireNonNull(img);
 
-        width = img.getWidth();
-        height = img.getHeight();
+        final int width = img.getWidth();
+        final int height = img.getHeight();
 
         BufferedImage inverted = new BufferedImage(width, height, img.getType());
 
@@ -31,6 +31,8 @@ public final class ImageTexture implements Texture {
         g.dispose();
 
         this.img = inverted;
+        this.width = width - 1;
+        this.height = height - 1;
     }
 
     @Override
