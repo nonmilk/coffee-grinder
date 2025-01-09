@@ -6,6 +6,7 @@ import io.github.nonmilk.coffee.grinder.render.*;
 import io.github.shimeoki.jfx.rasterization.IntBresenhamTriangler;
 import io.github.shimeoki.jfx.rasterization.Triangler;
 import io.github.shimeoki.jshaper.obj.Vertex;
+
 import javafx.scene.canvas.GraphicsContext;
 
 import java.awt.*;
@@ -14,10 +15,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RenderingPipeline {
+
     private final Triangler triangler;
     private final TexturedFiller texturedFiller;
     private final ZBuffer zBuffer;
     private final GraphicsContext ctx;
+
+    private int prevWidth;
+    private int prevHeight;
 
     public RenderingPipeline(final GraphicsContext ctx) {
         this.ctx = Objects.requireNonNull(ctx);
@@ -41,12 +46,24 @@ public class RenderingPipeline {
         // for updating it
         selectedCamera.orientation().lookAt();
 
+        final ScreenTransform transform = new ScreenTransform(selectedCamera, ctx);
+        final var width = (int) transform.width();
+        final var height = (int) transform.height();
+
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+
+        if (prevWidth != width || prevHeight != height) {
+            zBuffer.setDimensions(width, height);
+            prevWidth = width;
+            prevHeight = height;
+        }
+
         zBuffer.clear();
         scene.lightFromCamera();
         texturedFiller.setLighting(scene.lighting());
         texturedFiller.resetVertices();
-
-        final ScreenTransform transform = new ScreenTransform(selectedCamera, ctx);
 
         for (Model model : scene.models()) {
             transform.setModel(model.matrix());
