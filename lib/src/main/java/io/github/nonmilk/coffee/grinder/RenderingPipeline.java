@@ -17,6 +17,9 @@ public class RenderingPipeline {
     private final ZBuffer zBuffer;
     private final GraphicsContext ctx;
 
+    private int prevWidth;
+    private int prevHeight;
+
     public RenderingPipeline(final GraphicsContext ctx) {
         this.ctx = Objects.requireNonNull(ctx);
 
@@ -45,6 +48,12 @@ public class RenderingPipeline {
 
         if (width <= 0 || height <= 0) {
             return;
+        }
+
+        if (prevWidth != width || prevHeight != height) {
+            zBuffer.setDimensions(width, height);
+            prevWidth = width;
+            prevHeight = height;
         }
 
         zBuffer.clear();
