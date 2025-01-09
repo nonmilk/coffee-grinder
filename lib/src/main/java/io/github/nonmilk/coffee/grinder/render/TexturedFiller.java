@@ -33,9 +33,9 @@ public class TexturedFiller implements Filler {
         this.lighting = Objects.requireNonNull(lighting);
     }
 
-    private boolean canDraw(final Barycentrics triangleBarycentrics) {
-        final int x = (int) Math.round(renderedFace.shape().barycentricX(triangleBarycentrics));
-        final int y = (int) Math.round(renderedFace.shape().barycentricY(triangleBarycentrics));
+    private boolean canDraw(final Barycentrics triangleBarycentrics, final Point2i p) {
+        final int x = p.x();
+        final int y = p.y();
         final float z = renderedFace.shape().barycentricZ(triangleBarycentrics);
 
         return zBuffer.draw(x, y, z);
@@ -58,7 +58,7 @@ public class TexturedFiller implements Filler {
     public Colorf color(final Barycentrics b, final Point2i p) {
         Objects.requireNonNull(b);
 
-        if (!canDraw(b) || !useTexture) {
+        if (!canDraw(b, p) || !useTexture) {
             return null;
         }
 
