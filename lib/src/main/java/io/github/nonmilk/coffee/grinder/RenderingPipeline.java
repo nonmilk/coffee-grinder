@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class RenderingPipeline {
+
     private final Triangler triangler;
     private final TexturedFiller texturedFiller;
     private final ZBuffer zBuffer;
@@ -38,11 +39,17 @@ public class RenderingPipeline {
         // for updating it
         selectedCamera.orientation().lookAt();
 
+        final ScreenTransform transform = new ScreenTransform(selectedCamera, ctx);
+        final var width = (int) transform.width();
+        final var height = (int) transform.height();
+
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+
         zBuffer.clear();
         scene.lightFromCamera();
         texturedFiller.setLighting(scene.lighting());
-
-        final ScreenTransform transform = new ScreenTransform(selectedCamera, ctx);
 
         for (Model model : scene.models()) {
             transform.setModel(model.matrix());
