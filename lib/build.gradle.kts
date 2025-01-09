@@ -17,6 +17,9 @@ dependencies {
 
     api("io.github.shimeoki:jshaper:0.15.0")
     api("io.github.alphameo:linear_algebra:2.1.2")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 java {
@@ -24,3 +27,8 @@ java {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
+
+tasks.test {
+    useJUnitPlatform()
+}
+
