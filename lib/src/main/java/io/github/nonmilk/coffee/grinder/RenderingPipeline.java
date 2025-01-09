@@ -17,9 +17,11 @@ import java.util.stream.Collectors;
 public class RenderingPipeline {
 
     private final Triangler triangler;
+    private final Wireframe wireframe;
     private final TexturedFiller texturedFiller;
     private final ZBuffer zBuffer;
     private final GraphicsContext ctx;
+    private boolean drawWireframe = true;
 
     private int prevWidth;
     private int prevHeight;
@@ -34,6 +36,7 @@ public class RenderingPipeline {
 
         this.zBuffer = new ZBuffer(screenWidth, screenHeight);
         triangler = new IntBresenhamTriangler(ctx);
+        wireframe = new Wireframe(ctx, zBuffer);
 
         this.texturedFiller = new TexturedFiller(zBuffer);
         triangler.setFiller(texturedFiller);
@@ -73,11 +76,25 @@ public class RenderingPipeline {
         }
     }
 
+    public void setDrawWireframe(boolean drawWireframe) {
+        this.drawWireframe = drawWireframe;
+    }
+
+    public void setDrawTexture(boolean drawTexture) {
+        texturedFiller.setUseTexture(drawTexture);
+    }
+
+    public void setDrawLighting(boolean drawLighting) {
+        texturedFiller.setUseLighting(drawLighting);
+    }
+
     private void renderModel(Model model, ScreenTransform transform) {
         for (MeshFace meshFace : model.meshFaces()) {
             RenderedFace triangle = new RenderedFace(meshFace, transform);
+            if (drawWireframe) {
+                wireframe.renderedFaceWireframe(triangle);
+            }
             texturedFiller.setTriangle(triangle);
-
             triangler.draw(triangle);
         }
     }

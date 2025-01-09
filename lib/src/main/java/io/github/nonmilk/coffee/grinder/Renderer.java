@@ -29,4 +29,16 @@ public class Renderer {
     public List<Vertex> select(int x, int y, int width, int height) {
         return renderingPipeline.select(x, y, width, height);
     }
+
+    public void setDrawWireframe(boolean drawWireframe) {
+        renderingPipeline.setDrawWireframe(drawWireframe);
+    }
+
+    public void setDrawTexture(boolean drawTexture) {
+        renderingPipeline.setDrawTexture(drawTexture);
+    }
+
+    public void setDrawLighting(boolean drawLighting) {
+        renderingPipeline.setDrawLighting(drawLighting);
+    }
 }
