@@ -4,6 +4,8 @@ import io.github.shimeoki.jshaper.ObjFile;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.nonmilk.coffee.grinder.render.Texture;
 import io.github.nonmilk.coffee.grinder.transformations.ModelTransformer;
+import io.github.shimeoki.jshaper.obj.Face;
+import io.github.shimeoki.jshaper.obj.Triplet;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +13,7 @@ import java.util.Objects;
 public class Model {
 
     private final ObjFile obj;
-    private final Mesh mesh;
+    private Mesh mesh;
     private final ModelTransformer transformer = new ModelTransformer();
     private Texture texture;
 
@@ -44,6 +46,14 @@ public class Model {
 
     public ModelTransformer transformer() {
         return transformer;
+    }
+
+    public void removeTriplets(final List<Triplet> triplets) {
+        for (Face face : obj.elements().faces()) {
+            face.triplets().removeAll(triplets);
+        }
+
+        this.mesh = Mesh.makeFromObjFile(obj);
     }
 
     private ObjFile cloneObj(final ObjFile obj) {
