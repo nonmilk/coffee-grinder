@@ -7,6 +7,7 @@ import io.github.nonmilk.coffee.grinder.transformations.ModelTransformer;
 import io.github.shimeoki.jshaper.obj.Face;
 import io.github.shimeoki.jshaper.obj.Triplet;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,8 +50,13 @@ public class Model {
     }
 
     public void removeTriplets(final List<Triplet> triplets) {
-        for (Face face : obj.elements().faces()) {
+        Iterator<Face> iterator = obj.elements().faces().iterator();
+        while (iterator.hasNext()) {
+            Face face = iterator.next();
             face.triplets().removeAll(triplets);
+            if (face.triplets().size() < 3) {
+                iterator.remove(); // Remove the face from the collection
+            }
         }
 
         this.mesh = Mesh.makeFromObjFile(obj);
