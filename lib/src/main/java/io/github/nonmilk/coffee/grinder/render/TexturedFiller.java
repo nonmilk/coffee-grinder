@@ -83,16 +83,16 @@ public class TexturedFiller implements Filler {
         }
 
         // show vertices
-        if (b.lambda1() > 0.99) {
+        if (b.lambda1() > 0.9) {
             renderedVertices.putIfAbsent(renderedFace.shape().v1(), renderedFace.shape().face().v1().vertex());
         }
 
-        if (b.lambda2() > 0.99) {
+        if (b.lambda2() > 0.9) {
             renderedVertices.putIfAbsent(renderedFace.shape().v2(), renderedFace.shape().face().v2().vertex());
         }
 
-        if (b.lambda3() > 0.99) {
-            renderedVertices.putIfAbsent(renderedFace.shape().v3(), renderedFace.shape().face().v2().vertex());
+        if (b.lambda3() > 0.9) {
+            renderedVertices.putIfAbsent(renderedFace.shape().v3(), renderedFace.shape().face().v3().vertex());
         }
 
         final Colorf resultColor;
