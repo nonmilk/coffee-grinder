@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import io.github.alphameo.linear_algebra.mat.Mat4;
+import io.github.alphameo.linear_algebra.mat.Mat4Math;
 import io.github.alphameo.linear_algebra.mat.Matrix4;
 import io.github.alphameo.linear_algebra.mat.Matrix4Col;
 import io.github.alphameo.linear_algebra.mat.Matrix4Row;
@@ -38,16 +39,129 @@ public class TestPerspectiveCamera {
     }
 
     @Test
-    public void testPerspectiveCameraProjectionMatrix() {
-        float fielOfViewDeg = 45;
+    public void testProjection1() {
+        float fieldOfViewDeg = 45;
         float aspectRatio = 1;
         float nearPlane = 12;
         float farPlane = 50;
 
-        Matrix4 expected = matrixManual(fielOfViewDeg, aspectRatio, nearPlane, farPlane);
-        Matrix4 actual = matrixViaCamera(fielOfViewDeg, aspectRatio, nearPlane, farPlane);
+        Matrix4 expected = matrixManual(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+        Matrix4 actual = matrixViaCamera(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
 
         Assertions.assertEquals(expected, actual);
     }
 
+    @Test
+    public void testProjection2() {
+        float fieldOfViewDeg = 90;
+        float aspectRatio = 0.3f;
+        float nearPlane = 12;
+        float farPlane = 500;
+
+        Matrix4 expected = matrixManual(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+        Matrix4 actual = matrixViaCamera(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testProjection3() {
+        float fieldOfViewDeg = 120;
+        float aspectRatio = 14;
+        float nearPlane = 1;
+        float farPlane = 5;
+
+        Matrix4 expected = matrixManual(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+        Matrix4 actual = matrixViaCamera(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testProjection4() {
+        float fieldOfViewDeg = 1;
+        float aspectRatio = 1;
+        float nearPlane = 1;
+        float farPlane = 1.1f;
+
+        Matrix4 expected = matrixManual(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+        Matrix4 actual = matrixViaCamera(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+
+        Assertions.assertTrue(Mat4Math.equalsEpsilon(expected, actual, 1e-4f));
+    }
+
+    @Test
+    public void testProjectionFovException1() {
+        float fieldOfViewDeg = 0;
+        float aspectRatio = 1;
+        float nearPlane = 1;
+        float farPlane = 5;
+
+        try {
+            matrixViaCamera(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+            Assertions.fail();
+        } catch (Exception e) {
+            Assertions.assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testProjectionFovException2() {
+        float fieldOfViewDeg = 900;
+        float aspectRatio = 1;
+        float nearPlane = 1;
+        float farPlane = 5;
+
+        try {
+            matrixViaCamera(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+            Assertions.fail();
+        } catch (Exception e) {
+            Assertions.assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testProjectionAspectRatioException() {
+        float fieldOfViewDeg = 90;
+        float aspectRatio = 0;
+        float nearPlane = 1;
+        float farPlane = 5;
+
+        try {
+            matrixViaCamera(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+            Assertions.fail();
+        } catch (Exception e) {
+            Assertions.assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testProjectionPlanesException1() {
+        float fieldOfViewDeg = 90;
+        float aspectRatio = 3;
+        float nearPlane = 0;
+        float farPlane = 0;
+
+        try {
+            matrixViaCamera(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+            Assertions.fail();
+        } catch (Exception e) {
+            Assertions.assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testProjectionPlanesException2() {
+        float fieldOfViewDeg = 90;
+        float aspectRatio = 3;
+        float nearPlane = 0;
+        float farPlane = -3;
+
+        try {
+            matrixViaCamera(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+            Assertions.fail();
+        } catch (Exception e) {
+            Assertions.assertTrue(true);
+        }
+    }
 }
