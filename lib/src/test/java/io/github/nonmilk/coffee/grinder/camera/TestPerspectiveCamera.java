@@ -164,4 +164,20 @@ public class TestPerspectiveCamera {
             Assertions.assertTrue(true);
         }
     }
+
+    @Test
+        public void testProjectionPlanesException3() {
+        float fieldOfViewDeg = 90;
+        float aspectRatio = 3;
+        float nearPlane = -1;
+        float farPlane = 3;
+
+        try {
+            matrixViaCamera(fieldOfViewDeg, aspectRatio, nearPlane, farPlane);
+            Assertions.fail();
+        } catch (Exception e) {
+            Assertions.assertTrue(true);
+        }
+    }
+
 }
