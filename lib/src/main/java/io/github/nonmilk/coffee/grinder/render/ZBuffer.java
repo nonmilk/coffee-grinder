@@ -41,6 +41,19 @@ public class ZBuffer {
         return true;
     }
 
+    public float zAtCoords(int x, int y) {
+        if (x >= width || y >= height || x < 0 || y < 0) {
+            return 100;
+            // FIXME "not so good" design choice
+            // throw new IllegalArgumentException("Accessing coordinate outside of
+            // dimensions");
+        }
+
+        int posInArray = y * width + x;
+
+        return depths[posInArray];
+    }
+
     public void clear() {
         Arrays.fill(depths, 2);
     }
