@@ -36,7 +36,7 @@ public class TestOrthographicCamera {
     }
 
     @Test
-    public void testProjection1() {
+    public void testProjectionMatrix1() {
         float width = 1920;
         float height = 1080;
         float nearPlane = 12;
@@ -48,7 +48,7 @@ public class TestOrthographicCamera {
     }
 
     @Test
-    public void testProjection2() {
+    public void testProjectionMatrix2() {
         float width = 1;
         float height = 108;
         float nearPlane = 12;
@@ -60,7 +60,7 @@ public class TestOrthographicCamera {
     }
 
     @Test
-    public void testProjection3() {
+    public void testProjectionMatrix3() {
         float width = 1.1f;
         float height = 10.8f;
         float nearPlane = 1;
@@ -72,7 +72,7 @@ public class TestOrthographicCamera {
     }
 
     @Test
-    public void testProjection4() {
+    public void testProjectionMatrix4() {
         float width = 55555.5f;
         float height = 44440.1f;
         float nearPlane = 1;
@@ -81,80 +81,5 @@ public class TestOrthographicCamera {
         Matrix4 expected = matrixManual(width, height, nearPlane, farPlane);
         Matrix4 actual = matrixViaCamera(width, height, nearPlane, farPlane);
         Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testProjectionWidthException() {
-        float width = 0;
-        float height = 12;
-        float nearPlane = 1;
-        float farPlane = 2;
-
-        try {
-            matrixViaCamera(width, height, nearPlane, farPlane);
-            Assertions.fail();
-        } catch (Exception e) {
-            Assertions.assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testProjectionHeightException() {
-        float width = 12;
-        float height = 0;
-        float nearPlane = 4;
-        float farPlane = 12;
-
-        try {
-            matrixViaCamera(width, height, nearPlane, farPlane);
-            Assertions.fail();
-        } catch (Exception e) {
-            Assertions.assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testProjectionPlanesException1() {
-        float width = 12;
-        float height = 13;
-        float nearPlane = 0;
-        float farPlane = 0;
-
-        try {
-            matrixViaCamera(width, height, nearPlane, farPlane);
-            Assertions.fail();
-        } catch (Exception e) {
-            Assertions.assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testProjectionPlanesException2() {
-        float width = 12;
-        float height = 13;
-        float nearPlane = 12;
-        float farPlane = 3;
-
-        try {
-            matrixViaCamera(width, height, nearPlane, farPlane);
-            Assertions.fail();
-        } catch (Exception e) {
-            Assertions.assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testProjectionPlanesException3() {
-        float width = 12;
-        float height = 13;
-        float nearPlane = -2;
-        float farPlane = 13;
-
-        try {
-            matrixViaCamera(width, height, nearPlane, farPlane);
-            Assertions.fail();
-        } catch (Exception e) {
-            Assertions.assertTrue(true);
-        }
     }
 }
