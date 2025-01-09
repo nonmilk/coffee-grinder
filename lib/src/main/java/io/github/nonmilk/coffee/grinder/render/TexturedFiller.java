@@ -31,6 +31,14 @@ public class TexturedFiller implements Filler {
         this.zBuffer = Objects.requireNonNull(zBuffer);
     }
 
+    public void setUseTexture(boolean useTexture) {
+        this.useTexture = useTexture;
+    }
+
+    public void setUseLighting(boolean useLighting) {
+        this.useLighting = useLighting;
+    }
+
     public void setTexture(Texture texture) {
         this.texture = Objects.requireNonNull(texture);
     }
