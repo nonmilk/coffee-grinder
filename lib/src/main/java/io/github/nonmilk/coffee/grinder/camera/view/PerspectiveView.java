@@ -22,7 +22,7 @@ public final class PerspectiveView {
         setAspectRatio(aspectRatio);
     }
 
-    /*
+    /**
      * Returns field of view, in radians. The value is in (0; 2pi).
      * 
      * @return {@code float} field of view, in radians
@@ -31,7 +31,7 @@ public final class PerspectiveView {
         return fov;
     }
 
-    /*
+    /**
      * Sets field of view, in radians. The value has to be in (0; 2pi).
      * 
      * @param {@code float} field of view, in radians
@@ -46,7 +46,7 @@ public final class PerspectiveView {
         this.fov = fov;
     }
 
-    /*
+    /**
      * Returns aspect ratio, defined as width / height.
      * 
      * @return {@code float} aspect ratio
@@ -55,7 +55,7 @@ public final class PerspectiveView {
         return aspectRatio;
     }
 
-    /*
+    /**
      * Sets aspect ratio, defined as width / height. Has to be positive.
      * 
      * @param {@code float} aspect ratio
