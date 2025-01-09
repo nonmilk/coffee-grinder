@@ -5,7 +5,6 @@ import io.github.nonmilk.coffee.grinder.math.Vec3f;
 import io.github.nonmilk.coffee.grinder.render.*;
 import io.github.shimeoki.jfx.rasterization.IntBresenhamTriangler;
 import io.github.shimeoki.jfx.rasterization.Triangler;
-import io.github.shimeoki.jshaper.obj.Face;
 import io.github.shimeoki.jshaper.obj.Vertex;
 import javafx.scene.canvas.GraphicsContext;
 
