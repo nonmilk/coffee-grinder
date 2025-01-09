@@ -47,6 +47,7 @@ public class RenderingPipeline {
         for (Model model : scene.models()) {
             transform.setModel(model.matrix());
             texturedFiller.setTexture(model.texture());
+            texturedFiller.setTransform(transform);
             renderModel(model, transform);
         }
     }

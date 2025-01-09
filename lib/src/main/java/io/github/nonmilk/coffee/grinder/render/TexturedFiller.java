@@ -15,6 +15,7 @@ public class TexturedFiller implements Filler {
     private final ZBuffer zBuffer;
     private Lighting lighting;
     private Texture texture;
+    private ScreenTransform transform;
 
     private boolean useTexture = true;
     private boolean useLighting = true;
@@ -31,6 +32,10 @@ public class TexturedFiller implements Filler {
 
     public void setLighting(Lighting lighting) {
         this.lighting = Objects.requireNonNull(lighting);
+    }
+
+    public void setTransform(ScreenTransform transform) {
+        this.transform = Objects.requireNonNull(transform);
     }
 
     private boolean canDraw(final Barycentrics triangleBarycentrics, final Point2i p) {
