@@ -19,11 +19,13 @@ public class Shape {
     private Vec3f v1;
     private Vec3f v2;
     private Vec3f v3;
+    private MeshFace face;
 
-    public Shape(final Vec3f v1, final Vec3f v2, final Vec3f v3) {
+    public Shape(final Vec3f v1, final Vec3f v2, final Vec3f v3, final MeshFace face) {
         this.v1 = Objects.requireNonNull(v1);
         this.v2 = Objects.requireNonNull(v2);
         this.v3 = Objects.requireNonNull(v3);
+        this.face = Objects.requireNonNull(face);
     }
 
     public Vec3f v1() {
@@ -38,6 +40,10 @@ public class Shape {
         return v3;
     }
 
+    public MeshFace face() {
+        return face;
+    }
+
     public static Shape makeShapeFromMeshFace(final MeshFace face, final ScreenTransform transform) {
         Objects.requireNonNull(face);
         Objects.requireNonNull(transform);
@@ -49,7 +55,7 @@ public class Shape {
         final Vec3f v1 = vertexToScreen(triplet1.vertex(), transform);
         final Vec3f v2 = vertexToScreen(triplet2.vertex(), transform);
         final Vec3f v3 = vertexToScreen(triplet3.vertex(), transform);
-        return new Shape(v1, v2, v3);
+        return new Shape(v1, v2, v3, face);
     }
 
     private static Vec3f vertexToScreen(final Vertex objVertex, final ScreenTransform transform) {

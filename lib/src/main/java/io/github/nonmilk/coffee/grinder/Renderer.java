@@ -1,7 +1,10 @@
 package io.github.nonmilk.coffee.grinder;
 
 import io.github.nonmilk.coffee.grinder.render.Scene;
+import io.github.shimeoki.jshaper.obj.Vertex;
 import javafx.scene.canvas.GraphicsContext;
+
+import java.util.List;
 
 public class Renderer {
     private RenderingPipeline renderingPipeline;
@@ -21,5 +24,9 @@ public class Renderer {
 
     public void render() {
         renderingPipeline.renderScene(scene);
+    }
+
+    public List<Vertex> select(int x, int y, int width, int height) {
+        return renderingPipeline.select(x, y, width, height);
     }
 }

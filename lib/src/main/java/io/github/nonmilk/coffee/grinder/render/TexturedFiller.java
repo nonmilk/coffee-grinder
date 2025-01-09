@@ -1,14 +1,17 @@
 package io.github.nonmilk.coffee.grinder.render;
 
-import java.util.Objects;
+import java.util.*;
 
 import io.github.alphameo.linear_algebra.vec.Vector2;
 import io.github.alphameo.linear_algebra.vec.Vector3;
+import io.github.nonmilk.coffee.grinder.math.Vec3f;
 import io.github.nonmilk.coffee.grinder.render.triangle.Lighting;
 import io.github.shimeoki.jfx.rasterization.Colorf;
+import io.github.shimeoki.jfx.rasterization.HTMLColorf;
 import io.github.shimeoki.jfx.rasterization.Point2i;
 import io.github.shimeoki.jfx.rasterization.triangle.Filler;
 import io.github.shimeoki.jfx.rasterization.triangle.Barycentrics;
+import io.github.shimeoki.jshaper.obj.Vertex;
 import javafx.scene.effect.Light;
 
 public class TexturedFiller implements Filler {
@@ -16,6 +19,8 @@ public class TexturedFiller implements Filler {
     private Lighting lighting;
     private Texture texture;
     private ScreenTransform transform;
+    private final Map<Vec3f, Vertex> renderedVertices = new HashMap<>();
+    public Set<Vertex> selected = new HashSet<>();
 
     private boolean useTexture = true;
     private boolean useLighting = true;
@@ -36,6 +41,18 @@ public class TexturedFiller implements Filler {
 
     public void setTransform(ScreenTransform transform) {
         this.transform = Objects.requireNonNull(transform);
+    }
+
+    public void resetVertices() {
+        renderedVertices.clear();
+    }
+
+    public Map<Vec3f, Vertex> renderedVertices() {
+        return renderedVertices;
+    }
+
+    public void setSelected(Set<Vertex> selected) {
+        this.selected = selected;
     }
 
     private boolean canDraw(final Barycentrics triangleBarycentrics, final Point2i p) {
@@ -70,10 +87,30 @@ public class TexturedFiller implements Filler {
             return null;
         }
 
-        // black outline for debugging
-        // if (lambda1 < 0.02 || lambda2 < 0.02 || lambda3 < 0.02) {
-        // return HTMLColorf.BLACK;
-        // }
+        // show vertices
+        if (b.lambda1() > 0.9) {
+            final Vertex vertex = renderedFace.shape().face().v1().vertex();
+            renderedVertices.putIfAbsent(renderedFace.shape().v1(), vertex);
+            if (selected.contains(vertex)) {
+                return HTMLColorf.YELLOW;
+            }
+        }
+
+        if (b.lambda2() > 0.9) {
+            final Vertex vertex = renderedFace.shape().face().v2().vertex();
+            renderedVertices.putIfAbsent(renderedFace.shape().v2(), vertex);
+            if (selected.contains(vertex)) {
+                return HTMLColorf.YELLOW;
+            }
+        }
+
+        if (b.lambda3() > 0.9) {
+            final Vertex vertex = renderedFace.shape().face().v3().vertex();
+            renderedVertices.putIfAbsent(renderedFace.shape().v3(), vertex);
+            if (selected.contains(vertex)) {
+                return HTMLColorf.YELLOW;
+            }
+        }
 
         final Colorf resultColor;
         final Colorf colorAtBarycentric = colorAtBarycentric(b);
