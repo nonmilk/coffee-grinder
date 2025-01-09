@@ -20,6 +20,7 @@ public class TexturedFiller implements Filler {
     private Texture texture;
     private ScreenTransform transform;
     private final Map<Vec3f, Vertex> renderedVertices = new HashMap<>();
+    public Set<Vertex> selected = new HashSet<>();
 
     private boolean useTexture = true;
     private boolean useLighting = true;
@@ -48,6 +49,10 @@ public class TexturedFiller implements Filler {
 
     public Map<Vec3f, Vertex> renderedVertices() {
         return renderedVertices;
+    }
+
+    public void setSelected(Set<Vertex> selected) {
+        this.selected = selected;
     }
 
     private boolean canDraw(final Barycentrics triangleBarycentrics, final Point2i p) {
@@ -84,15 +89,27 @@ public class TexturedFiller implements Filler {
 
         // show vertices
         if (b.lambda1() > 0.9) {
-            renderedVertices.putIfAbsent(renderedFace.shape().v1(), renderedFace.shape().face().v1().vertex());
+            final Vertex vertex = renderedFace.shape().face().v1().vertex();
+            renderedVertices.putIfAbsent(renderedFace.shape().v1(), vertex);
+            if (selected.contains(vertex)) {
+                return HTMLColorf.YELLOW;
+            }
         }
 
         if (b.lambda2() > 0.9) {
-            renderedVertices.putIfAbsent(renderedFace.shape().v2(), renderedFace.shape().face().v2().vertex());
+            final Vertex vertex = renderedFace.shape().face().v2().vertex();
+            renderedVertices.putIfAbsent(renderedFace.shape().v2(), vertex);
+            if (selected.contains(vertex)) {
+                return HTMLColorf.YELLOW;
+            }
         }
 
         if (b.lambda3() > 0.9) {
-            renderedVertices.putIfAbsent(renderedFace.shape().v3(), renderedFace.shape().face().v3().vertex());
+            final Vertex vertex = renderedFace.shape().face().v3().vertex();
+            renderedVertices.putIfAbsent(renderedFace.shape().v3(), vertex);
+            if (selected.contains(vertex)) {
+                return HTMLColorf.YELLOW;
+            }
         }
 
         final Colorf resultColor;
