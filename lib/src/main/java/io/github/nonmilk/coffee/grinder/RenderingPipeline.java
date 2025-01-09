@@ -1,13 +1,18 @@
 package io.github.nonmilk.coffee.grinder;
 
 import io.github.nonmilk.coffee.grinder.camera.Camera;
+import io.github.nonmilk.coffee.grinder.math.Vec3f;
 import io.github.nonmilk.coffee.grinder.render.*;
 import io.github.shimeoki.jfx.rasterization.IntBresenhamTriangler;
 import io.github.shimeoki.jfx.rasterization.Triangler;
+import io.github.shimeoki.jshaper.obj.Vertex;
+
 import javafx.scene.canvas.GraphicsContext;
 
 import java.awt.*;
-import java.util.Objects;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RenderingPipeline {
 
@@ -58,6 +63,7 @@ public class RenderingPipeline {
         zBuffer.clear();
         scene.lightFromCamera();
         texturedFiller.setLighting(scene.lighting());
+        texturedFiller.resetVertices();
 
         for (Model model : scene.models()) {
             transform.setModel(model.matrix());
@@ -74,5 +80,25 @@ public class RenderingPipeline {
 
             triangler.draw(triangle);
         }
+    }
+
+    public List<Vertex> select(int x, int y, int width, int height) {
+        final Map<Vec3f, Vertex> renderedVertices = texturedFiller.renderedVertices();
+
+        int xMax = x + width;
+        int yMax = y + height;
+
+        // Filter the vertices and collect them into a list
+        List<Vertex> selected = renderedVertices.entrySet().stream()
+                .filter(entry -> {
+                    Vec3f position = entry.getKey();
+                    return position.x() >= x && position.x() <= xMax &&
+                            position.y() >= y && position.y() <= yMax;
+                })
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
+
+        texturedFiller.setSelected(new HashSet<>(selected));
+        return selected;
     }
 }
