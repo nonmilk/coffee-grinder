@@ -5,6 +5,7 @@ import io.github.nonmilk.coffee.grinder.math.Vec3f;
 import io.github.nonmilk.coffee.grinder.render.*;
 import io.github.shimeoki.jfx.rasterization.IntBresenhamTriangler;
 import io.github.shimeoki.jfx.rasterization.Triangler;
+import io.github.shimeoki.jshaper.obj.Triplet;
 import io.github.shimeoki.jshaper.obj.Vertex;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -99,23 +100,31 @@ public class RenderingPipeline {
         }
     }
 
-    public List<Vertex> select(int x, int y, int width, int height) {
-        final Map<Vec3f, Vertex> renderedVertices = texturedFiller.renderedVertices();
+    public List<Triplet> select(int x, int y, int width, int height) {
+        final Map<Triplet, Vec3f> renderedVertices = texturedFiller.renderedVertices();
 
         int xMax = x + width;
         int yMax = y + height;
 
         // Filter the vertices and collect them into a list
-        List<Vertex> selected = renderedVertices.entrySet().stream()
+        List<Triplet> selected = renderedVertices.entrySet().stream()
                 .filter(entry -> {
-                    Vec3f position = entry.getKey();
-                    return position.x() >= x && position.x() <= xMax &&
-                            position.y() >= y && position.y() <= yMax;
+                    Vec3f position = entry.getValue(); // Access Vec3f from the value now
+                    final int vX = Math.round(position.x());
+                    final int vY = Math.round(position.y());
+                    return vX >= x && vX <= xMax &&
+                            vY >= y && vY <= yMax &&
+                            Math.abs(position.z() - zBuffer.zAtCoords(vX, vY)) < 0.1;
                 })
-                .map(Map.Entry::getValue)
+                .map(Map.Entry::getKey) // Map back to the Vertex (key now)
                 .collect(Collectors.toList());
 
-        texturedFiller.setSelected(new HashSet<>(selected));
+
+        Set<Vertex> selectedSet = selected.stream()
+                .map(Triplet::vertex)
+                .collect(Collectors.toSet());
+
+        texturedFiller.setSelected(selectedSet);
         return selected;
     }
 }

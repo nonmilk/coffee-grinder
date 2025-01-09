@@ -11,6 +11,7 @@ import io.github.shimeoki.jfx.rasterization.HTMLColorf;
 import io.github.shimeoki.jfx.rasterization.Point2i;
 import io.github.shimeoki.jfx.rasterization.triangle.Filler;
 import io.github.shimeoki.jfx.rasterization.triangle.Barycentrics;
+import io.github.shimeoki.jshaper.obj.Triplet;
 import io.github.shimeoki.jshaper.obj.Vertex;
 import javafx.scene.effect.Light;
 
@@ -19,7 +20,7 @@ public class TexturedFiller implements Filler {
     private Lighting lighting;
     private Texture texture;
     private ScreenTransform transform;
-    private final Map<Vec3f, Vertex> renderedVertices = new HashMap<>();
+    private final Map<Triplet, Vec3f> renderedVertices = new HashMap<>();
     public Set<Vertex> selected = new HashSet<>();
 
     private boolean useTexture = true;
@@ -55,7 +56,7 @@ public class TexturedFiller implements Filler {
         renderedVertices.clear();
     }
 
-    public Map<Vec3f, Vertex> renderedVertices() {
+    public Map<Triplet, Vec3f> renderedVertices() {
         return renderedVertices;
     }
 
@@ -97,25 +98,25 @@ public class TexturedFiller implements Filler {
 
         // show vertices
         if (b.lambda1() > 0.9) {
-            final Vertex vertex = renderedFace.shape().face().v1().vertex();
-            renderedVertices.putIfAbsent(renderedFace.shape().v1(), vertex);
-            if (selected.contains(vertex)) {
+            final Triplet triplet = renderedFace.shape().face().v1();
+            renderedVertices.putIfAbsent(triplet, renderedFace.shape().v1());
+            if (selected.contains(triplet.vertex())) {
                 return HTMLColorf.YELLOW;
             }
         }
 
         if (b.lambda2() > 0.9) {
-            final Vertex vertex = renderedFace.shape().face().v2().vertex();
-            renderedVertices.putIfAbsent(renderedFace.shape().v2(), vertex);
-            if (selected.contains(vertex)) {
+            final Triplet triplet = renderedFace.shape().face().v2();
+            renderedVertices.putIfAbsent(triplet, renderedFace.shape().v2());
+            if (selected.contains(triplet.vertex())) {
                 return HTMLColorf.YELLOW;
             }
         }
 
         if (b.lambda3() > 0.9) {
-            final Vertex vertex = renderedFace.shape().face().v3().vertex();
-            renderedVertices.putIfAbsent(renderedFace.shape().v3(), vertex);
-            if (selected.contains(vertex)) {
+            final Triplet triplet = renderedFace.shape().face().v3();
+            renderedVertices.putIfAbsent(triplet, renderedFace.shape().v3());
+            if (selected.contains(triplet.vertex())) {
                 return HTMLColorf.YELLOW;
             }
         }
